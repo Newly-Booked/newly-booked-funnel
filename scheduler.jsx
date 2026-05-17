@@ -255,9 +255,15 @@ function Scheduler() {
           className="btn btn-gold btn-lg btn-arrow"
           disabled={!selectedSlotLabel}
           onClick={() => {
-            if (selectedSlotLabel) {
-              alert(`(Demo) Booking confirmed: ${selectedSlotLabel}`);
+            if (!selectedSlotLabel) return;
+            const incoming = new URLSearchParams(window.location.search);
+            const out = new URLSearchParams();
+            for (const k of ['name', 'email', 'phone', 'city', 'revenue', 'treatment']) {
+              const v = incoming.get(k);
+              if (v) out.set(k, v);
             }
+            out.set('slot', selectedSlotLabel);
+            window.location.href = `confirmed.html?${out.toString()}`;
           }}
         >
           Confirm appointment

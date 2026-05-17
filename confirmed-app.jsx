@@ -96,6 +96,24 @@ function CfTextFAQ() {
 function CfApp() {
   const [tweaks, setTweak] = useTweaks(CF_TWEAK_DEFAULTS);
 
+  // Pull personalization from the URL the scheduler redirected here with.
+  // We override locally instead of calling setTweak so the EDITMODE defaults
+  // on disk aren't rewritten by a real lead's name/time.
+  const urlVals = useCfMemo(() => {
+    const p = new URLSearchParams(window.location.search);
+    const out = {};
+    const name = p.get('name');
+    if (name && name.trim()) out.ownerName = name.trim().split(' ')[0];
+    const slot = p.get('slot');
+    if (slot && slot.includes(' · ')) {
+      const [d, ti] = slot.split(' · ');
+      out.callDate = d.trim();
+      out.callTime = ti.trim();
+    }
+    return out;
+  }, []);
+  const v = { ...tweaks, ...urlVals };
+
   useCfEffect(() => {
     const a = CF_ACCENTS[tweaks.accent] || CF_ACCENTS.gold;
     const r = document.documentElement;
@@ -104,8 +122,8 @@ function CfApp() {
 
   const HEADLINES = [
     {
-      h: <>You're locked in, <em>{tweaks.ownerName}</em>.</>,
-      sub: <>We've blocked {tweaks.duration} minutes with a senior partner to map out the next 60 days of revenue inside <em>{tweaks.spaName}</em>. A calendar invite plus the Zoom link are on the way to your inbox right now.</>,
+      h: <>You're locked in, <em>{v.ownerName}</em>.</>,
+      sub: <>We've blocked {v.duration} minutes with a senior partner to map out the next 60 days of revenue inside <em>{v.spaName}</em>. A calendar invite plus the Zoom link are on the way to your inbox right now.</>,
     },
     {
       h: <>Your seat is <em>held</em>.</>,
@@ -150,8 +168,8 @@ function CfApp() {
           <div className="cf-hero-meta">
             <div className="cell">
               <div className="lbl">When</div>
-              <div className="val"><em>{tweaks.callDate}</em></div>
-              <div className="sub">{tweaks.callTime} {tweaks.callTimezone}</div>
+              <div className="val"><em>{v.callDate}</em></div>
+              <div className="sub">{v.callTime} {v.callTimezone}</div>
             </div>
             <div className="cell">
               <div className="lbl">Format</div>

@@ -85,8 +85,17 @@ function Qualifier({ accent }) {
   const submitContact = (e) => {
     e.preventDefault();
     if (!name.trim() || !email.trim()) return;
-    setAnswers({ ...answers, name, email, phone });
-    setDone(true);
+    const all = { ...answers, name, email, phone };
+    setAnswers(all);
+    const params = new URLSearchParams({
+      name: name.trim(),
+      email: email.trim(),
+      phone: phone.trim(),
+      city: all.city || '',
+      revenue: all.revenue || '',
+      treatment: all.treatment || '',
+    });
+    window.location.href = `schedule.html?${params.toString()}`;
   };
 
   const goBack = () => {
