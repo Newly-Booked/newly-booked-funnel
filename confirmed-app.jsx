@@ -25,7 +25,7 @@ const CF_ACCENTS = {
 // Video FAQ — short, partnership-call themed, mirrors the template's video grid
 const CF_VFAQ = [
   { ix: '01', q: '"Is this just another agency pitch?"', a: "Why this isn't a retainer pitch — and the one thing we sell that other agencies can't.", time: '1:12' },
-  { ix: '02', q: '"What does the salesperson actually do?"', a: "How the placed closer works inside your spa, and how their commission ladder is structured.", time: '2:38' },
+  { ix: '02', q: '"Who actually closes the consult?"', a: "How the consult flow works — owner vs. team member — and how daily training keeps your close rate accountable.", time: '2:38' },
   { ix: '03', q: '"Will Newly Booked own my patient list?"', a: "You own every lead, every phone number, every record — full export at any time.", time: '0:54' },
   { ix: '04', q: '"How fast do I actually go live?"', a: "What the first 14 days look like, week-by-week, from contract to first booked consult.", time: '2:04' },
   { ix: '05', q: '"What if my close rate is bad right now?"', a: "Why the pre-qualification system mostly fixes this before the patient is in your chair.", time: '1:46' },
@@ -38,15 +38,15 @@ const CF_VFAQ = [
 const CF_TFAQ = [
   {
     q: "I've never heard of Newly Booked. How do I know this is real?",
-    a: "We've placed in-spa closers with 25+ medspas across the U.S. since 2023 and added more than $12M in tracked partner revenue last year alone. The video testimonials and screenshots on our landing page are unedited — names, spas, and revenue numbers are real (with their permission). Your senior partner will walk you through case studies live on the call."
+    a: "We've partnered with 25+ medspas across the U.S. since 2023 and added more than $12M in tracked partner revenue last year alone. The video testimonials and screenshots on our landing page are unedited — names, spas, and revenue numbers are real (with their permission). Your senior partner will walk you through case studies live on the call."
   },
   {
     q: "What if we're not a fit?",
     a: "You'll know on the call. We pre-qualified you because the math looked right based on your form responses. If we dig into your numbers and the model doesn't pencil — or your market is already saturated for our system — we'll tell you, on the call, with reasons. No follow-up sequence, no 'nurture' emails."
   },
   {
-    q: "Will my team see this as me hiring an outside salesperson?",
-    a: "Yes — and that's the point. The closer we place is a real person on payroll-equivalent terms, working your hours inside your operations. We give you the playbook for introducing them to the team, the consult flow, and the commission split so it lands as a hire, not a vendor."
+    q: "How does your team interact with my staff day-to-day?",
+    a: "Light touch. Our setter team handles outreach and qualifies leads through Cherry before they hit your calendar — your front desk doesn't get bombarded or need to chase. The only daily touch is the morning training call, which you (or your closer) join by Zoom for 30 minutes."
   },
   {
     q: "What if I need to reschedule?",
@@ -276,7 +276,7 @@ function CfApp() {
               <div className="analogy">
                 <div className="lbl">Think of it like this</div>
                 <p>
-                  Newly Booked is the partnership layer. Your salesperson is a real human placed inside <em>your spa</em>, working your consult flow and your commission ladder. We make the model possible — your patients still walk into your clinic, with your team, under your name. Same patients. Real outcomes.
+                  Newly Booked is the partnership layer. We bring you pre-qualified patients on Cherry-approved budgets, the closing script that's done $7M+, and the daily training rhythm — you stay the owner and operator of your spa. Your patients still walk into your clinic, with your team, under your name. Same patients. Real outcomes.
                 </p>
               </div>
             </div>
@@ -374,7 +374,7 @@ function CfApp() {
             <div className="cf-how-cell">
               <div className="num">02</div>
               <h4>You go live in 14 days</h4>
-              <p>If we're a fit, we ship the playbook, place a closer inside your spa, and turn on the pre-qualification system. Most partners book their first <em>showed</em> consult inside two weeks of signing.</p>
+              <p>If we're a fit, we ship the playbook, turn on the Cherry pre-qualification system, and start booking your calendar with pre-approved patients. Most partners see their first <em>showed</em> consult inside two weeks of signing.</p>
             </div>
             <div className="cf-how-cell">
               <div className="num">03</div>

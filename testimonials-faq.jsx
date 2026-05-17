@@ -96,7 +96,7 @@ const FAQS = [
   },
   {
     q: "I'm not a salesperson. Will I have to do consultations?",
-    a: 'For the first 30–45 days, yes — you\'ll learn the script. After that, our placed salesperson takes over. Spas where the owner sells personally for the first 6 months grow significantly faster than spas that delegate too early. Your onboarding is built around that.',
+    a: 'For the first 30–45 days, yes — you\'ll learn our $7M+ script with daily live training from Ivan. After that, you can keep selling personally (most owners do, because the close rate is highest), or train someone on your team using the same script and live coaching rhythm. Spas where the owner sells personally for the first 6 months grow significantly faster than spas that delegate too early.',
   },
   {
     q: "I can't afford another marketing investment right now.",

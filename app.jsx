@@ -5,7 +5,7 @@ const HERO_VARIATIONS = [
   {
     eyebrow: 'For Medspa Owners Doing $30K–$200K/Month',
     headline: <>Add <em>$50K–$100K/Month</em> in cash patients<br/>without tire-kickers, retainers, or a 12-month lock.</>,
-    sub: 'We place a trained salesperson inside your spa, pre-qualify every patient through Cherry, and only get paid when patients pay you. Our top clients add $30K–$60K in profit within 90 days.',
+    sub: 'We book your calendar with pre-qualified patients through Cherry, train you on our $7M+ closing script, and only get paid when patients pay you. Our top clients add $30K–$60K in profit within 90 days.',
   },
   {
     eyebrow: 'Performance-based growth for medspas',
@@ -220,7 +220,7 @@ function App() {
               <div className="cmp-row">Commission only — when patients pay</div>
               <div className="cmp-row">Paid only on closed packages</div>
               <div className="cmp-row">Pre-qualifies every patient</div>
-              <div className="cmp-row">Places a salesperson in your spa</div>
+              <div className="cmp-row">Books pre-qualified patients into your chair</div>
               <div className="cmp-row">Optimizes for revenue per patient</div>
               <div className="cmp-row">A new revenue department</div>
             </div>
@@ -230,7 +230,7 @@ function App() {
               { label: 'Pricing model', them: 'Charges a retainer', us: 'Commission only — when patients pay' },
               { label: 'Paid for', them: 'Gets paid for leads', us: 'Paid only on closed packages' },
               { label: 'Lead quality', them: 'Sends tire-kickers', us: 'Pre-qualifies every patient' },
-              { label: 'Sales coverage', them: 'Hands you a dashboard', us: 'Places a salesperson in your spa' },
+              { label: 'Sales coverage', them: 'Hands you a dashboard', us: 'Books pre-qualified patients into your chair' },
               { label: 'North-star metric', them: 'Optimizes for ad metrics', us: 'Optimizes for revenue per patient' },
               { label: 'What it really is', them: 'Calls it "growth"', us: 'A new revenue department' },
             ].map((row, i) => (
@@ -321,7 +321,7 @@ function App() {
               <div className="mech-arrow us">↓</div>
               <div className="mech-flow-step">
                 <div className="mech-flow-icon us">🪑</div>
-                <div className="mech-flow-txt">Salesperson closes the package</div>
+                <div className="mech-flow-txt">Owner closes with our $7M+ script</div>
               </div>
               <div className="mech-flow-result us">
                 <div className="mech-result-stat">80%+</div>
@@ -342,8 +342,8 @@ function App() {
           <div className="section-head">
             <div className="label">The 45-day path</div>
             <div>
-              <h2>Three steps. <em>Forty-five days</em> to a salesperson in your chair.</h2>
-              <p className="lede">From the free diagnostic to a placed, trained salesperson closing inside your spa. You take home margin. We take a percentage of what we generate.</p>
+              <h2>Three steps. <em>Forty-five days</em> to a pre-qualified calendar.</h2>
+              <p className="lede">From the free diagnostic to a calendar full of pre-qualified patients and a script you can close on. You take home margin. We take a percentage of what we generate.</p>
             </div>
           </div>
           <div className="steps">
@@ -368,8 +368,8 @@ function App() {
                 <div className="num">iii.</div>
                 <div className="day">DAYS 30–45</div>
               </div>
-              <h4>Salesperson placed</h4>
-              <p>We source, train, and place a salesperson inside your spa. From day 45, the owner is out of the consultation chair — unless you want to stay in it.</p>
+              <h4>Closing rhythm locked in</h4>
+              <p>By day 45 you (or whoever closes in your spa) are running consults to our $7M+ script with daily live training from Ivan. Close rate, package mix, and revenue-per-patient all move in week one.</p>
             </div>
           </div>
         </div>
@@ -433,8 +433,8 @@ function App() {
             </div>
             <div className="feat">
               <div className="ix">03</div>
-              <h4>Salesperson placement</h4>
-              <p>We source, train, and place a salesperson inside your spa, and stay accountable for their close rate through daily training.</p>
+              <h4>Setter team books your calendar</h4>
+              <p>Our setter team handles outreach and qualifies every lead through Cherry before the appointment hits your calendar. You walk into pre-paid, pre-approved consults — not cold leads.</p>
             </div>
             <div className="feat">
               <div className="ix">04</div>
@@ -444,7 +444,7 @@ function App() {
             <div className="feat">
               <div className="ix">05</div>
               <h4>Daily training, not quarterly</h4>
-              <p>Your salesperson (and you, if you want) joins live training calls every weekday — directly with Ivan.</p>
+              <p>You (and whoever closes in your spa) join live training calls every weekday — directly with Ivan.</p>
             </div>
             <div className="feat">
               <div className="ix">06</div>
