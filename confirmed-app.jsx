@@ -269,39 +269,6 @@ function CfApp() {
         </div>
       </section>
 
-      {/* MEET YOUR PROVIDER */}
-      <section className="cf-provider" data-screen-label="06 Meet Your Partner">
-        <div className="container">
-          <div className="head">
-            <div className="label">Who you'll see</div>
-            <h2>Meet your partner.</h2>
-          </div>
-          <div className="cf-provider-grid">
-            <div className="cf-provider-photo">
-              <span className="placeholder-tag">Partner photo · 4:5</span>
-              <div className="namecard">
-                <div className="name">{tweaks.hostName}</div>
-                <div className="role">{tweaks.hostRole}</div>
-              </div>
-            </div>
-            <div className="cf-provider-body">
-              <p>
-                Your call is with <strong>{tweaks.hostName}</strong> — one of two senior partners who run the partnership desk at Newly Booked. {tweaks.hostName.split(' ')[0]} has personally scoped and shipped engagements with <em>25+ medspa owners</em> since 2023. The same person on your screen is the one who would scope and run your engagement if we partnered.
-              </p>
-              <p>
-                You will not be passed to a closer. You will not get a "discovery rep." If we're a fit, you'll know on the call. If we're not, we'll tell you on the call — and tell you why.
-              </p>
-              <div className="analogy">
-                <div className="lbl">Think of it like this</div>
-                <p>
-                  Newly Booked is the partnership layer. We bring you pre-qualified patients on Cherry-approved budgets, the closing script that's done $7M+, and the daily training rhythm — you stay the owner and operator of your spa. Your patients still walk into your clinic, with your team, under your name. Same patients. Real outcomes.
-                </p>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-
       {/* RESULTS — revenue before/after (not photos) */}
       <section className="cf-results" data-screen-label="07 Real Results">
         <div className="container">
