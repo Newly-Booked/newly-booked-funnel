@@ -116,7 +116,9 @@ function Qualifier({ accent }) {
     // funnel), fill it programmatically and click its native submit so GHL
     // handles captcha + contact creation + redirect. Otherwise fall back to
     // the URL-param redirect used on GitHub Pages / local dev.
-    const ghlForm = document.querySelector('.nb-hidden-form form, form.nb-hidden-form');
+    // GHL renders form elements as DIVs (not native <form>), so use the
+    // custom-classed wrapper directly as the root for all queries.
+    const ghlForm = document.querySelector('.nb-hidden-form');
 
     if (ghlForm) {
       const fullName = name.trim();
