@@ -35,6 +35,7 @@ const TESTIMONIALS = [
     quote: '"First month: $43K — no medical background, no high-ticket sales experience."',
     stat: '$43K first month',
     time: '02:36',
+    wistiaId: 'f0vlaj8cng',
   },
   {
     name: 'Micaela',
@@ -43,6 +44,7 @@ const TESTIMONIALS = [
     quote: '"We more than doubled the business with just Ivan\'s one service."',
     stat: '2x with one simple service',
     time: '01:48',
+    wistiaId: '4ft5xbenoa',
   },
   {
     name: 'Eliana',
