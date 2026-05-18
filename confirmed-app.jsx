@@ -108,7 +108,7 @@ function CfApp() {
       {/* UTILITY BAR */}
       <div className="cf-utility">
         <div className="cf-utility-inner">
-          <a href="index.html" className="brand" style={{ textDecoration: 'none', fontSize: 18 }}>
+          <a href={window.__NB_LANDING_URL || 'index.html'} className="brand" style={{ textDecoration: 'none', fontSize: 18 }}>
             <span className="dot"></span>Newly Booked
           </a>
         </div>
@@ -286,7 +286,7 @@ function CfApp() {
             <div style={{ display: 'flex', gap: 22 }}>
               <a href="#">Terms</a>
               <a href="#">Privacy</a>
-              <a href="index.html">← Back to site</a>
+              <a href={window.__NB_LANDING_URL || 'index.html'}>← Back to site</a>
             </div>
           </div>
         </div>

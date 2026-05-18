@@ -95,7 +95,8 @@ function Qualifier({ accent }) {
       revenue: all.revenue || '',
       treatment: all.treatment || '',
     });
-    window.location.href = `schedule.html?${params.toString()}`;
+    const base = window.__NB_SCHEDULE_URL || 'schedule.html';
+    window.location.href = `${base}${base.includes('?') ? '&' : '?'}${params.toString()}`;
   };
 
   const goBack = () => {

@@ -99,13 +99,13 @@ function SchedApp() {
       {/* Top bar */}
       <div className="topbar">
         <div className="topbar-inner">
-          <a href="index.html" className="brand" style={{ textDecoration: 'none' }}>
+          <a href={window.__NB_LANDING_URL || 'index.html'} className="brand" style={{ textDecoration: 'none' }}>
             <span className="dot"></span>Newly Booked
           </a>
           <nav className="topnav">
-            <a href="index.html#proof">Proof</a>
-            <a href="index.html#mechanism">Mechanism</a>
-            <a href="index.html#faq">FAQ</a>
+            <a href={(window.__NB_LANDING_URL || 'index.html') + '#proof'}>Proof</a>
+            <a href={(window.__NB_LANDING_URL || 'index.html') + '#mechanism'}>Mechanism</a>
+            <a href={(window.__NB_LANDING_URL || 'index.html') + '#faq'}>FAQ</a>
           </nav>
           <span style={{
             fontFamily: 'Inter, sans-serif',
@@ -237,7 +237,7 @@ function SchedApp() {
             <div style={{ display: 'flex', gap: 22 }}>
               <a href="#" style={{ textDecoration: 'none' }}>Terms</a>
               <a href="#" style={{ textDecoration: 'none' }}>Privacy</a>
-              <a href="index.html" style={{ textDecoration: 'none', color: 'var(--gold-400)' }}>← Back to site</a>
+              <a href={window.__NB_LANDING_URL || 'index.html'} style={{ textDecoration: 'none', color: 'var(--gold-400)' }}>← Back to site</a>
             </div>
           </div>
         </div>

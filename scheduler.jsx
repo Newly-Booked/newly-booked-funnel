@@ -263,7 +263,8 @@ function Scheduler() {
               if (v) out.set(k, v);
             }
             out.set('slot', selectedSlotLabel);
-            window.location.href = `confirmed.html?${out.toString()}`;
+            const base = window.__NB_CONFIRMED_URL || 'confirmed.html';
+            window.location.href = `${base}${base.includes('?') ? '&' : '?'}${out.toString()}`;
           }}
         >
           Confirm appointment
