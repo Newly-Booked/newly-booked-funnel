@@ -145,7 +145,8 @@ function Qualifier({ accent }) {
       // Custom fields don't have stable names. They are the text inputs
       // that aren't one of the standard GHL fields. Match them by position
       // (form-builder order): 0 = revenue, 1 = treatment.
-      const knownNames = ['first_name', 'last_name', 'phone', 'email', 'email1',
+      const knownNames = ['first_name', 'last_name', 'full_name', 'name',
+        'phone', 'email', 'email1',
         'address1', 'address', 'street_address',
         'city', 'state', 'country', 'postal_code', 'postalCode', 'Search'];
       const customInputs = Array.from(ghlForm.querySelectorAll('input[type="text"]'))
