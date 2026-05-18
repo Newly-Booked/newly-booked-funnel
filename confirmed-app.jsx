@@ -24,33 +24,33 @@ const CF_ACCENTS = {
 
 // Video FAQ — short, partnership-call themed, mirrors the template's video grid
 const CF_VFAQ = [
-  { ix: '01', q: '"Is this just another agency pitch?"', a: "Why this isn't a retainer pitch — and the one thing we sell that other agencies can't.", time: '1:12' },
-  { ix: '02', q: '"Who actually closes the consult?"', a: "How the consult flow works — owner vs. team member — and how daily training keeps your close rate accountable.", time: '2:38' },
-  { ix: '03', q: '"Will Newly Booked own my patient list?"', a: "You own every lead, every phone number, every record — full export at any time.", time: '0:54' },
+  { ix: '01', q: '"Is this just another agency pitch?"', a: "Why this isn't a retainer pitch, and the one thing we sell that other agencies can't.", time: '1:12' },
+  { ix: '02', q: '"Who actually closes the consult?"', a: "How the consult flow works (owner vs. team member), and how daily training keeps your close rate accountable.", time: '2:38' },
+  { ix: '03', q: '"Will Newly Booked own my patient list?"', a: "You own every lead, every phone number, every record. Full export at any time.", time: '0:54' },
   { ix: '04', q: '"How fast do I actually go live?"', a: "What the first 14 days look like, week-by-week, from contract to first booked consult.", time: '2:04' },
   { ix: '05', q: '"What if my close rate is bad right now?"', a: "Why the pre-qualification system mostly fixes this before the patient is in your chair.", time: '1:46' },
   { ix: '06', q: '"What happens after the 60 days?"', a: "Month-over-month performance bands, where most owners land, and how scale works.", time: '1:58' },
   { ix: '07', q: '"How is your model different from CMOs and ad agencies?"', a: "Plain-English breakdown of who eats the risk, who eats the upside, and where margin lives.", time: '2:22' },
-  { ix: '08', q: '"What if it doesn\'t work for my market?"', a: "How we screen for fit before partnering — and the markets where we currently can't operate.", time: '1:30' },
+  { ix: '08', q: '"What if it doesn\'t work for my market?"', a: "How we screen for fit before partnering, and the markets where we currently can't operate.", time: '1:30' },
   { ix: '09', q: '"What do I need ready for the call?"', a: "The three numbers to bring, plus what we'll pull live so you don't have to prep slides.", time: '1:08' },
 ];
 
 const CF_TFAQ = [
   {
     q: "I've never heard of Newly Booked. How do I know this is real?",
-    a: "We've partnered with 25+ medspas across the U.S. since 2023 and added more than $12M in tracked partner revenue last year alone. The video testimonials and screenshots on our landing page are unedited — names, spas, and revenue numbers are real (with their permission). Your senior partner will walk you through case studies live on the call."
+    a: "We've partnered with 25+ medspas across the U.S. since 2023 and added more than $12M in tracked partner revenue last year alone. The video testimonials and screenshots on our landing page are unedited. Names, spas, and revenue numbers are real (with their permission). Your senior partner will walk you through case studies live on the call."
   },
   {
     q: "What if we're not a fit?",
-    a: "You'll know on the call. We pre-qualified you because the math looked right based on your form responses. If we dig into your numbers and the model doesn't pencil — or your market is already saturated for our system — we'll tell you, on the call, with reasons. No follow-up sequence, no 'nurture' emails."
+    a: "You'll know on the call. We pre-qualified you because the math looked right based on your form responses. If we dig into your numbers and the model doesn't pencil, or your market is already saturated for our system, we'll tell you on the call, with reasons. No follow-up sequence, no 'nurture' emails."
   },
   {
     q: "How does your team interact with my staff day-to-day?",
-    a: "Light touch. Our setter team handles outreach and qualifies leads through Cherry before they hit your calendar — your front desk doesn't get bombarded or need to chase. The only daily touch is the morning training call, which you (or your closer) join by Zoom for 30 minutes."
+    a: "Light touch. Our setter team handles outreach and qualifies leads through Cherry before they hit your calendar, so your front desk doesn't get bombarded or need to chase. The only daily touch is the morning training call, which you (or your closer) join by Zoom for 30 minutes."
   },
   {
     q: "What if I need to reschedule?",
-    a: "Use the link in your confirmation email or hit the reschedule button on this page. We'd rather you show up at the right time than burn a slot at the wrong one. Just don't ghost — these slots fill fast and another owner is waiting on yours."
+    a: "Use the link in your confirmation email or hit the reschedule button on this page. We'd rather you show up at the right time than burn a slot at the wrong one. Just don't ghost. These slots fill fast and another owner is waiting on yours."
   },
 ];
 
@@ -127,7 +127,7 @@ function CfApp() {
     },
     {
       h: <>Your seat is <em>held</em>.</>,
-      sub: <>Save the time. Block the calendar. Forty-five minutes from now, <em>{tweaks.spaName}</em> will have a written 60-day revenue plan in hand — or a clear no, with reasons.</>,
+      sub: <>Save the time. Block the calendar. Forty-five minutes from now, <em>{tweaks.spaName}</em> will have a written 60-day revenue plan in hand, or a clear no with reasons.</>,
     },
     {
       h: <>Booked. <em>Now we get to work.</em></>,
@@ -197,7 +197,7 @@ function CfApp() {
           <div className="body">
             <div className="h"><strong>Check your inbox now.</strong> A confirmation from <em>Newly Booked</em> with the Zoom link should hit in the next 2 minutes.</div>
             <div className="p">
-              Didn't see it? Check spam, then call us at <a href={`tel:${phoneTel}`}>{tweaks.phone}</a> — a real human picks up during business hours.
+              Didn't see it? Check spam, then call us at <a href={`tel:${phoneTel}`}>{tweaks.phone}</a>. A real human picks up during business hours.
             </div>
           </div>
         </div>
@@ -209,7 +209,7 @@ function CfApp() {
           <div className="head">
             <div className="label">Don't let life get in the way</div>
             <h2>Add the call to your calendar <em>now</em>.</h2>
-            <div className="sub">Owners who add the invite in the first five minutes are 3× more likely to show up. Pick your tool — we'll handle the rest.</div>
+            <div className="sub">Owners who add the invite in the first five minutes are 3× more likely to show up. Pick your tool. We'll handle the rest.</div>
           </div>
           <div className="cf-cal-row">
             <a className="cf-cal-btn primary" href="#" onClick={(e) => e.preventDefault()}>
@@ -235,7 +235,7 @@ function CfApp() {
           <div className="head">
             <div className="label">Still have questions?</div>
             <div>
-              <h2>Everything you're <em>wondering</em> — but haven't asked yet.</h2>
+              <h2>Everything you're <em>wondering</em>, but haven't asked yet.</h2>
               <div className="lede">Sixty-second answers from the partner who'll be on your call. Watch the ones that apply, skip the rest.</div>
             </div>
           </div>
@@ -326,14 +326,14 @@ function CfApp() {
 
           <div className="cf-quote-pair">
             <div className="cf-quote">
-              <div className="body">"I'd tried CMOs and a fractional sales agency — neither one moved the needle. Two months in with Newly Booked and we're <em>already past last year's best quarter</em>. I only wish I'd done this sooner."</div>
+              <div className="body">"I'd tried CMOs and a fractional sales agency. Neither one moved the needle. Two months in with Newly Booked and we're <em>already past last year's best quarter</em>. I only wish I'd done this sooner."</div>
               <div className="author">
                 <span className="who">Sarah M.</span>
                 <span className="where">Verified Partner · Google Review</span>
               </div>
             </div>
             <div className="cf-quote">
-              <div className="body">"A friend told me about Newly Booked and I thought it was a scam — performance-only, no retainer? It's not. The team is real, the system works, and the numbers <em>speak for themselves</em>."</div>
+              <div className="body">"A friend told me about Newly Booked and I thought it was a scam. Performance-only, no retainer? It's not. The team is real, the system works, and the numbers <em>speak for themselves</em>."</div>
               <div className="author">
                 <span className="who">Jessica R.</span>
                 <span className="where">Verified Partner · Google Review</span>
@@ -348,7 +348,7 @@ function CfApp() {
         <div className="container">
           <div className="head">
             <div className="label">How it works</div>
-            <h2>From first call to first revenue — in <em>three steps</em>.</h2>
+            <h2>From first call to first revenue in <em>three steps</em>.</h2>
           </div>
           <div className="cf-how-grid">
             <div className="cf-how-cell">
@@ -382,26 +382,26 @@ function CfApp() {
               <div className="when">1 week before</div>
               <div>
                 <h4>Pull last 90 days of revenue</h4>
-                <p>Top-line, not net. Inside your POS or PMS. Doesn't need to be exact — within a 10% band gets us where we need to go. We use this to size <em>the 60-day revenue model</em>.</p>
+                <p>Top-line, not net. Inside your POS or PMS. Doesn't need to be exact. Within a 10% band gets us where we need to go. We use this to size <em>the 60-day revenue model</em>.</p>
               </div>
             </div>
             <div className="cf-prep-row">
               <div className="when">24–48 hours before</div>
               <div>
                 <h4>Note your average package price + close rate</h4>
-                <p>Across your top 3 services. If you've never measured close rate, ballpark it — we'll show you what <em>pre-qualified, financing-approved</em> traffic does to that number.</p>
+                <p>Across your top 3 services. If you've never measured close rate, ballpark it. We'll show you what <em>pre-qualified, financing-approved</em> traffic does to that number.</p>
               </div>
             </div>
             <div className="cf-prep-row">
               <div className="when">Day of</div>
               <div>
                 <h4>Be on a real computer, somewhere quiet</h4>
-                <p>We'll share screen and walk through the model live. Phones work, but it's harder to read the numbers. Block the full {tweaks.duration} minutes — most calls run a few minutes long.</p>
+                <p>We'll share screen and walk through the model live. Phones work, but it's harder to read the numbers. Block the full {tweaks.duration} minutes. Most calls run a few minutes long.</p>
               </div>
             </div>
           </div>
           <div className="cf-prep-callout">
-            <strong>These small steps make the difference.</strong> Owners who show up prepared walk away with a written model. Owners who don't usually need a second call. Either way — show up.
+            <strong>These small steps make the difference.</strong> Owners who show up prepared walk away with a written model. Owners who don't usually need a second call. Either way, show up.
           </div>
         </div>
       </section>

@@ -84,7 +84,7 @@ window.VideoTestimonials = VideoTestimonials;
 const FAQS = [
   {
     q: 'What does this actually cost me?',
-    a: 'A small per-appointment fee plus a percentage of what we generate. We walk through the exact numbers on the diagnostic — they vary by package mix and spa size. The headline: you don\'t pay us a retainer. You pay us when you sell.',
+    a: 'A small per-appointment fee plus a percentage of what we generate. We walk through the exact numbers on the diagnostic (they vary by package mix and spa size). The headline: you don\'t pay us a retainer. You pay us when you sell.',
   },
   {
     q: 'My market is different. Are you sure this works in my city?',
@@ -92,11 +92,11 @@ const FAQS = [
   },
   {
     q: "I've been burned by marketing companies before. Why are you different?",
-    a: 'Because we have to perform to get paid. There\'s no retainer, no $5K/month invoice you fight to cancel. If the system doesn\'t generate revenue, we don\'t make money. That\'s not a marketing pitch — it\'s the structure.',
+    a: 'Because we have to perform to get paid. There\'s no retainer, no $5K/month invoice you fight to cancel. If the system doesn\'t generate revenue, we don\'t make money. That\'s not a marketing pitch. It\'s the structure.',
   },
   {
     q: "I'm not a salesperson. Will I have to do consultations?",
-    a: 'For the first 30–45 days, yes — you\'ll learn our $7M+ script with daily live training from Ivan. After that, you can keep selling personally (most owners do, because the close rate is highest), or train someone on your team using the same script and live coaching rhythm. Spas where the owner sells personally for the first 6 months grow significantly faster than spas that delegate too early.',
+    a: 'For the first 30–45 days, yes. You\'ll learn our $7M+ script with daily live training from Ivan. After that, you can keep selling personally (most owners do, because the close rate is highest), or train someone on your team using the same script and live coaching rhythm. Spas where the owner sells personally for the first 6 months grow significantly faster than spas that delegate too early.',
   },
   {
     q: "I can't afford another marketing investment right now.",
@@ -104,7 +104,7 @@ const FAQS = [
   },
   {
     q: "Won't a commission cost me more than a retainer over a year?",
-    a: 'Not when you run the math. Most medspa packages cost roughly $130–$150 to fulfill and sell for $3,900–$10,000 — that\'s an 80%+-margin product. Our percentage comes off the top of that, and unlike a retainer, you only pay when one actually sells.',
+    a: 'Not when you run the math. Most medspa packages cost roughly $130–$150 to fulfill and sell for $3,900–$10,000. That\'s an 80%+-margin product. Our percentage comes off the top of that, and unlike a retainer, you only pay when one actually sells.',
   },
   {
     q: 'I have a wellness program / new website / staff change in flight. Is now the wrong time?',

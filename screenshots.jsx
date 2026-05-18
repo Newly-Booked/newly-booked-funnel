@@ -180,7 +180,7 @@ function ScreenshotWall() {
     <React.Fragment>
       <div className="screenshot-grid" ref={gridRef} onClick={onClick}>
         {/* Cherry portal — pinned full-width at top */}
-        <RealReceipt wide title="One Month, One Location — 70 contracts, 42% approval rate." src="assets/receipts/cherry-stats-155k.webp" alt="Cherry portal — $155,511 gross sales, 70 contracts, 42.45% approval rate, $112,900 approved" />
+        <RealReceipt wide title="One Month, One Location. 70 contracts, 42% approval rate." src="assets/receipts/cherry-stats-155k.webp" alt="Cherry portal — $155,511 gross sales, 70 contracts, 42.45% approval rate, $112,900 approved" />
 
       {/* Real Cherry approval — Body Sculpt */}
       <RealReceipt title="$7,500 package financed. Patient walks out the same day." src="assets/receipts/cherry-body-sculpt-7500.webp" alt="Cherry payment plan issued — Body Sculpt Laser Center, $7,500" />
@@ -204,13 +204,13 @@ function ScreenshotWall() {
       <RealReceipt title="$271,737 collected in a single month. Vagaro POS, March 2025." src="assets/receipts/vagaro-mar25-271k.webp" alt="Vagaro POS — Money Earned $271,737.25 in March 2025, $247K services, $16.8K memberships" />
 
       {/* Real calendar — Issil/Plano packed week */}
-      <RealReceipt title="A week of pre-qualified consults — every slot booked." src="assets/receipts/calendar-issil-plano.webp" alt="Issil calendar — week of Oct 26 packed with consultations across 4 providers" />
+      <RealReceipt title="A week of pre-qualified consults. Every slot booked." src="assets/receipts/calendar-issil-plano.webp" alt="Issil calendar — week of Oct 26 packed with consultations across 4 providers" />
 
       {/* Real Cherry approval — Lemelana */}
       <RealReceipt title="$5,367 financed before the patient sat in the chair." src="assets/receipts/cherry-lemelana-5367.webp" alt="Cherry payment plan issued — Lemelana, $5,367" />
 
       {/* Real Telegram — Couzue/Papillon, $600/day deposits */}
-      <RealReceipt title="First $3,500 package sold — $600/day in deposits coming in." dark src="assets/receipts/imsg-couzue-deposits.webp" alt="Telegram — $600/day, all deposit appointments, Angie sold first $3.5k package" />
+      <RealReceipt title="First $3,500 package sold. $600/day in deposits coming in." dark src="assets/receipts/imsg-couzue-deposits.webp" alt="Telegram — $600/day, all deposit appointments, Angie sold first $3.5k package" />
 
       {/* Real Cherry approval — Breeze $6,500 */}
       <RealReceipt title="$6,500 package financed in one consult." src="assets/receipts/cherry-breeze-6500.webp" alt="Cherry payment plan issued — Breeze Medspa AZ, $6,500" />
@@ -219,7 +219,7 @@ function ScreenshotWall() {
       <RealReceipt title="Six straight days of pre-qualified consults." src="assets/receipts/calendar-vione.webp" alt="Vione calendar — Mon 18 to Sat 23 stacked with consultations" />
 
       {/* Real iMessage — Eliana NMS, Sarah sold $9,100 */}
-      <RealReceipt title="$9,100 package — closed by their own provider, off our script." dark src="assets/receipts/imsg-eliana-9100.webp" alt="iMessage with Eliana NMS — Sarah just sold the package for $9100" />
+      <RealReceipt title="$9,100 package, closed by their own provider, off our script." dark src="assets/receipts/imsg-eliana-9100.webp" alt="iMessage with Eliana NMS — Sarah just sold the package for $9100" />
 
       {/* Real Cherry approval — Journey */}
       <RealReceipt title="$5,170 financed. Zero out-of-pocket friction at the close." src="assets/receipts/cherry-journey-5170.webp" alt="Cherry payment plan issued — Journey to Beauty and Wellness, $5,170" />
@@ -228,7 +228,7 @@ function ScreenshotWall() {
       <RealReceipt title="$265,739 collected in November alone. Vagaro POS, November 2024." src="assets/receipts/vagaro-nov24-265k.webp" alt="Vagaro POS — Money Earned $265,739.69 in November 2024, $250K services, $9.8K memberships" />
 
       {/* Real Cherry approval — Breeze $4,900 */}
-      <RealReceipt title="$4,900 package — patient pre-qualified before walking in." src="assets/receipts/cherry-breeze-4900.webp" alt="Cherry payment plan issued — Breeze Medspa AZ, $4,900" />
+      <RealReceipt title="$4,900 package. Patient pre-qualified before walking in." src="assets/receipts/cherry-breeze-4900.webp" alt="Cherry payment plan issued — Breeze Medspa AZ, $4,900" />
 
       {/* Real Cherry approval — Breeze $7,500 (2nd) */}
       <RealReceipt title="Another $7,500 financed at the same spa, weeks later." src="assets/receipts/cherry-breeze-7500-b.webp" alt="Cherry payment plan issued — Breeze Medspa AZ, $7,500" />

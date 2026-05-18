@@ -10,12 +10,12 @@ const HERO_VARIATIONS = [
   {
     eyebrow: 'Performance-based growth for medspas',
     headline: <>We only make money <em>when your patients pay</em>.</>,
-    sub: 'No retainer. No 12-month contract. No dashboard of cold leads. We pre-qualify, we close, and we take a percentage — only when a package sells.',
+    sub: 'No retainer. No 12-month contract. No dashboard of cold leads. We pre-qualify, we close, and we take a percentage only when a package sells.',
   },
   {
     eyebrow: 'Case study · North Texas',
     headline: <>From <em>$50K → $300K</em> per month.<br/>In a market the owner called "worst demographics."</>,
-    sub: 'It\'s not the city. It\'s the funnel. We open yours in a free 45-minute diagnostic and show you exactly where you\'re leaking — set rate, deposit rate, close rate, package mix.',
+    sub: 'It\'s not the city. It\'s the funnel. We open yours in a free 45-minute diagnostic and show you exactly where you\'re leaking: set rate, deposit rate, close rate, package mix.',
   },
 ];
 
@@ -106,7 +106,7 @@ function App() {
             <span>"Increased my sales trifold" · Edinburg TX</span>
             <span>$2.9M lifetime · Issil Beauty Spa</span>
             <span>$60K/mo → $250K/mo new patient revenue</span>
-            <span>"Best business decision — if you're serious about growing, this is it" · Murrieta CA</span>
+            <span>"Best business decision. If you're serious about growing, this is it" · Murrieta CA</span>
             <span>$300K cash storefront · Natalie</span>
             <span>$43K our first month · Fort Worth TX</span>
             <span>$30K profit in 45 days · Naturalness Med Spa</span>
@@ -117,7 +117,7 @@ function App() {
             <span>"Increased my sales trifold" · Edinburg TX</span>
             <span>$2.9M lifetime · Issil Beauty Spa</span>
             <span>$60K/mo → $250K/mo new patient revenue</span>
-            <span>"Best business decision — if you're serious about growing, this is it" · Murrieta CA</span>
+            <span>"Best business decision. If you're serious about growing, this is it" · Murrieta CA</span>
             <span>$300K cash storefront · Natalie</span>
             <span>$43K our first month · Fort Worth TX</span>
             <span>$30K profit in 45 days · Naturalness Med Spa</span>
@@ -149,7 +149,7 @@ function App() {
             <div>
               <h2 style={{ color: 'var(--paper)' }}>Cherry sales. Calendars filling. <em>Real owner DMs.</em></h2>
               <p className="lede" style={{ color: 'var(--navy-200)' }}>
-                A wall of receipts from owners running our system right now — pre-qual approvals, day-of-deposit screenshots, calendars with back-to-back pre-paid appointments, and the group chats where owners report numbers in real time.
+                A wall of receipts from owners running our system right now: pre-qual approvals, day-of-deposit screenshots, calendars with back-to-back pre-paid appointments, and the group chats where owners report numbers in real time.
               </p>
             </div>
           </div>
@@ -193,7 +193,7 @@ function App() {
             <div className="label">The structure problem</div>
             <div>
               <h2>Retainer-based marketing companies are <em>structurally broken.</em></h2>
-              <p className="lede">They get paid for leads. You only make money when patients pay. Those are different goals — and yours always loses.</p>
+              <p className="lede">They get paid for leads. You only make money when patients pay. Those are different goals, and yours always loses.</p>
             </div>
           </div>
           <div className="comparison">
@@ -217,7 +217,7 @@ function App() {
             </div>
             <div className="cmp-col us">
               <div className="cmp-h">Newly Booked</div>
-              <div className="cmp-row">Commission only — when patients pay</div>
+              <div className="cmp-row">Paid only when patients pay</div>
               <div className="cmp-row">Paid only on closed packages</div>
               <div className="cmp-row">Pre-qualifies every patient</div>
               <div className="cmp-row">Books pre-qualified patients into your chair</div>
@@ -227,7 +227,7 @@ function App() {
           </div>
           <div className="comparison-mobile">
             {[
-              { label: 'Pricing model', them: 'Charges a retainer', us: 'Commission only — when patients pay' },
+              { label: 'Pricing model', them: 'Charges a retainer', us: 'Paid only when patients pay' },
               { label: 'Paid for', them: 'Gets paid for leads', us: 'Paid only on closed packages' },
               { label: 'Lead quality', them: 'Sends tire-kickers', us: 'Pre-qualifies every patient' },
               { label: 'Sales coverage', them: 'Hands you a dashboard', us: 'Books pre-qualified patients into your chair' },
@@ -253,7 +253,7 @@ function App() {
             <div className="label">The mechanism</div>
             <div>
               <h2>"My patients can't afford it" is the <em>#1 thing</em> we hear from spa owners.</h2>
-              <p className="lede">So we kill the affordability wall <em>before</em> the consult — not at the close.</p>
+              <p className="lede">So we kill the affordability wall <em>before</em> the consult, not at the close.</p>
             </div>
           </div>
 
@@ -353,7 +353,7 @@ function App() {
                 <div className="day">DAY 0 · 45 MIN</div>
               </div>
               <h4>Free diagnostic</h4>
-              <p>You show us your numbers. We show you what's leaking — set rate, no-show rate, package mix, close rate. You leave with a one-page diagnosis. No pitch on the call.</p>
+              <p>You show us your numbers. We show you what's leaking: set rate, no-show rate, package mix, close rate. You leave with a one-page diagnosis. No pitch on the call.</p>
             </div>
             <div className="step-cell">
               <div className="marker">
@@ -389,12 +389,12 @@ function App() {
             <div className="case">
               <div className="market">North Texas · Injectables</div>
               <div className="nums">$50K<span className="arr">→</span><em>$300K</em>/m</div>
-              <div className="blurb">Owner went from $50K/month to $300K/month — in a market she described as "worst demographics."</div>
+              <div className="blurb">Owner went from $50K/month to $300K/month in a market she described as "worst demographics."</div>
             </div>
             <div className="case">
               <div className="market">Breeze Med Spa · Year 1 → Year 2</div>
               <div className="nums">$0<span className="arr">→</span><em>$2.7M</em></div>
-              <div className="blurb">Natalie has earned $2.7M in revenue through the program — and paid cash for her own $300K storefront with that money.</div>
+              <div className="blurb">Natalie has earned $2.7M in revenue through the program, and paid cash for her own $300K storefront with that money.</div>
             </div>
             <div className="case">
               <div className="market">California · Stuck at $50K/m for 9 months</div>
@@ -404,7 +404,7 @@ function App() {
             <div className="case">
               <div className="market">Papillon Med Spa · Solo, single suite</div>
               <div className="nums">$0<span className="arr">→</span><em>$300K</em></div>
-              <div className="blurb">Couzue went from zero to $300K in revenue in her first year — starting solo from a single suite in Minnesota.</div>
+              <div className="blurb">Couzue went from zero to $300K in revenue in her first year, starting solo from a single suite in Minnesota.</div>
             </div>
           </div>
         </div>
@@ -434,22 +434,22 @@ function App() {
             <div className="feat">
               <div className="ix">03</div>
               <h4>Setter team books your calendar</h4>
-              <p>Our setter team handles outreach and qualifies every lead through Cherry before the appointment hits your calendar. You walk into pre-paid, pre-approved consults — not cold leads.</p>
+              <p>Our setter team handles outreach and qualifies every lead through Cherry before the appointment hits your calendar. You walk into pre-paid, pre-approved consults, not cold leads.</p>
             </div>
             <div className="feat">
               <div className="ix">04</div>
               <h4>$7M+ tested sales script</h4>
-              <p>Not a template. The actual script that's driven $7M+ in package sales — refined across 25+ owner calls and thousands of patient consults.</p>
+              <p>Not a template. The actual script that's driven $7M+ in package sales, refined across 25+ owner calls and thousands of patient consults.</p>
             </div>
             <div className="feat">
               <div className="ix">05</div>
               <h4>Daily training, not quarterly</h4>
-              <p>You (and whoever closes in your spa) join live training calls every weekday — directly with Ivan.</p>
+              <p>You (and whoever closes in your spa) join live training calls every weekday with Ivan.</p>
             </div>
             <div className="feat">
               <div className="ix">06</div>
               <h4>A pipeline you can measure</h4>
-              <p>Real-time dashboard: set rate, deposit rate, show rate, close rate, ad spend, revenue per patient — every metric, every appointment.</p>
+              <p>Real-time dashboard: set rate, deposit rate, show rate, close rate, ad spend, revenue per patient. Every metric, every appointment.</p>
             </div>
           </div>
         </div>
@@ -471,7 +471,7 @@ function App() {
         <div className="container">
           <div className="eyebrow light" style={{ marginBottom: 24 }}>The diagnostic</div>
           <h2>Forty-five minutes. <em>Zero pressure.</em><br/>Real numbers.</h2>
-          <p className="lede">We open your funnel. Set rate, no-show rate, close rate, ad spend — we tell you exactly where you're leaking. One-page diagnosis, yours to keep, work with us or not.</p>
+          <p className="lede">We open your funnel. Set rate, no-show rate, close rate, ad spend. We tell you exactly where you're leaking. One-page diagnosis, yours to keep, work with us or not.</p>
           <ul className="final-cta-list">
             <li><span className="ix">— I.</span>Funnel teardown — set rate, deposit rate, close rate</li>
             <li><span className="ix">— II.</span>What every leak in your funnel is actually costing you</li>

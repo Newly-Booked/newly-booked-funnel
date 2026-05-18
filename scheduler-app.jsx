@@ -4,11 +4,11 @@ const { useState: useSchAppState, useEffect: useSchAppEffect } = React;
 const SCH_FAQ = [
   {
     q: "What happens on the call?",
-    a: "Forty-five minutes, video. We walk you through how we'd add $50K–$100K/month to your spa — the pre-qualification system, the commission structure, and the first 90 days of revenue we'd expect. If we're a fit, you'll know on the call. If we're not, we'll tell you on the call."
+    a: "Forty-five minutes, video. We walk you through how we'd add $50K–$100K/month to your spa: the pre-qualification system, the commission structure, and the first 90 days of revenue we'd expect. If we're a fit, you'll know on the call. If we're not, we'll tell you on the call."
   },
   {
     q: "Is this a sales call?",
-    a: "Yes. We pre-qualified you because we think we can add real revenue to your spa. The call is where we lay out exactly how — and where you decide if you want to partner with us over the next 45 days. No retainer pitch. No 12-month lock. Commission only."
+    a: "Yes. We pre-qualified you because we think we can add real revenue to your spa. The call is where we lay out exactly how, and where you decide if you want to partner with us over the next 45 days. No retainer pitch. No 12-month lock. Commission only."
   },
   {
     q: "Why do I need to be on a call instead of email?",
@@ -16,11 +16,11 @@ const SCH_FAQ = [
   },
   {
     q: "What if I need to reschedule?",
-    a: "You'll get a confirmation email with a one-click reschedule link. Move it as many times as you need — we'd rather you show up at the right time than burn a slot."
+    a: "You'll get a confirmation email with a one-click reschedule link. Move it as many times as you need. We'd rather you show up at the right time than burn a slot."
   },
   {
     q: "Do I need anything ready for the call?",
-    a: "Three numbers in your head: monthly revenue, average package price, and rough close rate. If you don't know one of them, that's also useful information — we'll pull the rest live on the call."
+    a: "Three numbers in your head: monthly revenue, average package price, and rough close rate. If you don't know one of them, that's also useful information. We'll pull the rest live on the call."
   },
   {
     q: "Who's actually on the call?",
@@ -77,18 +77,18 @@ function SchedApp() {
   const SCH_HEADLINES = [
     {
       eyebrow: <>Step 2 of 2 · You pre-qualified</>,
-      h: <>Congratulations — <em>{tweaks.spaName}</em> pre-qualifies for the program.</>,
-      sub: <>Schedule a call to see if we can add up to <em>$60K in revenue</em> over your next 60 days. Forty-five minutes, video. No retainer, no 12-month lock — commission only.</>,
+      h: <>Congratulations. <em>{tweaks.spaName}</em> pre-qualifies for the program.</>,
+      sub: <>Schedule a call to see if we can add up to <em>$60K in revenue</em> over your next 60 days. Forty-five minutes, video. No retainer, no 12-month lock, commission only.</>,
     },
     {
       eyebrow: <>Pre-qualified · Pick a slot</>,
       h: <>You're in. <em>{tweaks.spaName}</em> made the cut.</>,
-      sub: <>Now book the call where we map out how Newly Booked would add <em>$50K–$100K/month</em> to your spa. You're live within 2 weeks of signing — 30 days later, most owners are already mid-fastest-growth-spurt of their lives.</>,
+      sub: <>Now book the call where we map out how Newly Booked would add <em>$50K–$100K/month</em> to your spa. You're live within 2 weeks of signing. 30 days later, most owners are already mid-fastest-growth-spurt of their lives.</>,
     },
     {
       eyebrow: <>Final step · Book the partnership call</>,
       h: <>Pick your time, <em>{tweaks.spaName}</em>.</>,
-      sub: <>Forty-five minutes with a senior partner. We walk through how we'd add up to $60K in cash revenue over your next 60 days — and whether we have your area available this quarter.</>,
+      sub: <>Forty-five minutes with a senior partner. We walk through how we'd add up to $60K in cash revenue over your next 60 days, and whether we have your area available this quarter.</>,
     },
   ];
 
@@ -173,14 +173,14 @@ function SchedApp() {
               <div className="marker">2.</div>
               <div>
                 <h4>The 60-day revenue model</h4>
-                <p>Based on your numbers, we'll show what we believe Newly Booked can add over the first 60 days — typically $30K–$60K in cash revenue. Owners doing $80K+/month frequently see $50K–$100K/month added.</p>
+                <p>Based on your numbers, we'll show what we believe Newly Booked can add over the first 60 days. Typically $30K–$60K in cash revenue. Owners doing $80K+/month frequently see $50K–$100K/month added.</p>
               </div>
             </div>
             <div className="value-row">
               <div className="marker">3.</div>
               <div>
                 <h4>The pre-qualification system, walked through</h4>
-                <p>How Cherry, CareCredit, and a soft credit pull get the affordability conversation done <em>before</em> the patient sits in your chair — so 80%+ of consults arrive approved for financing.</p>
+                <p>How Cherry, CareCredit, and a soft credit pull get the affordability conversation done <em>before</em> the patient sits in your chair, so 80%+ of consults arrive approved for financing.</p>
               </div>
             </div>
             <div className="value-row">
@@ -194,7 +194,7 @@ function SchedApp() {
               <div className="marker">5.</div>
               <div>
                 <h4>How fast you go live</h4>
-                <p>You're live within <em>2 weeks</em> of signing. Thirty days after that, most owners are already experiencing the fastest growth their spa has ever had — we walk through what that looks like, week by week, on the call.</p>
+                <p>You're live within <em>2 weeks</em> of signing. Thirty days after that, most owners are already experiencing the fastest growth their spa has ever had. We walk through what that looks like, week by week, on the call.</p>
               </div>
             </div>
           </div>
