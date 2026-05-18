@@ -107,6 +107,75 @@ function CfApp() {
   ];
   const head = HEADLINES[tweaks.headlineVariation] || HEADLINES[0];
 
+  // ── Calendar event helpers ────────────────────────────────────────────
+  // Parse the call date + time strings into real Date objects so we can
+  // build Google Calendar / Outlook / .ics URLs.
+  const callEvent = useCfMemo(() => {
+    const year = new Date().getFullYear();
+    const cleanDate = String(v.callDate || '').replace(/^[A-Za-z]+,\s*/, '').trim();
+    const startStr = `${cleanDate} ${year} ${v.callTime || ''}`;
+    const start = new Date(startStr);
+    if (isNaN(start.getTime())) return null;
+    const end = new Date(start.getTime() + (Number(v.duration) || 45) * 60 * 1000);
+    return { start, end };
+  }, [v.callDate, v.callTime, v.duration]);
+
+  const EVENT_TITLE = 'Newly Booked Strategy Call';
+  const EVENT_DETAILS = 'Forty-five minutes with one of Newly Booked\'s senior partners. We pull your numbers live, walk through how we\'d add $30K–$60K in cash revenue over your next 60 days, and lay out commission terms.';
+
+  const fmtUtc = (d) => d.toISOString().replace(/[-:]|\.\d{3}/g, '');
+
+  const googleCalUrl = () => {
+    if (!callEvent) return '#';
+    const p = new URLSearchParams({
+      action: 'TEMPLATE',
+      text: EVENT_TITLE,
+      dates: `${fmtUtc(callEvent.start)}/${fmtUtc(callEvent.end)}`,
+      details: EVENT_DETAILS,
+    });
+    return `https://calendar.google.com/calendar/render?${p}`;
+  };
+
+  const outlookUrl = () => {
+    if (!callEvent) return '#';
+    const p = new URLSearchParams({
+      path: '/calendar/action/compose',
+      rru: 'addevent',
+      subject: EVENT_TITLE,
+      startdt: callEvent.start.toISOString(),
+      enddt: callEvent.end.toISOString(),
+      body: EVENT_DETAILS,
+    });
+    return `https://outlook.live.com/calendar/0/deeplink/compose?${p}`;
+  };
+
+  const downloadIcs = (e) => {
+    e.preventDefault();
+    if (!callEvent) return;
+    const lines = [
+      'BEGIN:VCALENDAR',
+      'VERSION:2.0',
+      'PRODID:-//Newly Booked//Strategy Call//EN',
+      'BEGIN:VEVENT',
+      `UID:${fmtUtc(callEvent.start)}@newlybooked.com`,
+      `DTSTAMP:${fmtUtc(new Date())}`,
+      `DTSTART:${fmtUtc(callEvent.start)}`,
+      `DTEND:${fmtUtc(callEvent.end)}`,
+      `SUMMARY:${EVENT_TITLE}`,
+      `DESCRIPTION:${EVENT_DETAILS.replace(/\n/g, '\\n')}`,
+      'END:VEVENT',
+      'END:VCALENDAR',
+    ].join('\r\n');
+    const blob = new Blob([lines], { type: 'text/calendar;charset=utf-8' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = 'newly-booked-strategy-call.ics';
+    document.body.appendChild(a);
+    a.click();
+    setTimeout(() => { URL.revokeObjectURL(url); a.remove(); }, 200);
+  };
+
   return (
     <>
       {/* UTILITY BAR */}
@@ -159,16 +228,17 @@ function CfApp() {
           <div className="cf-cal-strip">
             <div className="cf-cal-title">Add to your calendar <span className="sub">— save the time</span></div>
             <div className="cf-cal-row">
-              <a className="cf-cal-btn primary" href="#" onClick={(e) => e.preventDefault()}>
+              <a className="cf-cal-btn primary" href={googleCalUrl()} target="_blank" rel="noopener noreferrer">
                 <span className="glyph">G</span>Google
               </a>
-              <a className="cf-cal-btn" href="#" onClick={(e) => e.preventDefault()}>
+              {/* Apple Calendar opens .ics files natively, so this is the same flow as Download. */}
+              <a className="cf-cal-btn" href="#" onClick={downloadIcs}>
                 <span className="glyph"></span>Apple
               </a>
-              <a className="cf-cal-btn" href="#" onClick={(e) => e.preventDefault()}>
+              <a className="cf-cal-btn" href={outlookUrl()} target="_blank" rel="noopener noreferrer">
                 <span className="glyph">O</span>Outlook
               </a>
-              <a className="cf-cal-btn" href="#" onClick={(e) => e.preventDefault()}>
+              <a className="cf-cal-btn" href="#" onClick={downloadIcs}>
                 <span className="glyph">.ics</span>Download
               </a>
             </div>
