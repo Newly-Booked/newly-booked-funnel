@@ -16,6 +16,7 @@ const TESTIMONIALS = [
     quote: '"I paid for the storefront — $300K — in cash, 100%."',
     stat: '$2.7M lifetime',
     time: '03:08',
+    wistiaId: 's6a0lg2l2b',
   },
   {
     name: 'Couzue',
@@ -51,13 +52,37 @@ const TESTIMONIALS = [
   },
 ];
 
+// Wistia upgrades <wistia-player> only after the per-media embed module
+// loads. We inject it on first mount and skip on subsequent re-renders.
+function useWistiaEmbed(id) {
+  React.useEffect(() => {
+    if (!id) return;
+    const tag = `wistia-embed-${id}`;
+    if (document.getElementById(tag)) return;
+    const s = document.createElement('script');
+    s.id = tag;
+    s.src = `https://fast.wistia.com/embed/${id}.js`;
+    s.type = 'module';
+    s.async = true;
+    document.body.appendChild(s);
+  }, [id]);
+}
+
 function VideoCard({ t }) {
+  useWistiaEmbed(t.wistiaId);
+  const cls = `video-card${t.featured ? ' featured' : ''}${t.wistiaId ? ' has-wistia' : ''}`;
   return (
-    <div className={`video-card${t.featured ? ' featured' : ''}`}>
+    <div className={cls}>
       <div className="video-thumb">
-        <span className="timecode">▸ {t.time}</span>
-        <button className="play-btn" aria-label="Play video">▶</button>
-        <div className="quote">{t.quote}</div>
+        {t.wistiaId ? (
+          <wistia-player media-id={t.wistiaId} aspect="1.7777777777777777"></wistia-player>
+        ) : (
+          <>
+            <span className="timecode">▸ {t.time}</span>
+            <button className="play-btn" aria-label="Play video">▶</button>
+            <div className="quote">{t.quote}</div>
+          </>
+        )}
       </div>
       <div className="video-meta">
         <div>
