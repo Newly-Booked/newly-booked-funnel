@@ -130,8 +130,14 @@ function Qualifier({ accent }) {
         const inp = ghlForm.querySelector(`input[name="${n}"]`);
         if (inp && v != null) setNativeInputValue(inp, v);
       };
+      // GHL forms expose the lead's name as either first_name + last_name OR
+      // a single full_name field, depending on which element was dropped on
+      // the form. Fill whichever exists; setByName silently no-ops on the
+      // others.
       setByName('first_name', firstName);
       setByName('last_name', lastName);
+      setByName('full_name', fullName);
+      setByName('name', fullName);
       setByName('email', email.trim());
       setByName('phone', phone.trim());
       setByName('city', all.city || '');
