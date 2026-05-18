@@ -147,11 +147,6 @@ function SchedApp() {
           <a href={window.__NB_LANDING_URL || 'index.html'} className="brand" style={{ textDecoration: 'none' }}>
             <span className="dot"></span>Newly Booked
           </a>
-          <nav className="topnav">
-            <a href={(window.__NB_LANDING_URL || 'index.html') + '#proof'}>Proof</a>
-            <a href={(window.__NB_LANDING_URL || 'index.html') + '#mechanism'}>Mechanism</a>
-            <a href={(window.__NB_LANDING_URL || 'index.html') + '#faq'}>FAQ</a>
-          </nav>
           <span style={{
             fontFamily: 'Inter, sans-serif',
             fontSize: 11,
