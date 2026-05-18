@@ -2,15 +2,11 @@
 const { useState: useCfState, useEffect: useCfEffect, useMemo: useCfMemo } = React;
 
 const CF_TWEAK_DEFAULTS = /*EDITMODE-BEGIN*/{
-  "spaName": "Allure Aesthetics",
-  "ownerName": "Dana",
+  "ownerName": "there",
   "callDate": "Wed, May 13",
   "callTime": "2:30 PM",
   "callTimezone": "ET",
   "duration": 45,
-  "hostName": "Marcus Whitfield",
-  "hostRole": "Senior Partner, Newly Booked",
-  "phone": "(800) 939-0807",
   "headlineVariation": 0,
   "accent": "gold"
 }/*EDITMODE-END*/;
@@ -62,12 +58,6 @@ const CF_RESULTS = [
   { market: 'Charlotte, NC', before: '$95K/mo', after: '$224K/mo', visits: 'After 90 days on system' },
   { market: 'Denver, CO', before: '$71K/mo', after: '$163K/mo', visits: 'After 75 days on system' },
   { market: 'Nashville, TN', before: '$58K/mo', after: '$129K/mo', visits: 'After 60 days on system' },
-];
-
-const CF_TESTIMONIALS = [
-  { name: 'Jessica M.', role: 'Owner, RefineMed', quote: '"I was skeptical it would work this fast."', stat: '$128K · 90d' },
-  { name: 'Nicole R.', role: 'Owner, Glow & Co.', quote: '"Three months in. Best hire I\'ve ever made."', stat: '$94K · 60d' },
-  { name: 'Maria L.', role: 'Owner, Allure Aesthetics', quote: '"Wish I\'d done this two years ago."', stat: '$167K · 120d' },
 ];
 
 function CfTextFAQ() {
@@ -123,11 +113,11 @@ function CfApp() {
   const HEADLINES = [
     {
       h: <>You're locked in, <em>{v.ownerName}</em>.</>,
-      sub: <>We've blocked {v.duration} minutes with a senior partner to map out the next 60 days of revenue inside <em>{v.spaName}</em>. A calendar invite plus the Zoom link are on the way to your inbox right now.</>,
+      sub: <>We've blocked {v.duration} minutes with a senior partner to map out the next 60 days of revenue for your spa. A calendar invite plus the Zoom link are on the way to your inbox right now.</>,
     },
     {
       h: <>Your seat is <em>held</em>.</>,
-      sub: <>Save the time. Block the calendar. Forty-five minutes from now, <em>{tweaks.spaName}</em> will have a written 60-day revenue plan in hand, or a clear no with reasons.</>,
+      sub: <>Save the time. Block the calendar. Forty-five minutes from now you'll have a written 60-day revenue plan in hand, or a clear no with reasons.</>,
     },
     {
       h: <>Booked. <em>Now we get to work.</em></>,
@@ -136,22 +126,14 @@ function CfApp() {
   ];
   const head = HEADLINES[tweaks.headlineVariation] || HEADLINES[0];
 
-  const phoneTel = tweaks.phone.replace(/[^\d+]/g, '');
-
   return (
     <>
       {/* UTILITY BAR */}
       <div className="cf-utility">
         <div className="cf-utility-inner">
-          <div className="lhs">
-            <a href="index.html" className="brand" style={{ textDecoration: 'none', fontSize: 18 }}>
-              <span className="dot"></span>Newly Booked
-            </a>
-            <span className="partners">
-              Partnership Desk &nbsp;<em>×</em>&nbsp; Senior Team
-            </span>
-          </div>
-          <a className="phone" href={`tel:${phoneTel}`}>{tweaks.phone}</a>
+          <a href="index.html" className="brand" style={{ textDecoration: 'none', fontSize: 18 }}>
+            <span className="dot"></span>Newly Booked
+          </a>
         </div>
       </div>
 
@@ -220,7 +202,7 @@ function CfApp() {
           <div className="body">
             <div className="h"><strong>Check your inbox now.</strong> A confirmation from <em>Newly Booked</em> with the Zoom link should hit in the next 2 minutes.</div>
             <div className="p">
-              Didn't see it? Check spam, then call us at <a href={`tel:${phoneTel}`}>{tweaks.phone}</a>. A real human picks up during business hours.
+              Didn't see it? Check spam, then reply to any previous Newly Booked email and we'll re-send it.
             </div>
           </div>
         </div>
@@ -375,11 +357,7 @@ function CfApp() {
         <div className="container">
           <div className="row">
             <div className="partners">
-              Newly Booked &nbsp;<em>×</em>&nbsp; <em>{tweaks.spaName}</em>
-            </div>
-            <div className="contact">
-              <a href={`tel:${phoneTel}`}>{tweaks.phone}</a>
-              <div>Partnership Desk · 9–6 ET, Mon–Fri</div>
+              <span className="dot"></span>Newly Booked
             </div>
           </div>
           <p className="micro">
@@ -401,8 +379,6 @@ function CfApp() {
         <TweakSection label="Booking details">
           <TweakText label="Owner first name" value={tweaks.ownerName}
             onChange={(v) => setTweak('ownerName', v)} />
-          <TweakText label="Spa name" value={tweaks.spaName}
-            onChange={(v) => setTweak('spaName', v)} />
           <TweakText label="Call date" value={tweaks.callDate}
             onChange={(v) => setTweak('callDate', v)} />
           <TweakText label="Call time" value={tweaks.callTime}
@@ -411,14 +387,6 @@ function CfApp() {
             onChange={(v) => setTweak('callTimezone', v)} />
           <TweakSlider label="Duration (min)" value={tweaks.duration} min={30} max={90} step={15}
             onChange={(v) => setTweak('duration', v)} />
-        </TweakSection>
-        <TweakSection label="Partner">
-          <TweakText label="Host name" value={tweaks.hostName}
-            onChange={(v) => setTweak('hostName', v)} />
-          <TweakText label="Host role" value={tweaks.hostRole}
-            onChange={(v) => setTweak('hostRole', v)} />
-          <TweakText label="Phone" value={tweaks.phone}
-            onChange={(v) => setTweak('phone', v)} />
         </TweakSection>
         <TweakSection label="Hero">
           <TweakSelect label="Headline" value={tweaks.headlineVariation}
