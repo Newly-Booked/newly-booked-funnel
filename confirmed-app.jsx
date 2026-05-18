@@ -8,7 +8,8 @@ const CF_TWEAK_DEFAULTS = /*EDITMODE-BEGIN*/{
   "callTimezone": "ET",
   "duration": 45,
   "headlineVariation": 0,
-  "accent": "gold"
+  "accent": "gold",
+  "preCallVideoId": "8t1vtmy0my"
 }/*EDITMODE-END*/;
 
 const CF_ACCENTS = {
@@ -90,6 +91,20 @@ function CfApp() {
     const r = document.documentElement;
     Object.entries(a).forEach(([k, v]) => r.style.setProperty(`--gold-${k}`, v));
   }, [tweaks.accent]);
+
+  // Lazy-load the per-media Wistia embed script for the pre-call video.
+  useCfEffect(() => {
+    const id = tweaks.preCallVideoId;
+    if (!id) return;
+    const tag = `wistia-embed-${id}`;
+    if (document.getElementById(tag)) return;
+    const s = document.createElement('script');
+    s.id = tag;
+    s.src = `https://fast.wistia.com/embed/${id}.js`;
+    s.type = 'module';
+    s.async = true;
+    document.body.appendChild(s);
+  }, [tweaks.preCallVideoId]);
 
   const HEADLINES = [
     {
@@ -197,26 +212,13 @@ function CfApp() {
           <h1>{head.h}</h1>
           <p className="lede">{head.sub}</p>
 
-          <div className="cf-hero-meta">
-            <div className="cell">
-              <div className="lbl">When</div>
-              <div className="val"><em>{v.callDate}</em></div>
-              <div className="sub">{v.callTime} {v.callTimezone}</div>
-            </div>
-            <div className="cell">
-              <div className="lbl">Format</div>
-              <div className="val">Zoom video</div>
-              <div className="sub">Link in calendar invite</div>
-            </div>
-            <div className="cell">
-              <div className="lbl">Length</div>
-              <div className="val">{tweaks.duration} minutes</div>
-              <div className="sub">One decision · Yes / No / Reasons</div>
-            </div>
-            <div className="cell">
-              <div className="lbl">Cost</div>
-              <div className="val">$0</div>
-              <div className="sub">No obligation, no retainer</div>
+          {/* Watch-before-call video. Swap the wistiaId on the
+              CF_TWEAK_DEFAULTS object (preCallVideoId) when the real
+              recording is uploaded. */}
+          <div className="cf-hero-video">
+            <div className="cf-hero-video-label">Watch this before our call</div>
+            <div className="cf-hero-video-frame">
+              <wistia-player media-id={tweaks.preCallVideoId} aspect="1.7777777777777777"></wistia-player>
             </div>
           </div>
         </div>
