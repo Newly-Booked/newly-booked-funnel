@@ -18,19 +18,6 @@ const CF_ACCENTS = {
   ink:     { 700: '#1B2D4A', 600: '#2A3F60', 500: '#43597A', 400: '#6B7E9C', 200: '#B5C0D2', 50: '#E8ECF3' },
 };
 
-// Video FAQ — short, partnership-call themed, mirrors the template's video grid
-const CF_VFAQ = [
-  { ix: '01', q: '"Is this just another agency pitch?"', a: "Why this isn't a retainer pitch, and the one thing we sell that other agencies can't.", time: '1:12' },
-  { ix: '02', q: '"Who actually closes the consult?"', a: "How the consult flow works (owner vs. team member), and how daily training keeps your close rate accountable.", time: '2:38' },
-  { ix: '03', q: '"Will Newly Booked own my patient list?"', a: "You own every lead, every phone number, every record. Full export at any time.", time: '0:54' },
-  { ix: '04', q: '"How fast do I actually go live?"', a: "What the first 14 days look like, week-by-week, from contract to first booked consult.", time: '2:04' },
-  { ix: '05', q: '"What if my close rate is bad right now?"', a: "Why the pre-qualification system mostly fixes this before the patient is in your chair.", time: '1:46' },
-  { ix: '06', q: '"What happens after the 60 days?"', a: "Month-over-month performance bands, where most owners land, and how scale works.", time: '1:58' },
-  { ix: '07', q: '"How is your model different from CMOs and ad agencies?"', a: "Plain-English breakdown of who eats the risk, who eats the upside, and where margin lives.", time: '2:22' },
-  { ix: '08', q: '"What if it doesn\'t work for my market?"', a: "How we screen for fit before partnering, and the markets where we currently can't operate.", time: '1:30' },
-  { ix: '09', q: '"What do I need ready for the call?"', a: "The three numbers to bring, plus what we'll pull live so you don't have to prep slides.", time: '1:08' },
-];
-
 const CF_TFAQ = [
   {
     q: "I've never heard of Newly Booked. How do I know this is real?",
@@ -48,16 +35,6 @@ const CF_TFAQ = [
     q: "What if I need to reschedule?",
     a: "Use the link in your confirmation email or hit the reschedule button on this page. We'd rather you show up at the right time than burn a slot at the wrong one. Just don't ghost. These slots fill fast and another owner is waiting on yours."
   },
-];
-
-// Real partners — revenue before/after, not photos
-const CF_RESULTS = [
-  { market: 'Austin, TX', before: '$62K/mo', after: '$148K/mo', visits: 'After 90 days on system' },
-  { market: 'Scottsdale, AZ', before: '$84K/mo', after: '$201K/mo', visits: 'After 120 days on system' },
-  { market: 'Tampa, FL', before: '$48K/mo', after: '$112K/mo', visits: 'After 60 days on system' },
-  { market: 'Charlotte, NC', before: '$95K/mo', after: '$224K/mo', visits: 'After 90 days on system' },
-  { market: 'Denver, CO', before: '$71K/mo', after: '$163K/mo', visits: 'After 75 days on system' },
-  { market: 'Nashville, TN', before: '$58K/mo', after: '$129K/mo', visits: 'After 60 days on system' },
 ];
 
 function CfTextFAQ() {
@@ -208,37 +185,8 @@ function CfApp() {
         </div>
       </section>
 
-      {/* VIDEO FAQ GRID */}
-      <section className="cf-vfaq" data-screen-label="04 Video FAQ">
-        <div className="container">
-          <div className="head">
-            <div className="label">Still have questions?</div>
-            <div>
-              <h2>Everything you're <em>wondering</em>, but haven't asked yet.</h2>
-              <div className="lede">Sixty-second answers from the partner who'll be on your call. Watch the ones that apply, skip the rest.</div>
-            </div>
-          </div>
-          <div className="cf-vfaq-grid">
-            {CF_VFAQ.map((item, i) => (
-              <article key={i} className="cf-vfaq-card">
-                <div className="cf-vfaq-thumb">
-                  <span className="ix">{item.ix}</span>
-                  <span className="timecode">{item.time}</span>
-                  <button className="play" aria-label={`Play ${item.q}`}>▶</button>
-                  <div className="quote">{item.q}</div>
-                </div>
-                <div className="cf-vfaq-meta">
-                  <div className="q">{item.q}</div>
-                  <div className="a">{item.a}</div>
-                </div>
-              </article>
-            ))}
-          </div>
-        </div>
-      </section>
-
       {/* TEXT FAQ */}
-      <section className="cf-tfaq" data-screen-label="05 Text FAQ">
+      <section className="cf-tfaq" data-screen-label="04 Text FAQ">
         <div className="container-narrow">
           <div className="head">
             <div className="label">Still on the fence?</div>
@@ -248,38 +196,8 @@ function CfApp() {
         </div>
       </section>
 
-      {/* RESULTS — revenue before/after (not photos) */}
-      <section className="cf-results" data-screen-label="07 Real Results">
-        <div className="container">
-          <div className="head">
-            <div className="label">This is what's waiting for you</div>
-            <h2>Real partners. <em>Real revenue.</em></h2>
-            <div className="sub">Every owner here walked in asking the same thing you are right now: <em>"Will this actually work?"</em></div>
-          </div>
-          <div className="cf-results-grid">
-            {CF_RESULTS.map((r, i) => (
-              <div key={i} className="cf-result">
-                <div className="market">{r.market}</div>
-                <div className="ba">
-                  <div className="col before">
-                    <div className="lbl">Before</div>
-                    <div className="val">{r.before}</div>
-                  </div>
-                  <div className="arr">→</div>
-                  <div className="col after">
-                    <div className="lbl">After</div>
-                    <div className="val">{r.after}</div>
-                  </div>
-                </div>
-                <div className="visits">{r.visits}</div>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
       {/* TESTIMONIALS — same Wistia grid as the landing page */}
-      <section className="cf-testimonials" data-screen-label="08 Hear It From Them">
+      <section className="cf-testimonials" data-screen-label="05 Hear It From Them">
         <div className="container">
           <div className="head">
             <div className="label">Hear it from them</div>
@@ -290,7 +208,7 @@ function CfApp() {
       </section>
 
       {/* HOW IT WORKS — 3 steps */}
-      <section className="cf-how" data-screen-label="09 How It Works">
+      <section className="cf-how" data-screen-label="06 How It Works">
         <div className="container">
           <div className="head">
             <div className="label">How it works</div>
@@ -317,7 +235,7 @@ function CfApp() {
       </section>
 
       {/* HOW TO PREPARE */}
-      <section className="cf-prep" data-screen-label="10 How to Prepare">
+      <section className="cf-prep" data-screen-label="07 How to Prepare">
         <div className="container">
           <div className="head">
             <div className="label">Get the most from your call</div>
