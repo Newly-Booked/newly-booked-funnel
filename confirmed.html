@@ -12,6 +12,8 @@
 
   <link rel="stylesheet" href="styles.css" />
   <link rel="stylesheet" href="confirmed.css" />
+
+  <script src="https://fast.wistia.com/player.js" async></script>
 </head>
 <body>
   <div id="root"></div>
@@ -23,7 +25,7 @@
   <script>
     (function () {
       var v = Date.now();
-      ['tweaks-panel.jsx','confirmed-app.jsx'].forEach(function (s) {
+      ['tweaks-panel.jsx','testimonials-faq.jsx','confirmed-app.jsx'].forEach(function (s) {
         document.write('<script type="text/babel" src="' + s + '?v=' + v + '"><\/script>');
       });
     })();

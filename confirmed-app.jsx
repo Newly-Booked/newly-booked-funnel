@@ -296,47 +296,14 @@ function CfApp() {
         </div>
       </section>
 
-      {/* TESTIMONIALS */}
+      {/* TESTIMONIALS — same Wistia grid as the landing page */}
       <section className="cf-testimonials" data-screen-label="08 Hear It From Them">
         <div className="container">
           <div className="head">
             <div className="label">Hear it from them</div>
-            <h2>Three owners. One model. Same answer.</h2>
+            <h2>Owners running this model <em>right now</em>.</h2>
           </div>
-          <div className="cf-test-grid">
-            {CF_TESTIMONIALS.map((t, i) => (
-              <article key={i} className="cf-test-card">
-                <div className="cf-test-thumb">
-                  <button className="play" aria-label={`Play ${t.name}`}>▶</button>
-                  <div className="quote">{t.quote}</div>
-                </div>
-                <div className="cf-test-meta">
-                  <div>
-                    <div className="name">{t.name}</div>
-                    <div className="role">{t.role}</div>
-                  </div>
-                  <div className="stat">{t.stat}</div>
-                </div>
-              </article>
-            ))}
-          </div>
-
-          <div className="cf-quote-pair">
-            <div className="cf-quote">
-              <div className="body">"I'd tried CMOs and a fractional sales agency. Neither one moved the needle. Two months in with Newly Booked and we're <em>already past last year's best quarter</em>. I only wish I'd done this sooner."</div>
-              <div className="author">
-                <span className="who">Sarah M.</span>
-                <span className="where">Verified Partner · Google Review</span>
-              </div>
-            </div>
-            <div className="cf-quote">
-              <div className="body">"A friend told me about Newly Booked and I thought it was a scam. Performance-only, no retainer? It's not. The team is real, the system works, and the numbers <em>speak for themselves</em>."</div>
-              <div className="author">
-                <span className="who">Jessica R.</span>
-                <span className="where">Verified Partner · Google Review</span>
-              </div>
-            </div>
-          </div>
+          <VideoTestimonials />
         </div>
       </section>
 
