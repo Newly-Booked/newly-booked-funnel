@@ -190,21 +190,8 @@ function CfApp() {
         </div>
       </section>
 
-      {/* SMS CALLOUT — mirrors "Check your phone" */}
-      <section className="cf-sms" data-screen-label="02 SMS Callout">
-        <div className="container">
-          <div className="icon" aria-hidden="true">@</div>
-          <div className="body">
-            <div className="h"><strong>Check your inbox now.</strong> A confirmation from <em>Newly Booked</em> with the Zoom link should hit in the next 2 minutes.</div>
-            <div className="p">
-              Didn't see it? Check spam, then call us at <a href={`tel:${phoneTel}`}>{tweaks.phone}</a>. A real human picks up during business hours.
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* ADD TO CALENDAR — compact strip */}
-      <section className="cf-cal" data-screen-label="03 Add to Calendar">
+      {/* ADD TO CALENDAR — compact strip, sits directly under the hero */}
+      <section className="cf-cal" data-screen-label="02 Add to Calendar">
         <div className="container">
           <div className="cf-cal-strip">
             <span className="cf-cal-label">Save the time</span>
@@ -221,6 +208,19 @@ function CfApp() {
               <a className="cf-cal-btn" href="#" onClick={(e) => e.preventDefault()}>
                 <span className="glyph">.ics</span>Download
               </a>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* SMS CALLOUT — mirrors "Check your phone" */}
+      <section className="cf-sms" data-screen-label="03 SMS Callout">
+        <div className="container">
+          <div className="icon" aria-hidden="true">@</div>
+          <div className="body">
+            <div className="h"><strong>Check your inbox now.</strong> A confirmation from <em>Newly Booked</em> with the Zoom link should hit in the next 2 minutes.</div>
+            <div className="p">
+              Didn't see it? Check spam, then call us at <a href={`tel:${phoneTel}`}>{tweaks.phone}</a>. A real human picks up during business hours.
             </div>
           </div>
         </div>
