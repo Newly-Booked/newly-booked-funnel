@@ -1,4 +1,19 @@
 // Qualifier — inline 5-step. Mirrors original 5 questions.
+
+// React's input wrapper stores value in framework state; setting input.value
+// directly is ignored. Use the native setter then dispatch the input/change
+// events so the framework picks up the new value.
+function setNativeInputValue(input, value) {
+  const proto = input.tagName === 'TEXTAREA'
+    ? window.HTMLTextAreaElement.prototype
+    : window.HTMLInputElement.prototype;
+  const setter = Object.getOwnPropertyDescriptor(proto, 'value');
+  if (setter && setter.set) setter.set.call(input, value);
+  else input.value = value;
+  input.dispatchEvent(new Event('input', { bubbles: true }));
+  input.dispatchEvent(new Event('change', { bubbles: true }));
+}
+
 const QUALIFIER_STEPS = [
   {
     key: 'owner',
@@ -82,11 +97,70 @@ function Qualifier({ accent }) {
     setStep(step + 1);
   };
 
+  // Human-readable label lookup from QUALIFIER_STEPS opts, so GHL receives
+  // "$50K – $100K / month" instead of the internal code "50-100".
+  const labelFor = (stepKey, value) => {
+    const step = QUALIFIER_STEPS.find((s) => s.key === stepKey);
+    if (!step || !step.opts) return value;
+    const opt = step.opts.find((o) => o.v === value);
+    return opt ? opt.label : value;
+  };
+
   const submitContact = (e) => {
     e.preventDefault();
     if (!name.trim() || !email.trim()) return;
     const all = { ...answers, name, email, phone };
     setAnswers(all);
+
+    // If a hidden GHL form is on the page (the setup we use inside a GHL
+    // funnel), fill it programmatically and click its native submit so GHL
+    // handles captcha + contact creation + redirect. Otherwise fall back to
+    // the URL-param redirect used on GitHub Pages / local dev.
+    const ghlForm = document.querySelector('.nb-hidden-form form, form.nb-hidden-form');
+
+    if (ghlForm) {
+      const fullName = name.trim();
+      const parts = fullName.split(/\s+/);
+      const firstName = parts.shift() || '';
+      const lastName = parts.join(' ');
+
+      const setByName = (n, v) => {
+        const inp = ghlForm.querySelector(`input[name="${n}"]`);
+        if (inp && v != null) setNativeInputValue(inp, v);
+      };
+      setByName('first_name', firstName);
+      setByName('last_name', lastName);
+      setByName('email', email.trim());
+      setByName('phone', phone.trim());
+      setByName('city', all.city || '');
+
+      // Custom fields don't have stable names. They are the text inputs
+      // that aren't one of the standard GHL fields. Match them by position
+      // (form-builder order): 0 = revenue, 1 = treatment.
+      const knownNames = ['first_name', 'last_name', 'phone', 'email', 'email1',
+        'address1', 'address', 'street_address',
+        'city', 'state', 'country', 'postal_code', 'postalCode', 'Search'];
+      const customInputs = Array.from(ghlForm.querySelectorAll('input[type="text"]'))
+        .filter((i) => !knownNames.includes(i.name));
+      if (customInputs[0]) setNativeInputValue(customInputs[0], labelFor('revenue', all.revenue));
+      if (customInputs[1]) setNativeInputValue(customInputs[1], labelFor('treatment', all.treatment));
+
+      // Consent checkboxes need a real click event for the framework's
+      // change handler to run; setting .checked = true is silently ignored.
+      ghlForm.querySelectorAll('input[type="checkbox"]').forEach((cb) => {
+        if (!cb.checked) cb.click();
+      });
+
+      // Give the framework a moment to register the writes, then submit.
+      // GHL's form handles the redirect via its On Submit Action.
+      setTimeout(() => {
+        const submitBtn = ghlForm.querySelector('button[type="submit"]') || ghlForm.querySelector('button');
+        if (submitBtn) submitBtn.click();
+      }, 200);
+      return;
+    }
+
+    // Fallback: direct redirect (GitHub Pages, local dev, no GHL form on page).
     const params = new URLSearchParams({
       name: name.trim(),
       email: email.trim(),
