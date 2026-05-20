@@ -4,13 +4,15 @@
 // auto-resizes the iframe to the widget's actual content height. The lead's
 // name/email/phone come in via URL params from the qualifier and get
 // forwarded to GHL so the form starts pre-filled.
-// New booking calendar BGNQmAzoXkDO1ZTo90c0 on the branded
-// link.newlybooked.com subdomain. If SSL on the custom domain is still
-// half-provisioned and the iframe fails with ERR_SSL_PROTOCOL_ERROR,
-// swap the host to api.leadconnectorhq.com (same path works there).
+// Calendar BGNQmAzoXkDO1ZTo90c0 served from GHL's default
+// api.leadconnectorhq.com host instead of the custom
+// link.newlybooked.com — the custom domain's SSL cert has been flaky
+// (Chrome ERR_SSL_PROTOCOL_ERROR, Safari renders blank). Switch back to
+// the branded URL once GHL's auto-issued cert on the custom domain is
+// confirmed working in Safari (the strictest browser for SSL).
 const NB_GHL_CALENDAR_ID = 'BGNQmAzoXkDO1ZTo90c0';
-const NB_GHL_BOOKING_URL = `https://link.newlybooked.com/widget/booking/${NB_GHL_CALENDAR_ID}`;
-const NB_GHL_EMBED_SCRIPT = 'https://link.newlybooked.com/js/form_embed.js';
+const NB_GHL_BOOKING_URL = `https://api.leadconnectorhq.com/widget/booking/${NB_GHL_CALENDAR_ID}`;
+const NB_GHL_EMBED_SCRIPT = 'https://api.leadconnectorhq.com/js/form_embed.js';
 
 function GhlBookingWidget() {
   React.useEffect(() => {
