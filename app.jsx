@@ -52,6 +52,28 @@ function App() {
     if (tweaks.density === 'airy') document.body.classList.add('airy');
   }, [tweaks.density]);
 
+  // When this page is embedded in GHL, a <base href="https://artzy22.github.io/...">
+  // tag is set so relative asset URLs resolve to the CDN. But a side-effect is
+  // that hash-only anchors like href="#qualify" also resolve against the base —
+  // so clicking a CTA bounces the user from newlybooked.com to artzy22.github.io.
+  // This handler intercepts hash anchor clicks and scrolls in-page instead.
+  useEffect(() => {
+    const onClick = (e) => {
+      const a = e.target.closest('a[href^="#"], a[href*="#"]');
+      if (!a) return;
+      const raw = a.getAttribute('href') || '';
+      const hash = raw.startsWith('#') ? raw : raw.slice(raw.indexOf('#'));
+      if (!hash || hash === '#') return;
+      const target = document.querySelector(hash);
+      if (!target) return;
+      e.preventDefault();
+      target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      try { history.pushState(null, '', hash); } catch (_) {}
+    };
+    document.addEventListener('click', onClick);
+    return () => document.removeEventListener('click', onClick);
+  }, []);
+
   const hero = HERO_VARIATIONS[tweaks.heroVariation] || HERO_VARIATIONS[0];
 
   return (
