@@ -8,7 +8,8 @@
 // link.newlybooked.com subdomain. If SSL on the custom domain is still
 // half-provisioned and the iframe fails with ERR_SSL_PROTOCOL_ERROR,
 // swap the host to api.leadconnectorhq.com (same path works there).
-const NB_GHL_BOOKING_URL = 'https://link.newlybooked.com/widget/booking/BGNQmAzoXkDO1ZTo90c0';
+const NB_GHL_CALENDAR_ID = 'BGNQmAzoXkDO1ZTo90c0';
+const NB_GHL_BOOKING_URL = `https://link.newlybooked.com/widget/booking/${NB_GHL_CALENDAR_ID}`;
 const NB_GHL_EMBED_SCRIPT = 'https://link.newlybooked.com/js/form_embed.js';
 
 function GhlBookingWidget() {
@@ -20,6 +21,17 @@ function GhlBookingWidget() {
     s.async = true;
     document.body.appendChild(s);
   }, []);
+
+  // GHL's form_embed.js auto-resizes iframes whose id matches the pattern
+  // {calendarId}_{anything}. If the id doesn't start with the calendar id,
+  // the resize never fires and the iframe stays at minHeight — which on
+  // mobile clips the entire calendar UI. Locking the id to that pattern
+  // and computing it once with useMemo so re-renders don't generate a new
+  // id that breaks the running auto-resize.
+  const iframeId = React.useMemo(
+    () => `${NB_GHL_CALENDAR_ID}_${Date.now()}`,
+    []
+  );
 
   const src = React.useMemo(() => {
     const p = new URLSearchParams(window.location.search);
@@ -40,9 +52,9 @@ function GhlBookingWidget() {
   return (
     <iframe
       src={src}
-      style={{ width: '100%', minHeight: 720, border: 'none', overflow: 'hidden', display: 'block' }}
+      style={{ width: '100%', minHeight: 1100, border: 'none', overflow: 'hidden', display: 'block' }}
       scrolling="no"
-      id="ghl-booking-CliIjsZuqGH68pPCXKCm"
+      id={iframeId}
       title="Book your Newly Booked Strategy Call"
     />
   );
