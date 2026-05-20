@@ -56,19 +56,21 @@ function App() {
   // tag is set so relative asset URLs resolve to the CDN. But a side-effect is
   // that hash-only anchors like href="#qualify" also resolve against the base —
   // so clicking a CTA bounces the user from newlybooked.com to artzy22.github.io.
-  // This handler intercepts hash anchor clicks and scrolls in-page instead.
+  // This handler intercepts SAME-PAGE hash anchor clicks only and scrolls in
+  // place. Cross-page URLs and modified clicks (cmd/ctrl/middle) fall through.
   useEffect(() => {
     const onClick = (e) => {
-      const a = e.target.closest('a[href^="#"], a[href*="#"]');
+      if (e.defaultPrevented) return;
+      if (e.button !== 0 || e.metaKey || e.ctrlKey || e.shiftKey || e.altKey) return;
+      const a = e.target.closest('a');
       if (!a) return;
-      const raw = a.getAttribute('href') || '';
-      const hash = raw.startsWith('#') ? raw : raw.slice(raw.indexOf('#'));
-      if (!hash || hash === '#') return;
-      const target = document.querySelector(hash);
+      const href = a.getAttribute('href');
+      if (!href || !href.startsWith('#') || href === '#') return;
+      const target = document.querySelector(href);
       if (!target) return;
       e.preventDefault();
       target.scrollIntoView({ behavior: 'smooth', block: 'start' });
-      try { history.pushState(null, '', hash); } catch (_) {}
+      try { history.pushState(null, '', href); } catch (_) {}
     };
     document.addEventListener('click', onClick);
     return () => document.removeEventListener('click', onClick);
