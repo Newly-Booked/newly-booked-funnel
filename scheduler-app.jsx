@@ -95,7 +95,6 @@ const SCH_FAQ = [
 const SCH_TWEAK_DEFAULTS = /*EDITMODE-BEGIN*/{
   "accent": "gold",
   "showFooterCTA": true,
-  "spaName": "Your Med Spa",
   "headlineVariation": 0
 }/*EDITMODE-END*/;
 
@@ -138,20 +137,38 @@ function SchedApp() {
     Object.entries(a).forEach(([k, v]) => r.style.setProperty(`--gold-${k}`, v));
   }, [tweaks.accent]);
 
+  // Pull personalization from the URL the qualifier redirected here with.
+  // GHL forwards first/last/email/phone via the redirect; we use first_name
+  // when available so the headline can address the owner by name without
+  // ever falling back to a "Your Med Spa" placeholder.
+  const firstName = React.useMemo(() => {
+    const p = new URLSearchParams(window.location.search);
+    const first = (p.get('first_name') || '').trim();
+    if (first) return first;
+    const name = (p.get('name') || '').trim();
+    if (name) return name.split(/\s+/)[0];
+    return '';
+  }, []);
+
+  // Friendly salutation fragment so headlines flow whether or not we
+  // captured a first name. Keep the em italic on the name to match the
+  // rest of the funnel's accent treatment.
+  const sal = firstName ? <>, <em>{firstName}</em></> : null;
+
   const SCH_HEADLINES = [
     {
       eyebrow: <>Step 2 of 2 · You pre-qualified</>,
-      h: <>Congratulations. <em>{tweaks.spaName}</em> pre-qualifies for the program.</>,
+      h: <>Congratulations{sal}. You pre-qualify for the program.</>,
       sub: <>Schedule a call to see if we can add up to <em>$60K in revenue</em> over your next 60 days. Forty-five minutes, video. No retainer, no 12-month lock, commission only.</>,
     },
     {
       eyebrow: <>Pre-qualified · Pick a slot</>,
-      h: <>You're in. <em>{tweaks.spaName}</em> made the cut.</>,
+      h: <>You're in{sal}. You made the cut.</>,
       sub: <>Now book the call where we map out how Newly Booked would add <em>$50K–$100K/month</em> to your spa. You're live within 2 weeks of signing. 30 days later, most owners are already mid-fastest-growth-spurt of their lives.</>,
     },
     {
       eyebrow: <>Final step · Book the partnership call</>,
-      h: <>Pick your time, <em>{tweaks.spaName}</em>.</>,
+      h: <>Pick your time{sal}.</>,
       sub: <>Forty-five minutes with a senior partner. We walk through how we'd add up to $60K in cash revenue over your next 60 days, and whether we have your area available this quarter.</>,
     },
   ];

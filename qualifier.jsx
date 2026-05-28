@@ -36,8 +36,8 @@ const QUALIFIER_STEPS = [
     q: 'Do you own a medspa or aesthetic clinic with treatment plans priced at $1,000+?',
     type: 'choice',
     opts: [
-      { v: 'yes', label: 'Yes — I own a medspa with high-ticket packages' },
-      { v: 'no', label: "No — I don't own one, or my packages are under $1,000" },
+      { v: 'yes', label: 'Yes, I own a medspa with high-ticket packages' },
+      { v: 'no', label: "No, I don't own one, or my packages are under $1,000" },
     ],
     fail: (v) => v === 'no',
     failMsg: 'This isn\'t for you. We only work with owner-operated medspas selling packages priced $1,000 or more.',
@@ -55,7 +55,7 @@ const QUALIFIER_STEPS = [
       { v: '200+', label: '$200K+ / month' },
     ],
     fail: (v) => v === '<10' || v === '10-30',
-    failMsg: 'This isn\'t for you yet. We work best with spas already doing $30K+/month — there needs to be enough patient flow for our system to plug into.',
+    failMsg: 'This isn\'t for you yet. We work best with spas already doing $30K+/month. There needs to be enough patient flow for our system to plug into.',
   },
   {
     key: 'city',
@@ -223,7 +223,7 @@ function Qualifier({ accent }) {
         </div>
         <div className="qualifier-q" style={{ marginBottom: 8 }}>You're in. We'll reach out within one business day.</div>
         <p style={{ fontFamily: 'Inter, sans-serif', fontSize: 14, color: 'var(--navy-200)', lineHeight: 1.6, marginBottom: 22 }}>
-          Check your email for the diagnostic invitation. We'll review your numbers and book a 45-minute call — no pitch on the line.
+          Check your email for the diagnostic invitation. We'll review your numbers and book a 45-minute call. No pitch on the line.
         </p>
         <div className="qualifier-success">
           <div style={{ fontFamily: 'JetBrains Mono, monospace', fontSize: 11, color: 'var(--gold-400)', letterSpacing: '0.12em', marginBottom: 8 }}>NEXT STEP</div>

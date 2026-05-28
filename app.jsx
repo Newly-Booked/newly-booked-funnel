@@ -497,9 +497,9 @@ function App() {
           <h2>Forty-five minutes. <em>Zero pressure.</em><br/>Real numbers.</h2>
           <p className="lede">We open your funnel. Set rate, no-show rate, close rate, ad spend. We tell you exactly where you're leaking. One-page diagnosis, yours to keep, work with us or not.</p>
           <ul className="final-cta-list">
-            <li><span className="ix">— I.</span>Funnel teardown — set rate, deposit rate, close rate</li>
-            <li><span className="ix">— II.</span>What every leak in your funnel is actually costing you</li>
-            <li><span className="ix">— III.</span>A 30-day plan you can run yourself, even if we don't sign</li>
+            <li><span className="ix">I.</span>Funnel teardown: set rate, deposit rate, close rate</li>
+            <li><span className="ix">II.</span>What every leak in your funnel is actually costing you</li>
+            <li><span className="ix">III.</span>A 30-day plan you can run yourself, even if we don't sign</li>
           </ul>
           <div className="final-cta-row">
             <a href="#qualify" className="btn btn-gold btn-lg btn-arrow">{tweaks.ctaCopy} </a>

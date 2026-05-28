@@ -224,7 +224,8 @@ function CfApp() {
         </div>
       </div>
 
-      {/* HERO — no video, just confirmation */}
+      {/* HERO — confirmation + booking-details band so the owner can see
+          when / where / how-long / cost without digging through email. */}
       <section className="cf-hero" data-screen-label="01 Hero · Confirmed">
         <div className="container">
           <div className="cf-pill">
@@ -233,6 +234,28 @@ function CfApp() {
           </div>
           <h1>{head.h}</h1>
           <p className="lede">{head.sub}</p>
+          <div className="cf-hero-meta">
+            <div className="cell">
+              <div className="lbl">When</div>
+              <div className="val"><em>{v.callDate}</em></div>
+              <div className="sub">{v.callTime} {v.callTimezone}</div>
+            </div>
+            <div className="cell">
+              <div className="lbl">Where</div>
+              <div className="val">Zoom</div>
+              <div className="sub">Video link in your email</div>
+            </div>
+            <div className="cell">
+              <div className="lbl">Length</div>
+              <div className="val">{v.duration} min</div>
+              <div className="sub">With a senior partner</div>
+            </div>
+            <div className="cell">
+              <div className="lbl">Cost</div>
+              <div className="val"><em>$0</em></div>
+              <div className="sub">No retainer, no contract</div>
+            </div>
+          </div>
         </div>
       </section>
 
