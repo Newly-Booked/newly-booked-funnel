@@ -28,8 +28,16 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:ital,opsz,wght@0,8..60,300..700;1,8..60,300..700&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
 
-  <link rel="stylesheet" href="styles.css" />
-  <link rel="stylesheet" href="confirmed.css" />
+  <!-- Cache-bust CSS the same way we cache-bust JSX so style updates
+       on GitHub Pages reach visitors without a hard-refresh. -->
+  <script>
+    (function () {
+      var v = Date.now();
+      ['styles.css', 'confirmed.css'].forEach(function (href) {
+        document.write('<link rel="stylesheet" href="' + href + '?v=' + v + '">');
+      });
+    })();
+  </script>
 
   <script src="https://fast.wistia.com/player.js" async></script>
 
