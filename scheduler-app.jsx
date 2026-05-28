@@ -238,42 +238,64 @@ function SchedApp() {
             <h2>Forty-five minutes. <em>One decision.</em></h2>
             <p className="sub">Whether we partner with your spa over the next 45 days.</p>
           </div>
-          <div className="value-list">
-            <div className="value-row">
-              <div className="marker">1.</div>
-              <div>
-                <h4>Your numbers, on screen</h4>
-                <p>Monthly revenue, average package price, close rate, ad spend. We open them together so we can scope what Newly Booked would actually generate inside <em>your</em> spa, not a hypothetical one.</p>
+          {/* Tile grid — mirrors the Hammer Them grid language (10px
+              radius, soft shadow, flex layout with centered orphan row)
+              so the schedule page matches the confirmed page's bar. */}
+          <div className="sched-onthecall-grid">
+            <article className="sched-onthecall-tile">
+              <div className="ix">01</div>
+              <div className="icon" aria-hidden="true">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round">
+                  <rect x="3" y="3" width="18" height="18" rx="2" />
+                  <path d="M3 9h18M9 21V9" />
+                </svg>
               </div>
-            </div>
-            <div className="value-row">
-              <div className="marker">2.</div>
-              <div>
-                <h4>The 60-day revenue model</h4>
-                <p>Based on your numbers, we'll show what we believe Newly Booked can add over the first 60 days. Typically $30K–$60K in cash revenue. Owners doing $80K+/month frequently see $50K–$100K/month added.</p>
+              <h4>Your numbers, on screen</h4>
+              <p>Monthly revenue, average package price, close rate, ad spend. We open them together so we can scope what Newly Booked would actually generate inside <em>your</em> spa, not a hypothetical one.</p>
+            </article>
+            <article className="sched-onthecall-tile">
+              <div className="ix">02</div>
+              <div className="icon" aria-hidden="true">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round">
+                  <path d="M3 17l6-6 4 4 8-9" />
+                  <path d="M14 6h7v7" />
+                </svg>
               </div>
-            </div>
-            <div className="value-row">
-              <div className="marker">3.</div>
-              <div>
-                <h4>The pre-qualification system, walked through</h4>
-                <p>How Cherry, CareCredit, and a soft credit pull get the affordability conversation done <em>before</em> the patient sits in your chair, so 80%+ of consults arrive approved for financing.</p>
+              <h4>The 60-day revenue model</h4>
+              <p>Based on your numbers, what Newly Booked can add over the first 60 days. Typically $30K–$60K in cash revenue. Owners doing $80K+/month frequently see <em>$50K–$100K/month</em> added.</p>
+            </article>
+            <article className="sched-onthecall-tile">
+              <div className="ix">03</div>
+              <div className="icon" aria-hidden="true">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round">
+                  <path d="M12 3l8 4v5c0 5-3.5 8.5-8 9-4.5-.5-8-4-8-9V7l8-4z" />
+                  <path d="M9 12l2 2 4-4" />
+                </svg>
               </div>
-            </div>
-            <div className="value-row">
-              <div className="marker">4.</div>
-              <div>
-                <h4>Commission structure, in plain English</h4>
-                <p>What we charge per <b>showed</b> appointment, what we take on closed packages, and where every dollar lands. No retainer, no 12-month contract, no termination fee.</p>
+              <h4>The pre-qualification system, walked through</h4>
+              <p>How Cherry, CareCredit, and a soft credit pull get the affordability conversation done <em>before</em> the patient sits in your chair, so 80%+ of consults arrive approved for financing.</p>
+            </article>
+            <article className="sched-onthecall-tile">
+              <div className="ix">04</div>
+              <div className="icon" aria-hidden="true">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round">
+                  <path d="M12 3v18" />
+                  <path d="M16 7h-5a2.5 2.5 0 0 0 0 5h2a2.5 2.5 0 0 1 0 5H8" />
+                </svg>
               </div>
-            </div>
-            <div className="value-row">
-              <div className="marker">5.</div>
-              <div>
-                <h4>How fast you go live</h4>
-                <p>You're live within <em>2 weeks</em> of signing. Thirty days after that, most owners are already experiencing the fastest growth their spa has ever had. We walk through what that looks like, week by week, on the call.</p>
+              <h4>Commission structure, in plain English</h4>
+              <p>What we charge per <b>showed</b> appointment, what we take on closed packages, and where every dollar lands. No retainer, no 12-month contract, no termination fee.</p>
+            </article>
+            <article className="sched-onthecall-tile">
+              <div className="ix">05</div>
+              <div className="icon" aria-hidden="true">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round">
+                  <path d="M13 2L4 14h7l-1 8 9-12h-7l1-8z" />
+                </svg>
               </div>
-            </div>
+              <h4>How fast you go live</h4>
+              <p>You're live within <em>2 weeks</em> of signing. Thirty days after that, most owners are already experiencing the fastest growth their spa has ever had. We walk through what that looks like, week by week, on the call.</p>
+            </article>
           </div>
           <div className="value-callout">
             <div className="lock">$</div>
