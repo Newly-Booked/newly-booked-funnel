@@ -1078,6 +1078,77 @@
 .cf-ht-frame wistia-player:not(:defined) {
   background: var(--navy-800);
 }
+/* Custom play-button overlay layered on top of <wistia-player>.
+   Wistia's built-in play button is disabled at the media level so
+   this is the only affordance — clicking calls player.play() and
+   the button hides via .cf-ht-card.is-playing. Gold circle + navy
+   triangle reads as on-brand, sits smaller than Wistia's default
+   so Ivan's face still shows around it. */
+.cf-ht-overlay-play {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  width: 60px;
+  height: 60px;
+  border-radius: 999px;
+  border: 0;
+  padding: 0;
+  cursor: pointer;
+  background: var(--gold-500);
+  color: var(--navy-900);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow:
+    0 14px 32px rgba(10, 22, 40, 0.55),
+    0 2px 6px rgba(10, 22, 40, 0.35),
+    inset 0 0 0 2px rgba(255, 255, 255, 0.28);
+  transition: transform 180ms ease, box-shadow 180ms ease,
+              background 180ms ease;
+  z-index: 3;
+  /* Subtle pulse so the button reads as "tap me" without being noisy. */
+  animation: cfHtPlayPulse 2.6s ease-in-out infinite;
+}
+.cf-ht-overlay-play::before {
+  /* Soft halo ring behind the button — adds depth on dark posters. */
+  content: "";
+  position: absolute;
+  inset: -10px;
+  border-radius: 999px;
+  background: radial-gradient(closest-side, rgba(212, 167, 84, 0.28), transparent 70%);
+  z-index: -1;
+  pointer-events: none;
+}
+.cf-ht-overlay-play:hover,
+.cf-ht-overlay-play:focus-visible {
+  transform: translate(-50%, -50%) scale(1.08);
+  background: var(--gold-400, #e8c373);
+  outline: none;
+  box-shadow:
+    0 18px 38px rgba(10, 22, 40, 0.6),
+    0 3px 8px rgba(10, 22, 40, 0.4),
+    inset 0 0 0 2px rgba(255, 255, 255, 0.4);
+  animation: none;
+}
+.cf-ht-overlay-play:active {
+  transform: translate(-50%, -50%) scale(0.96);
+}
+.cf-ht-overlay-play__icon {
+  font-size: 24px;
+  line-height: 1;
+  padding-left: 4px; /* optical center the triangle */
+  font-weight: 700;
+}
+.cf-ht-card.is-playing .cf-ht-overlay-play { display: none; }
+@keyframes cfHtPlayPulse {
+  0%, 100% { box-shadow: 0 14px 32px rgba(10, 22, 40, 0.55), 0 2px 6px rgba(10, 22, 40, 0.35), inset 0 0 0 2px rgba(255, 255, 255, 0.28), 0 0 0 0 rgba(212, 167, 84, 0.45); }
+  50%      { box-shadow: 0 14px 32px rgba(10, 22, 40, 0.55), 0 2px 6px rgba(10, 22, 40, 0.35), inset 0 0 0 2px rgba(255, 255, 255, 0.28), 0 0 0 12px rgba(212, 167, 84, 0); }
+}
+@media (max-width: 640px) {
+  .cf-ht-overlay-play { width: 52px; height: 52px; }
+  .cf-ht-overlay-play__icon { font-size: 21px; padding-left: 3px; }
+}
 
 /* Placeholder — shown until a Wistia id is assigned. Subtle so the tile
    reads as intentional content, not as a broken/empty card. */
@@ -1092,17 +1163,17 @@
     repeating-linear-gradient(45deg, var(--navy-700) 0 6px, var(--navy-800) 6px 12px);
 }
 .cf-ht-play {
-  width: 64px;
-  height: 64px;
+  width: 42px;
+  height: 42px;
   border-radius: 999px;
   background: var(--gold-500);
   color: var(--navy-900);
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 26px;
-  padding-left: 6px;
-  box-shadow: 0 8px 24px rgba(10, 22, 40, 0.5);
+  font-size: 18px;
+  padding-left: 4px;
+  box-shadow: 0 6px 18px rgba(10, 22, 40, 0.5);
 }
 
 /* Placeholder-only title — shown inside .cf-ht-placeholder when a tile

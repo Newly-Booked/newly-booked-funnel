@@ -55,14 +55,65 @@ function useCfHammerWistia(id) {
 
 function HammerThemTile({ item }) {
   useCfHammerWistia(item.wistiaId);
+  const playerRef = React.useRef(null);
+  const [playing, setPlaying] = React.useState(false);
+
+  // When the user clicks our custom overlay button, tell Wistia to play.
+  // The <wistia-player> custom element exposes .play() once the loader
+  // script has registered it; if it hasn't yet, wait for it.
+  const handlePlay = React.useCallback(() => {
+    setPlaying(true);
+    const el = playerRef.current;
+    if (!el) return;
+    const tryPlay = () => {
+      try {
+        if (typeof el.play === 'function') {
+          const p = el.play();
+          if (p && typeof p.catch === 'function') p.catch(() => {});
+        }
+      } catch (_) { /* ignore */ }
+    };
+    if (window.customElements && typeof el.play !== 'function') {
+      window.customElements.whenDefined('wistia-player').then(tryPlay).catch(() => {});
+    } else {
+      tryPlay();
+    }
+  }, []);
+
+  // Catch cases where playback starts another way (e.g., autoplay, user
+  // clicks within Wistia UI before our overlay hides) so the button
+  // doesn't linger over the playing video.
+  useCfEffect(() => {
+    const el = playerRef.current;
+    if (!el) return undefined;
+    const onPlay = () => setPlaying(true);
+    el.addEventListener('play', onPlay);
+    return () => el.removeEventListener('play', onPlay);
+  }, [item.wistiaId]);
+
   return (
-    <article className={`cf-ht-card${item.wistiaId ? ' has-wistia' : ' pending'}`}>
+    <article
+      className={`cf-ht-card${item.wistiaId ? ' has-wistia' : ' pending'}${playing ? ' is-playing' : ''}`}
+    >
       <div className="cf-ht-frame">
-        {/* No HTML overlays — the videos already have in-frame chyrons for
-            the question title and Ivan's lower-third. Doubling up covered
-            his face on the poster and made the grid feel busy. */}
+        {/* No HTML title overlays — the videos already have in-frame
+            chyrons for the question and Ivan's lower-third. We only
+            layer one custom play button on top (Wistia's built-in is
+            disabled at the media level) and hide it on playback. */}
         {item.wistiaId ? (
-          <wistia-player media-id={item.wistiaId} aspect="0.8"></wistia-player>
+          <>
+            <wistia-player ref={playerRef} media-id={item.wistiaId} aspect="0.8"></wistia-player>
+            {!playing && (
+              <button
+                type="button"
+                className="cf-ht-overlay-play"
+                aria-label={`Play: ${item.q}`}
+                onClick={handlePlay}
+              >
+                <span className="cf-ht-overlay-play__icon" aria-hidden="true">▸</span>
+              </button>
+            )}
+          </>
         ) : (
           <div className="cf-ht-placeholder" aria-hidden="true">
             <div className="cf-ht-pending-title">{item.q}</div>
