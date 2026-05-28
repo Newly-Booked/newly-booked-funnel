@@ -19,6 +19,72 @@ const CF_ACCENTS = {
   ink:     { 700: '#1B2D4A', 600: '#2A3F60', 500: '#43597A', 400: '#6B7E9C', 200: '#B5C0D2', 50: '#E8ECF3' },
 };
 
+// Hammer-Them: Ivan-on-camera answers to the 14 most common objections.
+// When a recording is uploaded to Wistia, swap that entry's wistiaId from
+// null to the media id. While null, the tile renders a styled placeholder
+// (4:5 navy frame, gold play badge, title up top, speaker down bottom).
+const CF_HAMMERTHEM = [
+  { ix: 1,  q: "I haven't got enough time.",                          wistiaId: null },
+  { ix: 2,  q: "How do we make you stand out?",                       wistiaId: null },
+  { ix: 3,  q: "How do we know it works?",                            wistiaId: null },
+  { ix: 4,  q: "Is it better for me to make the ads, or you?",        wistiaId: null },
+  { ix: 6,  q: "How fast can I see results?",                         wistiaId: null },
+  { ix: 7,  q: "Is hiring an agency a short-term fix?",               wistiaId: null },
+  { ix: 8,  q: "I've tried ads before — it didn't work.",             wistiaId: null },
+  { ix: 9,  q: "Do you have testimonials?",                           wistiaId: null },
+  { ix: 10, q: "Do you guarantee results?",                           wistiaId: null },
+  { ix: 11, q: "Which treatment should I advertise?",                 wistiaId: null },
+  { ix: 12, q: "How our patient sales team works.",                   wistiaId: null },
+  { ix: 13, q: "Why 9 out of 10 medspas fail with agencies.",         wistiaId: null },
+  { ix: 14, q: "If you've been burned before.",                       wistiaId: null },
+  { ix: 15, q: "How our patient acquisition system works.",           wistiaId: null },
+];
+
+function useCfHammerWistia(id) {
+  useCfEffect(() => {
+    if (!id) return;
+    const tag = `wistia-embed-${id}`;
+    if (document.getElementById(tag)) return;
+    const s = document.createElement('script');
+    s.id = tag;
+    s.src = `https://fast.wistia.com/embed/${id}.js`;
+    s.type = 'module';
+    s.async = true;
+    document.body.appendChild(s);
+  }, [id]);
+}
+
+function HammerThemTile({ item }) {
+  useCfHammerWistia(item.wistiaId);
+  return (
+    <article className={`cf-ht-card${item.wistiaId ? ' has-wistia' : ' pending'}`}>
+      <div className="cf-ht-frame">
+        {/* Title overlay — sits on top of the video / placeholder, dark gradient
+            for readability against either a navy fill or a Wistia poster. */}
+        <div className="cf-ht-overlay top">
+          <div className="cf-ht-title">{item.q}</div>
+        </div>
+
+        {item.wistiaId ? (
+          <wistia-player media-id={item.wistiaId} aspect="0.8"></wistia-player>
+        ) : (
+          <div className="cf-ht-placeholder" aria-hidden="true">
+            <span className="cf-ht-play">▸</span>
+          </div>
+        )}
+
+        {/* Speaker overlay — two lines, mirrors Byron's B2C reference. */}
+        <div className="cf-ht-overlay bottom">
+          <div className="cf-ht-speaker">
+            <div className="cf-ht-name">Ivan Merlo-Iglikov</div>
+            <div className="cf-ht-role">CEO of Newly Booked</div>
+          </div>
+        </div>
+      </div>
+    </article>
+  );
+}
+
 const CF_TFAQ = [
   {
     q: "I've never heard of Newly Booked. How do I know this is real?",
@@ -195,8 +261,27 @@ function CfApp() {
         </div>
       </section>
 
+      {/* HAMMER THEM — 14 short Ivan-on-camera answers to common objections.
+          Sits between proof (testimonials above) and process (how it works
+          below): owners get convinced by other owners, then their remaining
+          doubts get answered one-by-one by the operator. */}
+      <section className="cf-hammerthem" data-screen-label="06 Asked & Answered">
+        <div className="container">
+          <div className="head">
+            <div className="label">Asked &amp; answered</div>
+            <h2>Pick a question. <em>Get a straight answer.</em></h2>
+            <p className="lede">Two minutes each. Every objection we get on intro calls, on camera.</p>
+          </div>
+          <div className="cf-ht-grid">
+            {CF_HAMMERTHEM.map((item) => (
+              <HammerThemTile key={item.ix} item={item} />
+            ))}
+          </div>
+        </div>
+      </section>
+
       {/* HOW IT WORKS — 3 steps */}
-      <section className="cf-how" data-screen-label="06 How It Works">
+      <section className="cf-how" data-screen-label="07 How It Works">
         <div className="container">
           <div className="head">
             <div className="label">How it works</div>
@@ -223,7 +308,7 @@ function CfApp() {
       </section>
 
       {/* HOW TO PREPARE */}
-      <section className="cf-prep" data-screen-label="07 How to Prepare">
+      <section className="cf-prep" data-screen-label="08 How to Prepare">
         <div className="container">
           <div className="head">
             <div className="label">Get the most from your call</div>

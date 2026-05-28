@@ -998,3 +998,160 @@
   .cf-bigfoot .contact { text-align: left; }
   .cf-bigfoot .legal { flex-direction: column; align-items: flex-start; }
 }
+
+/* ────────────────────────────────────────────────────────────────────────
+   HAMMER THEM grid — 14 Ivan-on-camera objection answers
+   4:5 portrait tiles, title overlaid top, speaker overlaid bottom.
+   3-col on desktop, 2-col on tablet, 1-col on phone.
+   ──────────────────────────────────────────────────────────────────────── */
+.cf-hammerthem {
+  background: var(--paper);
+  padding: 80px 0 100px;
+  border-bottom: 1px solid var(--rule);
+}
+.cf-hammerthem .head {
+  text-align: center;
+  margin-bottom: 48px;
+}
+.cf-hammerthem .head .label {
+  font-family: "Inter", sans-serif;
+  font-size: 11px;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--gold-700);
+  font-weight: 600;
+  margin-bottom: 18px;
+}
+.cf-hammerthem .head h2 {
+  font-family: "Source Serif 4", Georgia, serif;
+  font-size: clamp(30px, 4vw, 48px);
+  line-height: 1.1;
+  letter-spacing: -0.02em;
+  color: var(--ink);
+  margin: 0 0 14px;
+}
+.cf-hammerthem .head h2 em { color: var(--gold-700); font-style: italic; }
+.cf-hammerthem .head .lede {
+  font-family: "Source Serif 4", Georgia, serif;
+  font-size: 17px;
+  font-style: italic;
+  color: var(--ink-3);
+  max-width: 620px;
+  margin: 0 auto;
+}
+
+.cf-ht-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 22px;
+}
+@media (max-width: 1024px) {
+  .cf-ht-grid { grid-template-columns: repeat(2, 1fr); gap: 18px; }
+}
+@media (max-width: 560px) {
+  .cf-ht-grid { grid-template-columns: 1fr; gap: 16px; }
+}
+
+.cf-ht-card { margin: 0; }
+.cf-ht-frame {
+  position: relative;
+  aspect-ratio: 4 / 5;
+  background: var(--navy-900);
+  border-radius: 6px;
+  overflow: hidden;
+  box-shadow: 0 16px 50px rgba(10, 22, 40, 0.18);
+  transition: transform 200ms ease, box-shadow 200ms ease;
+}
+.cf-ht-card:hover .cf-ht-frame {
+  transform: translateY(-2px);
+  box-shadow: 0 22px 60px rgba(10, 22, 40, 0.28);
+}
+
+/* Wistia takes over the frame when an id is set. */
+.cf-ht-frame wistia-player {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+.cf-ht-frame wistia-player:not(:defined) {
+  background: var(--navy-800);
+}
+
+/* Placeholder — shown until a Wistia id is assigned. Subtle so the tile
+   reads as intentional content, not as a broken/empty card. */
+.cf-ht-placeholder {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background:
+    linear-gradient(180deg, var(--navy-800) 0%, var(--navy-900) 100%),
+    repeating-linear-gradient(45deg, var(--navy-700) 0 6px, var(--navy-800) 6px 12px);
+}
+.cf-ht-play {
+  width: 64px;
+  height: 64px;
+  border-radius: 999px;
+  background: var(--gold-500);
+  color: var(--navy-900);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 26px;
+  padding-left: 6px;
+  box-shadow: 0 8px 24px rgba(10, 22, 40, 0.5);
+}
+
+/* Title + speaker overlays — gradients keep text legible whether the frame
+   shows a Wistia poster (image) or the placeholder fill. */
+.cf-ht-overlay {
+  position: absolute;
+  left: 0;
+  right: 0;
+  z-index: 2;
+  padding: 18px 18px 22px;
+  pointer-events: none;
+}
+.cf-ht-overlay.top {
+  top: 0;
+  background: linear-gradient(180deg, rgba(10, 22, 40, 0.78) 0%, rgba(10, 22, 40, 0) 100%);
+}
+.cf-ht-overlay.bottom {
+  bottom: 0;
+  padding-top: 32px;
+  background: linear-gradient(0deg, rgba(10, 22, 40, 0.85) 0%, rgba(10, 22, 40, 0) 100%);
+}
+.cf-ht-title {
+  font-family: "Source Serif 4", Georgia, serif;
+  font-size: 19px;
+  line-height: 1.18;
+  letter-spacing: -0.01em;
+  color: var(--paper);
+}
+.cf-ht-speaker { line-height: 1.25; }
+.cf-ht-name {
+  font-family: "Inter", sans-serif;
+  font-weight: 600;
+  font-size: 13px;
+  color: var(--paper);
+  letter-spacing: 0.01em;
+}
+.cf-ht-role {
+  font-family: "Inter", sans-serif;
+  font-size: 11px;
+  color: var(--gold-400);
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  margin-top: 3px;
+}
+
+@media (max-width: 560px) {
+  .cf-hammerthem { padding: 56px 0 72px; }
+  .cf-hammerthem .head { margin-bottom: 32px; }
+  .cf-ht-title { font-size: 17px; }
+  .cf-ht-overlay { padding: 14px 14px 18px; }
+  .cf-ht-overlay.bottom { padding-top: 28px; }
+}
