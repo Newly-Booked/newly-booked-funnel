@@ -1040,19 +1040,29 @@
   margin: 0 auto;
 }
 
+/* Flex layout (not grid) so the last row centers when the tile count
+   isn't a multiple of 3 — 14 tiles → 4 full rows + 2 orphans, which
+   used to clump left under a grid. Flex + justify-content:center fixes
+   that without changing the desktop column count. */
 .cf-ht-grid {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
   gap: 28px;
 }
+.cf-ht-card {
+  margin: 0;
+  flex: 0 1 calc((100% - 56px) / 3); /* 3 cols, 28px gap × 2 */
+  min-width: 0;
+}
 @media (max-width: 1024px) {
-  .cf-ht-grid { grid-template-columns: repeat(2, 1fr); gap: 22px; }
+  .cf-ht-grid { gap: 22px; }
+  .cf-ht-card { flex-basis: calc((100% - 22px) / 2); } /* 2 cols */
 }
 @media (max-width: 560px) {
-  .cf-ht-grid { grid-template-columns: 1fr; gap: 18px; }
+  .cf-ht-grid { gap: 18px; }
+  .cf-ht-card { flex-basis: 100%; }
 }
-
-.cf-ht-card { margin: 0; }
 .cf-ht-frame {
   position: relative;
   aspect-ratio: 4 / 5;
@@ -1079,9 +1089,51 @@
 .cf-ht-frame wistia-player:not(:defined) {
   background: var(--navy-800);
 }
-/* No HTML overlay button — Wistia's built-in play button handles
-   it. Keeping only the placeholder play badge (used when a tile
-   has no Wistia id assigned yet). */
+/* Small, clean center play button. Wistia's big poster play is
+   disabled site-wide via _wq config; this is the only affordance
+   the visitor sees besides the bottom control bar. Sized so it
+   sits on Ivan's face area without dominating. Hides on play. */
+.cf-ht-play-btn {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  width: 44px;
+  height: 44px;
+  border-radius: 999px;
+  border: 0;
+  padding: 0;
+  cursor: pointer;
+  background: rgba(15, 24, 42, 0.62);
+  color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow:
+    0 6px 16px rgba(10, 22, 40, 0.45),
+    inset 0 0 0 1px rgba(255, 255, 255, 0.22);
+  transition: transform 160ms ease, background 160ms ease;
+  z-index: 3;
+}
+.cf-ht-play-btn:hover,
+.cf-ht-play-btn:focus-visible {
+  transform: translate(-50%, -50%) scale(1.06);
+  background: rgba(15, 24, 42, 0.82);
+  outline: none;
+}
+.cf-ht-play-btn:active {
+  transform: translate(-50%, -50%) scale(0.96);
+}
+.cf-ht-play-btn__icon {
+  font-size: 16px;
+  line-height: 1;
+  padding-left: 3px; /* optical center the triangle */
+}
+.cf-ht-card.is-playing .cf-ht-play-btn { display: none; }
+@media (max-width: 640px) {
+  .cf-ht-play-btn { width: 40px; height: 40px; }
+  .cf-ht-play-btn__icon { font-size: 14px; padding-left: 2px; }
+}
 
 /* Placeholder — shown until a Wistia id is assigned. Subtle so the tile
    reads as intentional content, not as a broken/empty card. */

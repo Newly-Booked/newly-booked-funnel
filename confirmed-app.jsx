@@ -55,15 +55,57 @@ function useCfHammerWistia(id) {
 
 function HammerThemTile({ item }) {
   useCfHammerWistia(item.wistiaId);
+  const playerRef = React.useRef(null);
+  const [playing, setPlaying] = React.useState(false);
+
+  // Click our small overlay → tell Wistia to play. Wait for the
+  // custom element to register if the loader script hasn't run yet.
+  const handlePlay = React.useCallback(() => {
+    setPlaying(true);
+    const el = playerRef.current;
+    if (!el) return;
+    const tryPlay = () => {
+      try {
+        if (typeof el.play === 'function') {
+          const p = el.play();
+          if (p && typeof p.catch === 'function') p.catch(() => {});
+        }
+      } catch (_) { /* ignore */ }
+    };
+    if (window.customElements && typeof el.play !== 'function') {
+      window.customElements.whenDefined('wistia-player').then(tryPlay).catch(() => {});
+    } else {
+      tryPlay();
+    }
+  }, []);
+
+  useCfEffect(() => {
+    const el = playerRef.current;
+    if (!el) return undefined;
+    const onPlay = () => setPlaying(true);
+    el.addEventListener('play', onPlay);
+    return () => el.removeEventListener('play', onPlay);
+  }, [item.wistiaId]);
+
   return (
-    <article className={`cf-ht-card${item.wistiaId ? ' has-wistia' : ' pending'}`}>
+    <article
+      className={`cf-ht-card${item.wistiaId ? ' has-wistia' : ' pending'}${playing ? ' is-playing' : ''}`}
+    >
       <div className="cf-ht-frame">
-        {/* Wistia's built-in player + play button do all the work.
-            No HTML overlay button on top — stacking two play affordances
-            looked busy. Make sure Wistia's "Play Button" is ENABLED in
-            the Customize panel for every Hammer Them video. */}
         {item.wistiaId ? (
-          <wistia-player media-id={item.wistiaId} aspect="0.8"></wistia-player>
+          <>
+            <wistia-player ref={playerRef} media-id={item.wistiaId} aspect="0.8"></wistia-player>
+            {!playing && (
+              <button
+                type="button"
+                className="cf-ht-play-btn"
+                aria-label={`Play: ${item.q}`}
+                onClick={handlePlay}
+              >
+                <span className="cf-ht-play-btn__icon" aria-hidden="true">▸</span>
+              </button>
+            )}
+          </>
         ) : (
           <div className="cf-ht-placeholder" aria-hidden="true">
             <div className="cf-ht-pending-title">{item.q}</div>
