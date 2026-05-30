@@ -1555,17 +1555,21 @@ body.airy .hero { padding: 110px 0 80px; }
   .section { padding: 64px 0 !important; }
   #numbers.section { padding: 32px 0 !important; }
   .section.dense { padding: 48px 0 !important; }
-  /* Mobile-first hero: compact eyebrow + tight headline + 1-line lede +
-     qualifier first-step visible above the fold on iPhone 14 (390x844).
-     Drops to ~24px hero padding so vertical budget is form-friendly. */
-  .hero { padding: 20px 0 24px !important; }
-  .hero-grid { gap: 24px !important; }
+  /* Mobile hero: form-first on phone-width screens. CSS `order`
+     swaps the visual stacking so the qualifier card precedes the
+     headline + subtitle. Lead sees the form immediately on page
+     load; the full offer pitch is one short scroll below. Source
+     order stays headline-first for SEO + screen readers — only
+     the visual order changes. */
+  .hero { padding: 14px 0 24px !important; }
+  .hero-grid {
+    grid-template-columns: 1fr !important;
+    gap: 22px !important;
+  }
+  .hero-grid > div:first-child  { order: 2; } /* headline column below */
+  .hero-grid > div:nth-child(2) { order: 1; } /* qualifier card on top */
   .hero-eyebrow-row { flex-wrap: wrap; gap: 10px; margin-bottom: 14px; font-size: 10px; }
   .hero-eyebrow-row .pill { padding: 5px 9px; }
-  /* Tighter, smaller, conversion-focused mobile headline.
-     Was clamp(34, 9vw, 48) — now compresses to fit 3-4 lines of the
-     long offer copy so the qualifier's first step is reachable
-     without scrolling. */
   .hero-headline { margin-bottom: 12px; }
   h1 { font-size: clamp(26px, 7.4vw, 34px); line-height: 1.08; letter-spacing: -0.02em; }
   h2 { font-size: clamp(26px, 6.6vw, 36px); }
@@ -1638,6 +1642,10 @@ body.airy .hero { padding: 110px 0 80px; }
   .footer-inner { gap: 14px; flex-direction: column; text-align: center; align-items: center; font-size: 11px; }
   .btn-lg { padding: 14px 22px; font-size: 14px; }
   .sticky-cta { bottom: 14px; right: 14px; padding: 11px 16px; font-size: 12px; }
+  /* On mobile the qualifier form is already form-first above the
+     fold via .hero-grid order swap — the floating CTA overlaps the
+     answer buttons. Hide it on small screens. */
+  .sticky-cta { display: none !important; }
   .faq-q { font-size: 18px; padding: 22px 0; gap: 14px; }
   .faq-a-inner { font-size: 15px; padding-bottom: 22px; }
   .mech-card { padding: 24px 22px; }

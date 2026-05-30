@@ -197,9 +197,16 @@ function CfApp() {
     Object.entries(a).forEach(([k, v]) => r.style.setProperty(`--gold-${k}`, v));
   }, [tweaks.accent]);
 
+  // When GHL passes a real name via the redirect, render it with a
+  // comma (`You're locked in, Jesus.`). When it doesn't (local preview
+  // or stale GHL config), drop the comma + placeholder cleanly so we
+  // don't end up with `You're locked in, there.`
+  const hasOwner = v.ownerName && v.ownerName !== 'there';
+  const salutation = hasOwner ? <>, <em>{v.ownerName}</em></> : null;
+
   const HEADLINES = [
     {
-      h: <>You're locked in, <em>{v.ownerName}</em>.</>,
+      h: <>You're locked in{salutation}.</>,
       sub: <>We've blocked {v.duration} minutes with a senior partner to map out the next 60 days of revenue for your spa. A calendar invite plus the Zoom link are on the way to your inbox right now.</>,
     },
     {
