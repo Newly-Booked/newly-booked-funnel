@@ -93,7 +93,10 @@ function App() {
             <a href="#how">How it works</a>
             <a href="#faq">FAQ</a>
           </nav>
-          <a href="#qualify" className="btn btn-primary">{tweaks.ctaCopy} →</a>
+          <a href="#qualify" className="btn btn-primary">
+            <span className="cta-full">{tweaks.ctaCopy} →</span>
+            <span className="cta-short">Check My Area →</span>
+          </a>
         </div>
       </div>
 

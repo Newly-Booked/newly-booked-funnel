@@ -127,6 +127,10 @@ p { margin: 0; }
   gap: 10px;
   color: var(--ink);
   text-decoration: none;
+  /* Keep the wordmark on one line — otherwise on mobile the CTA
+     button can crowd it and force a wrap. */
+  white-space: nowrap;
+  flex-shrink: 0;
 }
 .brand .nb-logo {
   /* NB monogram. Crops the source PNG's built-in padding via negative
@@ -1540,6 +1544,7 @@ body.airy .hero { padding: 110px 0 80px; }
   .topnav { display: none !important; }
   .topbar-inner { padding: 12px 18px; gap: 12px; }
   .topbar-inner .brand { font-size: 18px; }
+  .topbar-inner .brand .nb-logo { width: 30px; height: 30px; }
   .topbar-inner .btn {
     padding: 10px 14px;
     font-size: 11px;
@@ -1613,9 +1618,18 @@ body.airy .hero { padding: 110px 0 80px; }
   .mech-side { padding: 28px 20px; }
   .mech-result-stat { font-size: 32px; }
 }
+/* CTA copy: long version on desktop, short on phone-width screens
+   so the topbar button doesn't crowd the brand wordmark. */
+.btn .cta-short { display: none; }
+@media (max-width: 720px) {
+  .btn .cta-full { display: none; }
+  .btn .cta-short { display: inline; }
+}
+
 @media (max-width: 480px) {
-  .topbar-inner .btn span:not(:first-child) { display: none; }
   .topbar-inner .btn { padding: 9px 12px; }
+  .topbar-inner .brand { font-size: 17px; }
+  .topbar-inner .brand .nb-logo { width: 28px; height: 28px; }
   .hero-eyebrow-row .pill { display: none; }
   .qualifier-head { flex-wrap: wrap; gap: 8px; }
   .qualifier-card { padding: 24px 18px 20px; }
