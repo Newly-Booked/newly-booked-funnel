@@ -1,0 +1,64 @@
+<!--
+  NEWLY BOOKED — LANDING PAGE (for GoHighLevel)
+
+  HOW TO USE:
+  1. In GHL, create a new Funnel Page.
+  2. Delete all default elements so the canvas is empty.
+  3. Drag in a "Custom HTML / Code" element (full width).
+  4. Paste EVERYTHING below into it (from the next line down).
+  5. Set this GHL page's URL slug to whatever you want, e.g. /apply.
+  6. Find the line marked "EDIT: schedule page URL" and replace
+     [REPLACE_WITH_SCHEDULE_PAGE_URL] with the full URL of the GHL
+     schedule page you create from schedule-page.html.
+
+  NOTE: All CSS, JSX, fonts, and images load from the GitHub Pages
+  repo at artzy22.github.io/newly-booked-funnel/. When you push an
+  edit to the repo, this GHL page updates automatically — no
+  re-paste required.
+-->
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Newly Booked — Add $50K–$100K/Month Without Tire-Kickers</title>
+  <meta name="description" content="Performance-based growth for medspas. Pre-qualified patients on Cherry-approved budgets. The closing script that's done $7M+ in sales. We only get paid when patients pay you." />
+
+  <!-- All relative URLs in this page resolve against this base. -->
+  <base href="https://artzy22.github.io/newly-booked-funnel/" />
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:ital,opsz,wght@0,8..60,300..700;1,8..60,300..700&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+
+  <link rel="stylesheet" href="styles.css" />
+
+  <script src="https://fast.wistia.com/player.js" async></script>
+
+  <!-- EDIT: the qualifier form posts visitors to the schedule page.
+       Replace this URL with the full URL of your GHL schedule page. -->
+  <script>window.__NB_SCHEDULE_URL = "[REPLACE_WITH_SCHEDULE_PAGE_URL]";</script>
+
+  <!-- EDIT: footer links to the GHL privacy + terms funnel pages. -->
+  <script>
+    window.__NB_PRIVACY_URL = "[REPLACE_WITH_PRIVACY_PAGE_URL]";
+    window.__NB_TERMS_URL   = "[REPLACE_WITH_TERMS_PAGE_URL]";
+  </script>
+</head>
+<body>
+  <div id="root"></div>
+
+  <script src="https://unpkg.com/react@18.3.1/umd/react.development.js" crossorigin="anonymous"></script>
+  <script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.development.js" crossorigin="anonymous"></script>
+  <script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" crossorigin="anonymous"></script>
+
+  <script>
+    (function () {
+      var v = Date.now();
+      ['tweaks-panel.jsx','qualifier.jsx','screenshots.jsx','testimonials-faq.jsx','logo-marquee.jsx','app.jsx'].forEach(function (s) {
+        document.write('<script type="text/babel" src="' + s + '?v=' + v + '"><\/script>');
+      });
+    })();
+  </script>
+</body>
+</html>

@@ -1,0 +1,60 @@
+<!--
+  NEWLY BOOKED — CONFIRMED / THANK-YOU PAGE (for GoHighLevel)
+
+  HOW TO USE:
+  1. In GHL, create a new Funnel Page.
+  2. Delete all default elements so the canvas is empty.
+  3. Drag in a "Custom HTML / Code" element (full width).
+  4. Paste EVERYTHING below into it.
+  5. Set this GHL page's URL slug, e.g. /confirmed.
+  6. Find "EDIT: back-to-site URL" and replace
+     [REPLACE_WITH_LANDING_PAGE_URL] with the landing page URL.
+
+  This page reads the lead's name from the URL params your
+  scheduler redirect appends (?name=...&slot=...) and uses it to
+  personalize the "You're locked in, [Name]" greeting.
+-->
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Newly Booked — Call Confirmed</title>
+  <meta name="description" content="Your Newly Booked partnership call is confirmed. Calendar invite, Zoom link, and prep notes inside." />
+
+  <base href="https://artzy22.github.io/newly-booked-funnel/" />
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:ital,opsz,wght@0,8..60,300..700;1,8..60,300..700&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+
+  <link rel="stylesheet" href="styles.css" />
+  <link rel="stylesheet" href="confirmed.css" />
+
+  <script src="https://fast.wistia.com/player.js" async></script>
+
+  <script>
+    // EDIT: back-to-site URL — used for header/footer links.
+    window.__NB_LANDING_URL = "[REPLACE_WITH_LANDING_PAGE_URL]";
+    // EDIT: footer links to the GHL privacy + terms funnel pages.
+    window.__NB_PRIVACY_URL = "[REPLACE_WITH_PRIVACY_PAGE_URL]";
+    window.__NB_TERMS_URL   = "[REPLACE_WITH_TERMS_PAGE_URL]";
+  </script>
+</head>
+<body>
+  <div id="root"></div>
+
+  <script src="https://unpkg.com/react@18.3.1/umd/react.development.js" crossorigin="anonymous"></script>
+  <script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.development.js" crossorigin="anonymous"></script>
+  <script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" crossorigin="anonymous"></script>
+
+  <script>
+    (function () {
+      var v = Date.now();
+      ['tweaks-panel.jsx','testimonials-faq.jsx','confirmed-app.jsx'].forEach(function (s) {
+        document.write('<script type="text/babel" src="' + s + '?v=' + v + '"><\/script>');
+      });
+    })();
+  </script>
+</body>
+</html>
