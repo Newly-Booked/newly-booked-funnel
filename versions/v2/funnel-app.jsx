@@ -141,7 +141,7 @@ const labelFor = (stepId, value) => {
 };
 
 // iClosed booking widget — loads the embed script once, then renders inline.
-function IClosedCalendar() {
+function ScheduleCalendar() {
   useEffect(() => {
     if (document.getElementById('iclosed-widget-script')) return;
     const s = document.createElement('script');
@@ -254,7 +254,7 @@ function Funnel({ embedded } = {}) {
             <div className="pf-eyebrow">You qualify</div>
             <h1 className="pf-q">Pick your time{first ? `, ${first}` : ''}.</h1>
             <p className="pf-sub">A 45-minute video call with a senior partner — we’ll map out exactly how we’d add $50K–$100K/month to your spa.</p>
-            <div className="pf-cal"><IClosedCalendar /></div>
+            <div className="pf-cal"><ScheduleCalendar /></div>
           </div>
         </div>
         <div className="pf-progress"><div className="pf-progress-bar" style={{ width: '100%' }}></div></div>
