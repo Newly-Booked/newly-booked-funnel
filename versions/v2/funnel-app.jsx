@@ -3,7 +3,7 @@
 // Every lead completes the funnel; on the final step we evaluate the
 // disqualifier rules and route to the DQ page or the schedule page.
 
-const { useState, useEffect } = React;
+const { useState, useEffect, useRef } = React;
 
 // Bump when the funnel card images change, to bust browser/CDN cache.
 const IMG_V = 2;
@@ -71,15 +71,28 @@ function fillGhlForm(form, d) {
 }
 
 function phoneDigits(raw) { return String(raw || '').replace(/\D/g, ''); }
-function formatPhone(raw) {
-  const d = phoneDigits(raw).slice(0, 10);
-  if (!d) return '';
-  if (d.length < 4) return `(${d}`;
-  if (d.length < 7) return `(${d.slice(0, 3)}) ${d.slice(3)}`;
-  return `(${d.slice(0, 3)}) ${d.slice(3, 6)}-${d.slice(6)}`;
-}
-function isValidPhone(raw) { return phoneDigits(raw).length === 10; }
 function isValidEmail(raw) { return /^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(String(raw).trim()); }
+
+// Load intl-tel-input (flag + dial-code phone widget) on demand. The GHL
+// landing page may not include it, so the funnel pulls its own copy — no
+// re-paste needed. Resolves once window.intlTelInput is ready (or load failed).
+let itiLoading = null;
+function ensureIti(cb) {
+  if (window.intlTelInput) return cb();
+  if (!itiLoading) {
+    itiLoading = new Promise((resolve) => {
+      const base = 'https://cdn.jsdelivr.net/npm/intl-tel-input@25.3.1/build/';
+      const link = document.createElement('link');
+      link.rel = 'stylesheet'; link.href = base + 'css/intlTelInput.css';
+      document.head.appendChild(link);
+      const s = document.createElement('script');
+      s.src = base + 'js/intlTelInput.min.js';
+      s.onload = resolve; s.onerror = resolve;
+      document.head.appendChild(s);
+    });
+  }
+  itiLoading.then(cb);
+}
 
 // ---- FUNNEL STEPS ----------------------------------------------------------
 // kind: intro | cards | tiles | text | contact
@@ -183,11 +196,16 @@ function Funnel({ embedded } = {}) {
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [phone, setPhone] = useState('');
+  const [phoneValid, setPhoneValid] = useState(false);
+  const phoneRef = useRef(null);
+  const itiRef = useRef(null);
   const [tries, setTries] = useState(0);
   const [submitting, setSubmitting] = useState(false);
   const [otherMode, setOtherMode] = useState(false);
   const [showCity, setShowCity] = useState(false);
   useEffect(() => { setOtherMode(false); setShowCity(false); }, [idx]);
+  // Warm the phone widget early so it's ready by the time the contact step shows.
+  useEffect(() => { ensureIti(() => {}); }, []);
 
   // City autocomplete
   const cityList = (typeof window !== 'undefined' && window.NB_CITIES) || [];
@@ -212,6 +230,41 @@ function Funnel({ embedded } = {}) {
   const goNext = () => setIdx((i) => Math.min(i + 1, last));
   const goBack = () => setIdx((i) => Math.max(i - 1, 0));
 
+  // International phone input on the contact step: flag + dial-code dropdown
+  // (the library iClosed uses). Build the E.164 number from the selected
+  // country's dial code + typed digits, so no utils module is needed. Falls
+  // back to a plain US tel input if the library didn't load.
+  const onContactStep = step.kind === 'contact';
+  useEffect(() => {
+    const el = phoneRef.current;
+    if (!onContactStep || !el) return;
+    let iti = null;
+    let destroyed = false;
+    const sync = () => {
+      const nat = phoneDigits(el.value);
+      const dial = iti ? (iti.getSelectedCountryData().dialCode || '1') : '1';
+      setPhone(nat ? '+' + dial + nat : '');
+      setPhoneValid(nat.length >= (dial === '1' ? 10 : 7));
+    };
+    ensureIti(() => {
+      if (destroyed || !phoneRef.current) return;
+      if (window.intlTelInput) {
+        iti = window.intlTelInput(el, { initialCountry: 'us', separateDialCode: true, countryOrder: ['us', 'ca', 'gb', 'au'] });
+        itiRef.current = iti;
+      }
+      el.addEventListener('input', sync);
+      el.addEventListener('countrychange', sync);
+      sync();
+    });
+    return () => {
+      destroyed = true;
+      el.removeEventListener('input', sync);
+      el.removeEventListener('countrychange', sync);
+      if (iti) { try { iti.destroy(); } catch (e) {} }
+      itiRef.current = null;
+    };
+  }, [onContactStep]);
+
   const pick = (opt) => {
     if (step.key) setAnswers((a) => ({ ...a, [step.key]: opt.v }));
     setPicked(opt.v);
@@ -229,7 +282,7 @@ function Funnel({ embedded } = {}) {
 
   // Contact validation
   const emailBad = !isValidEmail(email);
-  const phoneBad = !isValidPhone(phone);
+  const phoneBad = !phoneValid;
   const contactBad = !name.trim() || emailBad || phoneBad;
 
   const submit = () => {
@@ -237,13 +290,21 @@ function Funnel({ embedded } = {}) {
     if (contactBad) return;
     setSubmitting(true);
 
+    // Read the freshest phone straight from the widget (synced state can lag the
+    // last keystroke) as E.164: + dial code + typed digits.
+    let phoneOut = phone.trim();
+    if (itiRef.current && phoneRef.current) {
+      const nat = phoneDigits(phoneRef.current.value);
+      if (nat) phoneOut = '+' + (itiRef.current.getSelectedCountryData().dialCode || '1') + nat;
+    }
+
     // Persist contact info so the schedule page can prefill the iClosed popup.
     // The GHL hidden-form redirect doesn't carry URL params, so localStorage is
     // the only thing that survives the hop to the schedule page.
     try {
       localStorage.setItem('nb_name', name.trim());
       localStorage.setItem('nb_email', email.trim());
-      localStorage.setItem('nb_phone', phone.trim());
+      localStorage.setItem('nb_phone', phoneOut);
     } catch (e) {}
 
     const dq = isDisqualified(answers);
@@ -255,7 +316,7 @@ function Funnel({ embedded } = {}) {
     const ghlForm = document.querySelector('.nb-hidden-form');
     if (ghlForm && !dq) {
       fillGhlForm(ghlForm, {
-        name: name.trim(), email: email.trim(), phone: phone.trim(),
+        name: name.trim(), email: email.trim(), phone: phoneOut,
         city: (answers.city || '').trim(),
         own: labelFor('own', answers.own),
         location: labelFor('location', answers.location),
@@ -276,7 +337,7 @@ function Funnel({ embedded } = {}) {
     // set) and redirect ourselves. Covers DQ leads and any page (e.g. the
     // standalone repo build) that has no hidden GHL form.
     const lead = {
-      name: name.trim(), email: email.trim(), phone: phone.trim(),
+      name: name.trim(), email: email.trim(), phone: phoneOut,
       business: (answers.business || '').trim(), city: (answers.city || '').trim(),
       owns_medspa: labelFor('own', answers.own),
       physical_location: labelFor('location', answers.location),
@@ -300,7 +361,7 @@ function Funnel({ embedded } = {}) {
 
     // Disqualified → DQ page. Qualified → schedule page (page 2 of 3).
     const params = new URLSearchParams({
-      name: name.trim(), email: email.trim(), phone: phone.trim(),
+      name: name.trim(), email: email.trim(), phone: phoneOut,
       business: (answers.business || '').trim(), city: (answers.city || '').trim(),
     });
     if (dq) params.set('status', 'dq');
@@ -419,8 +480,10 @@ function Funnel({ embedded } = {}) {
                 <form className="pf-form" onSubmit={(e) => { e.preventDefault(); submit(); }}>
                   <input className={`pf-input${tries && !name.trim() ? ' invalid' : ''}`} type="text" placeholder="Your full name" value={name} onChange={(e) => setName(e.target.value)} />
                   <input className={`pf-input${tries && emailBad ? ' invalid' : ''}`} type="email" placeholder="Email address" value={email} onChange={(e) => setEmail(e.target.value)} />
-                  <input className={`pf-input${tries && phoneBad ? ' invalid' : ''}`} type="tel" inputMode="numeric" placeholder="Phone number" value={phone} onChange={(e) => setPhone(formatPhone(e.target.value))} />
-                  {tries > 0 && contactBad && <div className="pf-input-error">Enter your name, a valid email, and a 10-digit phone number.</div>}
+                  <div className="pf-phone">
+                    <input ref={phoneRef} className={`pf-input${tries && phoneBad ? ' invalid' : ''}`} type="tel" placeholder="Phone number" />
+                  </div>
+                  {tries > 0 && contactBad && <div className="pf-input-error">Enter your name, a valid email, and a valid phone number.</div>}
                   <button type="submit" className="pf-btn pf-btn-block pf-btn-lg">See my times →</button>
                   <div className="pf-consent">By submitting, you agree to receive text messages from Newly Booked. Msg &amp; data rates may apply. Reply STOP to opt out, HELP for help.</div>
                   <div className="pf-fineprint">No retainer pitch · No 12-month contract</div>
