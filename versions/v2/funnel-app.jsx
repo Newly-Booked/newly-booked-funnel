@@ -140,46 +140,6 @@ const labelFor = (stepId, value) => {
   return o ? o.label : (value || '');
 };
 
-// iClosed booking. iClosed serves X-Frame-Options: DENY for this link, so the
-// inline/popup iframe is blocked on every domain until embedding is enabled in
-// the iClosed account. We trigger the popup (works once embedding is on) and,
-// if no message arrives from the iframe (i.e. it was blocked), fall back to
-// opening the scheduler in a new tab so booking always works.
-const ICLOSED_LINK = 'https://app.iclosed.io/e/newlybooked/setter-call';
-function ScheduleCalendar() {
-  useEffect(() => {
-    if (document.getElementById('iclosed-widget-script')) return;
-    const s = document.createElement('script');
-    s.id = 'iclosed-widget-script';
-    s.src = 'https://app.iclosed.io/assets/widget.js';
-    s.async = true;
-    document.body.appendChild(s);
-  }, []);
-  const onClick = () => {
-    let loaded = false;
-    const onMsg = (e) => { if (String(e.origin).indexOf('iclosed.io') !== -1) loaded = true; };
-    window.addEventListener('message', onMsg);
-    setTimeout(() => {
-      window.removeEventListener('message', onMsg);
-      if (!loaded) {
-        document.querySelectorAll('.iclosed-popup-overlay').forEach((n) => n.remove());
-        window.open(ICLOSED_LINK, '_blank', 'noopener');
-      }
-    }, 1600);
-  };
-  return (
-    <button
-      type="button"
-      className="pf-cal-btn"
-      data-iclosed-link={ICLOSED_LINK}
-      data-embed-type="popup"
-      onClick={onClick}
-    >
-      Pick your time →
-    </button>
-  );
-}
-
 function Funnel({ embedded } = {}) {
   const [idx, setIdx] = useState(0);
   const [answers, setAnswers] = useState({});
@@ -189,7 +149,6 @@ function Funnel({ embedded } = {}) {
   const [phone, setPhone] = useState('');
   const [tries, setTries] = useState(0);
   const [submitting, setSubmitting] = useState(false);
-  const [showCal, setShowCal] = useState(false);
   const [otherMode, setOtherMode] = useState(false);
   const [showCity, setShowCity] = useState(false);
   useEffect(() => { setOtherMode(false); setShowCity(false); }, [idx]);
@@ -256,31 +215,17 @@ function Funnel({ embedded } = {}) {
       return;
     }
 
-    // Qualified → reveal the iClosed calendar inline on this same page.
-    setShowCal(true);
-    try { window.scrollTo(0, 0); } catch (e) {}
+    // Qualified → schedule page (page 2 of 3).
+    setSubmitting(true);
+    const params = new URLSearchParams({
+      name: name.trim(), email: email.trim(), phone: phone.trim(),
+      business: (answers.business || '').trim(), city: (answers.city || '').trim(),
+    });
+    const dest = nbUrl('__NB_SCHEDULE_URL', 'schedule.html');
+    setTimeout(() => {
+      window.location.href = `${dest}${dest.includes('?') ? '&' : '?'}${params.toString()}`;
+    }, 300);
   };
-
-  // Qualified view — the iClosed calendar revealed inline.
-  if (showCal) {
-    const first = name.trim().split(/\s+/)[0];
-    return (
-      <div className="pf-root" id="qualify">
-        <div className="pf-top">
-          <div className="pf-logo"><span className="pf-mark">N<i></i>B</span><span className="pf-wordmark">Newly Booked</span></div>
-        </div>
-        <div className="pf-stage">
-          <div className="pf-inner pf-anim" key="cal">
-            <div className="pf-eyebrow">You qualify</div>
-            <h1 className="pf-q">Pick your time{first ? `, ${first}` : ''}.</h1>
-            <p className="pf-sub">A 45-minute video call with a senior partner — we’ll map out exactly how we’d add $50K–$100K/month to your spa.</p>
-            <div className="pf-cal"><ScheduleCalendar /></div>
-          </div>
-        </div>
-        <div className="pf-progress"><div className="pf-progress-bar" style={{ width: '100%' }}></div></div>
-      </div>
-    );
-  }
 
   return (
     <div className="pf-root" id="qualify">

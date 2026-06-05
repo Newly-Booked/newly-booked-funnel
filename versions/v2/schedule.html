@@ -4,28 +4,168 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Newly Booked — Pick your time</title>
-  <meta name="description" content="Pick a time for your 45-minute partnership call with Newly Booked. Confirm fit, walk through the 60-day revenue model, and decide if we're a partner for your spa." />
+  <meta name="description" content="You qualified. Book your Newly Booked diagnostic call — a 45-minute video call with a senior partner to map out your new-patient revenue plan." />
+  <meta name="robots" content="noindex" />
 
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:ital,opsz,wght@0,8..60,300..700;1,8..60,300..700&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Source+Serif+4:opsz,wght@8..60,500..600&display=swap" rel="stylesheet" />
 
-  <link rel="stylesheet" href="styles.css" />
-  <link rel="stylesheet" href="scheduler.css" />
+  <style>
+    :root{
+      --navy-900:#0A1628; --navy-500:#43597A; --navy-300:#8A9AB3;
+      --blue-700:#1C3CB8; --blue-600:#2348D4; --blue-500:#2B54E8; --blue-400:#5C79F2;
+      --blue-50:#EDF1FE; --line:#E5E9F1; --green:#149E55;
+    }
+    *{box-sizing:border-box;margin:0;padding:0}
+    body{
+      font-family:"Inter",sans-serif;color:var(--navy-900);-webkit-font-smoothing:antialiased;
+      background:radial-gradient(135% 72% at 50% -10%,#E7EEFF 0%,#F4F7FE 44%,#fff 80%);
+      min-height:100vh; min-height:100svh;
+    }
+    .wrap{min-height:100vh;min-height:100svh;display:flex;flex-direction:column;max-width:680px;margin:0 auto}
+    .top{display:flex;align-items:center;justify-content:space-between;padding:22px 24px}
+    .logo{display:inline-flex;align-items:center;gap:10px;font-weight:700;font-size:16px;color:var(--navy-900)}
+    .mark{display:inline-flex;align-items:center;gap:3px;background:var(--navy-900);color:#fff;
+      font-family:"Source Serif 4",Georgia,serif;font-weight:600;font-size:15px;line-height:1;letter-spacing:.5px;padding:7px 9px 8px;border-radius:6px}
+    .mark i{width:1px;height:13px;background:rgba(255,255,255,.55);display:inline-block}
+    .secure{display:inline-flex;align-items:center;gap:7px;font-size:12px;font-weight:600;color:var(--navy-500)}
+    .secure .dot{width:7px;height:7px;border-radius:999px;background:var(--green);box-shadow:0 0 0 0 rgba(20,158,85,.5);animation:pulse 2s infinite}
+    @keyframes pulse{0%{box-shadow:0 0 0 0 rgba(20,158,85,.5)}70%{box-shadow:0 0 0 7px rgba(20,158,85,0)}100%{box-shadow:0 0 0 0 rgba(20,158,85,0)}}
+
+    .stage{flex:1;display:flex;flex-direction:column;align-items:center;text-align:center;padding:10px 22px 40px}
+    .eyebrow{display:inline-flex;align-items:center;gap:8px;background:rgba(20,158,85,.1);color:#0E7C42;
+      font-weight:700;font-size:12.5px;letter-spacing:.04em;padding:8px 15px;border-radius:999px;margin-bottom:18px}
+    .eyebrow svg{width:14px;height:14px}
+    h1{font-weight:800;font-size:clamp(28px,6.4vw,42px);line-height:1.12;letter-spacing:-.025em;max-width:16ch}
+    .sub{margin-top:14px;font-size:16px;font-weight:500;color:var(--navy-500);line-height:1.5;max-width:42ch}
+    .meta{display:flex;flex-wrap:wrap;justify-content:center;gap:8px 18px;margin-top:18px}
+    .meta span{display:inline-flex;align-items:center;gap:7px;font-size:13px;font-weight:600;color:var(--navy-500)}
+    .meta svg{width:15px;height:15px;color:var(--blue-500)}
+
+    /* Calendar card */
+    .cal{width:100%;max-width:560px;margin:26px auto 0;background:#fff;border:1px solid var(--line);
+      border-radius:20px;box-shadow:0 26px 60px -30px rgba(10,22,40,.34);overflow:hidden;position:relative}
+    .iclosed-widget{width:100%;min-height:640px;display:block}
+    .cal-loader{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:16px;background:#fff}
+    .spin{width:34px;height:34px;border-radius:999px;border:3px solid var(--line);border-top-color:var(--blue-500);animation:spin .8s linear infinite}
+    @keyframes spin{to{transform:rotate(360deg)}}
+    .cal-loader p{font-size:13.5px;font-weight:600;color:var(--navy-300)}
+
+    /* Fallback (shown when iClosed blocks embedding) */
+    .cal-fallback{display:none;flex-direction:column;align-items:center;text-align:center;gap:6px;padding:48px 26px}
+    .cal-fallback .fb-ic{width:64px;height:64px;border-radius:20px;display:flex;align-items:center;justify-content:center;
+      background:linear-gradient(160deg,#2B54E8,#1E3FC9);color:#fff;box-shadow:0 16px 30px -12px rgba(43,84,232,.5);margin-bottom:8px}
+    .cal-fallback .fb-ic svg{width:30px;height:30px}
+    .cal-fallback h2{font-weight:800;font-size:20px;letter-spacing:-.01em}
+    .cal-fallback p{font-size:14px;color:var(--navy-500);line-height:1.5;max-width:34ch;margin-top:2px}
+    .book-btn{margin-top:16px;width:100%;max-width:360px;cursor:pointer;text-decoration:none;
+      background:linear-gradient(160deg,#2B54E8,#1E3FC9);color:#fff;border:none;border-radius:15px;
+      font-family:inherit;font-weight:800;font-size:17px;padding:18px 24px;
+      display:inline-flex;align-items:center;justify-content:center;gap:10px;
+      box-shadow:0 18px 36px -10px rgba(43,84,232,.55);transition:transform .12s ease,box-shadow .12s ease}
+    .book-btn:hover{transform:translateY(-2px);box-shadow:0 22px 42px -10px rgba(43,84,232,.7)}
+    .cal.blocked .iclosed-widget,.cal.blocked .cal-loader{display:none}
+    .cal.blocked .cal-fallback{display:flex}
+
+    .foot{padding:8px 24px 26px;text-align:center;font-size:12px;color:var(--navy-300)}
+    .foot a{color:var(--navy-500);text-decoration:none;font-weight:600}
+    @media (max-width:560px){
+      .iclosed-widget{min-height:600px}
+      .secure{display:none}
+    }
+  </style>
 </head>
 <body>
-  <div id="root"></div>
+  <div class="wrap">
+    <div class="top">
+      <div class="logo"><span class="mark">N<i></i>B</span>Newly Booked</div>
+      <div class="secure"><span class="dot"></span>Your spot is held</div>
+    </div>
 
-  <script src="https://unpkg.com/react@18.3.1/umd/react.development.js" integrity="sha384-hD6/rw4ppMLGNu3tX5cjIb+uRZ7UkRJ6BPkLpg4hAu/6onKUg4lLsHAs9EBPT82L" crossorigin="anonymous"></script>
-  <script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.development.js" integrity="sha384-u6aeetuaXnQ38mYT8rp6sbXaQe3NL9t+IBXmnYxwkUI2Hw4bsp2Wvmx4yRQF1uAm" crossorigin="anonymous"></script>
-  <script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" integrity="sha384-m08KidiNqLdpJqLq95G/LEi8Qvjl/xUYll3QILypMoQ65QorJ9Lvtp2RXYGBFj1y" crossorigin="anonymous"></script>
+    <div class="stage">
+      <div class="eyebrow">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.5l4.3 4.3L19 7"/></svg>
+        You qualify
+      </div>
+      <h1 id="sch-h1">Pick your time.</h1>
+      <p class="sub">A 45-minute video call with a senior partner — we’ll map out exactly how we’d add <span style="color:var(--blue-500);font-weight:700;white-space:nowrap">$50K–$100K</span>/month to your spa.</p>
+      <div class="meta">
+        <span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>45 minutes</span>
+        <span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 10l4.5-2.5v9L15 14M4 7h9a2 2 0 012 2v6a2 2 0 01-2 2H4a2 2 0 01-2-2V9a2 2 0 012-2z"/></svg>Zoom video</span>
+        <span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg>No retainer pitch</span>
+      </div>
+
+      <div class="cal" id="sch-cal">
+        <div class="iclosed-widget" id="iclosed-inline"
+             data-url="https://app.iclosed.io/e/newlybooked/setter-call"
+             title="Book your Newly Booked call"></div>
+        <div class="cal-loader" id="sch-loader"><div class="spin"></div><p>Loading your calendar…</p></div>
+        <div class="cal-fallback">
+          <span class="fb-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4.5" width="18" height="17" rx="2.5"/><path d="M3 9.5h18M8 2.5v4M16 2.5v4"/></svg></span>
+          <h2>Your calendar is ready</h2>
+          <p>Tap below to pick a time that works — it opens in a new tab and takes about 30 seconds.</p>
+          <a class="book-btn" id="sch-book" href="https://app.iclosed.io/e/newlybooked/setter-call" target="_blank" rel="noopener">
+            Pick your time
+            <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+          </a>
+        </div>
+      </div>
+    </div>
+
+    <div class="foot">Newly Booked · We only get paid when patients pay you · <a href="index.html">Back to start</a></div>
+  </div>
 
   <script>
     (function () {
-      var v = Date.now();
-      ['tweaks-panel.jsx','scheduler-app.jsx'].forEach(function (s) {
-        document.write('<script type="text/babel" src="' + s + '?v=' + v + '"><\/script>');
+      var ICLOSED = 'https://app.iclosed.io/e/newlybooked/setter-call';
+      var p = new URLSearchParams(location.search);
+      var name = (p.get('name') || '').trim();
+      var email = (p.get('email') || '').trim();
+      var phone = (p.get('phone') || '').trim();
+
+      // Personalize the headline.
+      if (name) {
+        var first = name.split(/\s+/)[0].replace(/[<>&]/g, '');
+        document.getElementById('sch-h1').textContent = 'Pick your time, ' + first + '.';
+        try { sessionStorage.setItem('nb_name', name); } catch (e) {}
+      }
+
+      // Build the prefilled booking URL.
+      var pre = new URLSearchParams();
+      if (name) pre.set('name', name);
+      if (email) pre.set('email', email);
+      if (phone) pre.set('phone', phone);
+      var bookUrl = ICLOSED + (pre.toString() ? ('?' + pre.toString()) : '');
+      document.getElementById('iclosed-inline').setAttribute('data-url', bookUrl);
+      document.getElementById('sch-book').setAttribute('href', bookUrl);
+
+      // Load the iClosed widget.
+      var s = document.createElement('script');
+      s.src = 'https://app.iclosed.io/assets/widget.js';
+      s.async = true;
+      document.body.appendChild(s);
+
+      // The inline iframe is blocked unless embedding is enabled in iClosed
+      // (X-Frame-Options: DENY). If no message arrives from the iframe, assume
+      // it was blocked and reveal the new-tab fallback so booking still works.
+      var got = false;
+      window.addEventListener('message', function (e) {
+        if (String(e.origin).indexOf('iclosed.io') === -1) return;
+        got = true;
+        var loader = document.getElementById('sch-loader');
+        if (loader) loader.style.display = 'none';
+        // Best-effort: move to the thank-you page on a booking confirmation.
+        var raw = typeof e.data === 'string' ? e.data : JSON.stringify(e.data || '');
+        if (/\b(booked|scheduled|confirmed|booking[_-]?complete|appointment[_-]?created)\b/i.test(raw)) {
+          var nm = '';
+          try { nm = sessionStorage.getItem('nb_name') || ''; } catch (err) {}
+          location.href = 'thank-you.html' + (nm ? ('?name=' + encodeURIComponent(nm)) : '');
+        }
       });
+      setTimeout(function () {
+        if (!got) document.getElementById('sch-cal').classList.add('blocked');
+      }, 3500);
     })();
   </script>
 </body>

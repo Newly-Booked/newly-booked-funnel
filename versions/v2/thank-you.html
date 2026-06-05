@@ -1,0 +1,95 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Newly Booked — You're booked</title>
+  <meta name="description" content="Your Newly Booked diagnostic call is confirmed. Here's what happens next before your call with a senior partner." />
+  <meta name="robots" content="noindex" />
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Source+Serif+4:opsz,wght@8..60,500..600&display=swap" rel="stylesheet" />
+
+  <style>
+    :root{
+      --navy-900:#0A1628; --navy-500:#43597A; --navy-300:#8A9AB3;
+      --blue-700:#1C3CB8; --blue-600:#2348D4; --blue-500:#2B54E8; --blue-400:#5C79F2;
+      --blue-50:#EDF1FE; --line:#E5E9F1; --green:#149E55;
+    }
+    *{box-sizing:border-box;margin:0;padding:0}
+    body{
+      font-family:"Inter",sans-serif;color:var(--navy-900);-webkit-font-smoothing:antialiased;
+      background:radial-gradient(135% 72% at 50% -10%,#E7EEFF 0%,#F4F7FE 44%,#fff 80%);
+      min-height:100vh; min-height:100svh;
+    }
+    .wrap{min-height:100vh;min-height:100svh;display:flex;flex-direction:column;max-width:600px;margin:0 auto}
+    .top{display:flex;align-items:center;padding:22px 24px}
+    .logo{display:inline-flex;align-items:center;gap:10px;font-weight:700;font-size:16px;color:var(--navy-900)}
+    .mark{display:inline-flex;align-items:center;gap:3px;background:var(--navy-900);color:#fff;
+      font-family:"Source Serif 4",Georgia,serif;font-weight:600;font-size:15px;line-height:1;letter-spacing:.5px;padding:7px 9px 8px;border-radius:6px}
+    .mark i{width:1px;height:13px;background:rgba(255,255,255,.55);display:inline-block}
+
+    .stage{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:10px 24px 48px}
+    .check{width:92px;height:92px;border-radius:999px;display:flex;align-items:center;justify-content:center;
+      background:linear-gradient(160deg,#1EB866,#0E8F4C);color:#fff;margin-bottom:24px;
+      box-shadow:0 20px 40px -14px rgba(20,158,85,.55);animation:pop .5s cubic-bezier(.2,.9,.3,1.3) both}
+    .check svg{width:46px;height:46px}
+    @keyframes pop{0%{transform:scale(.5);opacity:0}100%{transform:scale(1);opacity:1}}
+    .eyebrow{font-weight:700;font-size:12px;letter-spacing:.18em;text-transform:uppercase;color:var(--green);margin-bottom:14px}
+    h1{font-weight:800;font-size:clamp(30px,7vw,46px);line-height:1.1;letter-spacing:-.025em;max-width:14ch}
+    .sub{margin-top:16px;font-size:16px;font-weight:500;color:var(--navy-500);line-height:1.55;max-width:40ch}
+    .sub b{color:var(--navy-900);font-weight:700}
+
+    .steps{width:100%;max-width:430px;margin:34px auto 0;text-align:left;background:#fff;border:1px solid var(--line);
+      border-radius:18px;box-shadow:0 22px 50px -28px rgba(10,22,40,.3);overflow:hidden}
+    .steps .lbl{font-size:11px;font-weight:700;letter-spacing:.16em;text-transform:uppercase;color:var(--navy-300);padding:18px 22px 10px}
+    .step{display:flex;gap:14px;align-items:flex-start;padding:14px 22px;border-top:1px solid var(--line)}
+    .step .n{flex-shrink:0;width:28px;height:28px;border-radius:999px;background:var(--blue-50);color:var(--blue-600);
+      font-weight:800;font-size:13px;display:flex;align-items:center;justify-content:center;margin-top:1px}
+    .step h3{font-size:15px;font-weight:700;letter-spacing:-.01em}
+    .step p{font-size:13.5px;color:var(--navy-500);line-height:1.5;margin-top:2px}
+
+    .note{margin-top:26px;font-size:13px;color:var(--navy-300);line-height:1.55;max-width:38ch}
+    .home{margin-top:22px;font-size:13px;font-weight:600;letter-spacing:.02em;color:var(--blue-600);text-decoration:none}
+    .home:hover{color:var(--blue-700)}
+    @media (max-width:560px){ .check{width:80px;height:80px}.check svg{width:40px;height:40px} }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <div class="top"><div class="logo"><span class="mark">N<i></i>B</span>Newly Booked</div></div>
+
+    <div class="stage">
+      <div class="check"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.5l4.3 4.3L19 7"/></svg></div>
+      <div class="eyebrow">Call confirmed</div>
+      <h1 id="ty-h1">You're booked.</h1>
+      <p class="sub" id="ty-sub">Your call is locked in. We just emailed your <b>calendar invite and Zoom link</b> — check your inbox (and spam, just in case).</p>
+
+      <div class="steps">
+        <div class="lbl">Before your call</div>
+        <div class="step"><span class="n">1</span><div><h3>Accept the calendar invite</h3><p>Add it to your calendar so you don’t miss it. The Zoom link is inside.</p></div></div>
+        <div class="step"><span class="n">2</span><div><h3>Know your numbers</h3><p>Have a rough idea of your monthly revenue and current new-patient flow — it makes the call sharper.</p></div></div>
+        <div class="step"><span class="n">3</span><div><h3>Show up ready to decide</h3><p>If it’s a fit, you’ll leave with a clear plan to add $50K–$100K/month — no retainer, no 12-month lock.</p></div></div>
+      </div>
+
+      <p class="note">Need to reschedule? Use the link in your confirmation email.</p>
+      <a class="home" href="index.html">← Back to Newly Booked</a>
+    </div>
+  </div>
+
+  <script>
+    (function () {
+      try {
+        var p = new URLSearchParams(location.search);
+        var name = (p.get('name') || '').trim();
+        if (!name) { name = sessionStorage.getItem('nb_name') || ''; }
+        if (name) {
+          var first = name.split(/\s+/)[0].replace(/[<>&]/g, '');
+          document.getElementById('ty-h1').textContent = "You're booked, " + first + '.';
+        }
+      } catch (e) {}
+    })();
+  </script>
+</body>
+</html>
