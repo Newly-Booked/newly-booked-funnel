@@ -118,8 +118,8 @@ const STEPS = [
   },
   {
     id: 'contact', kind: 'contact',
-    q: 'Last step — where should we send your results?',
-    sub: 'We’ll review your answers and send a private invite to book your diagnostic.',
+    q: 'Last step — then pick your time.',
+    sub: 'Add your details and we’ll take you straight to the calendar to lock in your call.',
   },
 ];
 
@@ -199,32 +199,45 @@ function Funnel({ embedded } = {}) {
   const submit = () => {
     setTries((t) => t + 1);
     if (contactBad) return;
+    setSubmitting(true);
 
-    // Disqualified → DQ page (the only other page). DQ rules are in DQ_RULES above.
-    if (isDisqualified(answers)) {
-      setSubmitting(true);
-      const params = new URLSearchParams({
-        name: name.trim(), email: email.trim(), phone: phone.trim(),
-        business: (answers.business || '').trim(), city: (answers.city || '').trim(),
-        status: 'dq',
-      });
-      const dest = nbUrl('__NB_DQ_URL', 'dq.html');
-      setTimeout(() => {
-        window.location.href = `${dest}${dest.includes('?') ? '&' : '?'}${params.toString()}`;
-      }, 300);
-      return;
+    const dq = isDisqualified(answers);
+
+    // Push the full lead to GHL (set __NB_GHL_WEBHOOK to a GHL inbound-webhook
+    // URL). Fire-and-forget with keepalive so it survives the redirect.
+    const lead = {
+      name: name.trim(), email: email.trim(), phone: phone.trim(),
+      business: (answers.business || '').trim(), city: (answers.city || '').trim(),
+      owns_medspa: labelFor('own', answers.own),
+      physical_location: labelFor('location', answers.location),
+      fat_reduction: labelFor('treatment', answers.treatment),
+      monthly_revenue: labelFor('revenue', answers.revenue),
+      weekend_consults: labelFor('frisat', answers.frisat),
+      years_in_business: labelFor('tenure', answers.tenure),
+      status: dq ? 'disqualified' : 'qualified',
+      source: 'Newly Booked funnel',
+    };
+    const hook = nbUrl('__NB_GHL_WEBHOOK', '');
+    if (hook) {
+      try {
+        fetch(hook, {
+          method: 'POST', mode: 'no-cors', keepalive: true,
+          headers: { 'Content-Type': 'text/plain;charset=UTF-8' },
+          body: JSON.stringify(lead),
+        });
+      } catch (e) {}
     }
 
-    // Qualified → schedule page (page 2 of 3).
-    setSubmitting(true);
+    // Disqualified → DQ page. Qualified → schedule page (page 2 of 3).
     const params = new URLSearchParams({
       name: name.trim(), email: email.trim(), phone: phone.trim(),
       business: (answers.business || '').trim(), city: (answers.city || '').trim(),
     });
-    const dest = nbUrl('__NB_SCHEDULE_URL', 'schedule.html');
+    if (dq) params.set('status', 'dq');
+    const dest = dq ? nbUrl('__NB_DQ_URL', 'dq.html') : nbUrl('__NB_SCHEDULE_URL', 'schedule.html');
     setTimeout(() => {
       window.location.href = `${dest}${dest.includes('?') ? '&' : '?'}${params.toString()}`;
-    }, 300);
+    }, 500);
   };
 
   return (
@@ -338,7 +351,7 @@ function Funnel({ embedded } = {}) {
                   <input className={`pf-input${tries && emailBad ? ' invalid' : ''}`} type="email" placeholder="Email address" value={email} onChange={(e) => setEmail(e.target.value)} />
                   <input className={`pf-input${tries && phoneBad ? ' invalid' : ''}`} type="tel" inputMode="numeric" placeholder="Phone number" value={phone} onChange={(e) => setPhone(formatPhone(e.target.value))} />
                   {tries > 0 && contactBad && <div className="pf-input-error">Enter your name, a valid email, and a 10-digit phone number.</div>}
-                  <button type="submit" className="pf-btn pf-btn-block pf-btn-lg">See my results →</button>
+                  <button type="submit" className="pf-btn pf-btn-block pf-btn-lg">See my times →</button>
                   <div className="pf-consent">By submitting, you agree to receive text messages from Newly Booked. Msg &amp; data rates may apply. Reply STOP to opt out, HELP for help.</div>
                   <div className="pf-fineprint">No retainer pitch · No 12-month contract</div>
                 </form>

@@ -43,7 +43,13 @@
 
   <script src="https://fast.wistia.com/player.js" async></script>
 
-  <!-- EDIT (optional): send QUALIFIED leads to your GHL booking page. -->
+  <!-- EDIT: push every lead into GHL. In GHL → Automation → Workflows,
+       add an "Inbound Webhook" trigger, copy its URL, and paste it below.
+       The funnel POSTs name, email, phone, business, city, every quiz
+       answer, and status (qualified / disqualified) as JSON. -->
+  <script>window.__NB_GHL_WEBHOOK = "[REPLACE_WITH_GHL_WEBHOOK_URL]";</script>
+  <!-- EDIT (optional): send QUALIFIED leads to your own booking page
+       instead of the built-in schedule page. -->
   <script>window.__NB_SCHEDULE_URL = "[REPLACE_WITH_SCHEDULE_PAGE_URL]";</script>
   <!-- EDIT (optional): footer legal links. -->
   <script>
