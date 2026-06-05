@@ -121,12 +121,18 @@
         try { sessionStorage.setItem('nb_name', name); } catch (e) {}
       }
 
-      // Prefill the popup booking link with the lead's details.
+      // Prefill the popup booking link. iClosed reads these exact keys —
+      // iclosedName (full name), iclosedEmail, iclosedPhone (digits only).
+      // https://docs.iclosed.io/en/articles/9830929
       var pre = new URLSearchParams();
-      if (name) pre.set('name', name);
-      if (email) pre.set('email', email);
-      if (phone) pre.set('phone', phone);
-      var bookUrl = ICLOSED + (pre.toString() ? ('?' + pre.toString()) : '');
+      if (name) pre.set('iclosedName', name);
+      if (email) pre.set('iclosedEmail', email);
+      var digits = phone.replace(/\D/g, '');
+      if (digits) pre.set('iclosedPhone', digits);
+      // iClosed's docs want spaces as %20, not the + that URLSearchParams emits.
+      // (A literal + inside a value stays %2B, so emails like a+b@x.com survive.)
+      var qs = pre.toString().replace(/\+/g, '%20');
+      var bookUrl = ICLOSED + (qs ? ('?' + qs) : '');
       // iClosed's widget.js opens the popup overlay on THIS page from the
       // button's data-embed-type="popup". No new-tab fallback. It stays on the
       // page. The calendar renders inside the popup once iClosed allows
