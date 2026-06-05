@@ -127,7 +127,11 @@
       var pre = new URLSearchParams();
       if (name) pre.set('iclosedName', name);
       if (email) pre.set('iclosedEmail', email);
+      // iClosed's phone widget reads the country code from the leading digits.
+      // A bare US 10-digit number gets misread (e.g. "516..." → Peru +51), so
+      // prepend the US country code "1": 1 + 10 digits, matching iClosed's docs.
       var digits = phone.replace(/\D/g, '');
+      if (digits.length === 10) digits = '1' + digits;
       if (digits) pre.set('iclosedPhone', digits);
       // iClosed's docs want spaces as %20, not the + that URLSearchParams emits.
       // (A literal + inside a value stays %2B, so emails like a+b@x.com survive.)
