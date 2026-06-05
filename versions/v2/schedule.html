@@ -104,11 +104,13 @@
         <div class="cal-fallback">
           <span class="fb-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4.5" width="18" height="17" rx="2.5"/><path d="M3 9.5h18M8 2.5v4M16 2.5v4"/></svg></span>
           <h2>Book your intro call</h2>
-          <p>Tap below to grab a 15-minute slot — it opens in a new tab and takes about 30 seconds.</p>
-          <a class="book-btn" id="sch-book" href="https://app.iclosed.io/e/newlybooked/setter-call" target="_blank" rel="noopener">
+          <p>Tap below to open your calendar and grab a 15-minute slot — takes about 30 seconds.</p>
+          <button class="book-btn" id="sch-book" type="button"
+                  data-iclosed-link="https://app.iclosed.io/e/newlybooked/setter-call"
+                  data-embed-type="popup">
             Pick your time
             <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
-          </a>
+          </button>
         </div>
       </div>
     </div>
@@ -138,7 +140,24 @@
       if (phone) pre.set('phone', phone);
       var bookUrl = ICLOSED + (pre.toString() ? ('?' + pre.toString()) : '');
       document.getElementById('iclosed-inline').setAttribute('data-url', bookUrl);
-      document.getElementById('sch-book').setAttribute('href', bookUrl);
+      // The button opens the iClosed popup ON this page (data-embed-type="popup").
+      // The popup is an iframe too, so while iClosed still blocks embedding it
+      // comes up blank — in that case only, fall back to a new tab so the lead
+      // can still book. Once iClosed allows embedding, it stays a clean on-page popup.
+      var book = document.getElementById('sch-book');
+      book.setAttribute('data-iclosed-link', bookUrl);
+      book.addEventListener('click', function () {
+        var ok = false;
+        var onPopup = function (ev) { if (String(ev.origin).indexOf('iclosed.io') !== -1) ok = true; };
+        window.addEventListener('message', onPopup);
+        setTimeout(function () {
+          window.removeEventListener('message', onPopup);
+          if (!ok) {
+            document.querySelectorAll('.iclosed-popup-overlay').forEach(function (n) { n.remove(); });
+            window.open(bookUrl, '_blank', 'noopener');
+          }
+        }, 1800);
+      });
 
       // Load the iClosed widget.
       var s = document.createElement('script');
