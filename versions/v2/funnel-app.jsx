@@ -52,7 +52,7 @@ const STEPS = [
   {
     id: 'own', kind: 'cards', key: 'own', cols: 2, big: true, trust: true,
     eyebrow: 'For medspa owners',
-    q: 'Add $50K–$100K/month in new-patient revenue without tire-kickers or retainers.',
+    q: 'Add $50K–$100K/month in new patient revenue without tire kickers or retainers.',
     hl: '$50K–$100K',
     prompt: 'First — do you own a medspa?',
     options: [

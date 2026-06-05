@@ -103,7 +103,7 @@
   color: var(--navy-900); margin: 0 auto;
   max-width: 16ch;
 }
-.pf-q.lg { max-width: 16ch; font-size: clamp(31px, 6.4vw, 60px); }
+.pf-q.lg { max-width: 18ch; font-weight: 800; font-size: clamp(26px, 6.6vw, 50px); line-height: 1.16; letter-spacing: -0.025em; }
 .pf-q .pf-hl { color: var(--gold-500); white-space: nowrap; }
 .pf-sub {
   font-size: clamp(15px, 1.6vw, 19px); line-height: 1.5;
