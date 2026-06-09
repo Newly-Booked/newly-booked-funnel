@@ -131,7 +131,7 @@ function fillGhlForm(form, d) {
   fillAny('run ads', d.ads);
   setByLabel('years in business', d.tenure);
   setByLabel('business name', d.business);
-  setByLabel('markets', d.city);
+  setByLabel('market', d.city);
   // City / State: the funnel stores "City, ST" (e.g. "Austin, TX"). Split it
   // across the form's City and State fields, matched by name and by label so it
   // works for standalone City/State fields or the GHL Address widget's sub-fields.
@@ -241,8 +241,9 @@ const STEPS = [
     ],
   },
   {
-    id: 'city', kind: 'autocomplete', key: 'city',
-    q: 'What city is your clinic in?',
+    id: 'city', kind: 'text', key: 'city',
+    q: 'What market(s) is your clinic located in?',
+    placeholder: 'e.g. Austin, TX',
   },
   {
     id: 'business', kind: 'text', key: 'business',
