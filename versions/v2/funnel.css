@@ -180,6 +180,10 @@
 .pf-choice:hover { transform: translateY(-3px); border-color: var(--gold-500); background: var(--gold-50); box-shadow: 0 14px 30px -18px rgba(10, 22, 40, 0.3); }
 .pf-choice.selected { border-color: var(--gold-500); background: var(--gold-50); }
 .pf-choice.other { color: var(--gold-700); border-style: dashed; }
+/* Single-column choices carry long answer text — left-align and relax the weight
+   so multi-line options read cleanly (keeps the navy card look). */
+.pf-choices.cols-1 { max-width: 560px; }
+.pf-choices.cols-1 .pf-choice { text-align: left; font-weight: 600; font-size: clamp(15px, 1.5vw, 17px); line-height: 1.4; padding: 18px 20px; }
 
 /* City autocomplete */
 .pf-ac { position: relative; }

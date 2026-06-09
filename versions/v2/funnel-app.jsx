@@ -88,7 +88,7 @@ function fillGhlForm(form, d) {
   // its own state — so click the label (what a human clicks) AND fire
   // input/change so the framework registers the choice, not just the DOM.
   const radios = Array.from(form.querySelectorAll('input[type="radio"]'));
-  [d.own, d.location, d.treatment, d.revenue, d.frisat].forEach((val) => {
+  [d.own, d.location, d.treatment, d.revenue, d.frisat, d.sales, d.ads].forEach((val) => {
     if (!val) return;
     const nv = nbNorm(val);
     const r = radios.find((x) => nbNorm(x.value) === nv || nbNorm(fieldLabel(form, x)) === nv);
@@ -112,6 +112,10 @@ function fillGhlForm(form, d) {
   };
   setByLabel('years in business', d.tenure);
   setByLabel('company business name', d.business);
+  // Sales-confidence and ads-experience fields (text fallback; if they're radios
+  // they're handled above). Match on a distinctive word in the field label.
+  setByLabel('sales', d.sales);
+  setByLabel('ads', d.ads);
   // City / State: the funnel stores "City, ST" (e.g. "Austin, TX"). Split it
   // across the form's City and State fields, matched by name and by label so it
   // works for standalone City/State fields or the GHL Address widget's sub-fields.
@@ -146,28 +150,29 @@ const STEPS = [
     eyebrow: 'For medspa owners',
     q: 'Add $50K–$100K/month in new patient revenue without tire kickers or retainers.',
     hl: '$50K–$100K',
-    prompt: 'First — do you own a medspa?',
+    prompt: 'Do you own a medspa or aesthetic clinic with high-end devices and treatment plans priced at $1,000+?',
     options: [
-      { v: 'yes', label: 'Yes, I own a medspa', icon: 'check' },
-      { v: 'no', label: "No, I don't have a medspa", icon: 'x', dq: true },
+      { v: 'yes', label: 'Yes, we can inject those treatments', icon: 'check' },
+      { v: 'no', label: "No, I'm going to leave this page immediately", icon: 'x', dq: true },
     ],
   },
   {
-    id: 'location', kind: 'cards', key: 'location', cols: 2,
-    q: 'Do you run it out of a physical location?',
-    sub: 'A studio, suite, or storefront patients can walk into.',
+    id: 'location', kind: 'choices', key: 'location', cols: 1,
+    q: 'Can you confirm your business is a medical spa or aesthetic clinic with a physical location?',
     options: [
-      { v: 'yes', label: 'Yes, I have a location', emoji: '🏢', img: 'assets/funnel/location-yes.png' },
-      { v: 'no', label: 'Not a physical location', emoji: '🚪', img: 'assets/funnel/location-no.png', dq: true },
+      { v: 'yes', label: 'Yes, I own a medical spa with a physical location (suite or storefront)' },
+      { v: 'no-loc', label: "I don't operate out of a physical location", dq: true },
+      { v: 'not-open', label: "I haven't opened yet", dq: true },
+      { v: 'not-medspa', label: "I'm not a medical spa or an aesthetic clinic", dq: true },
     ],
   },
   {
-    id: 'treatment', kind: 'cards', key: 'treatment', cols: 3,
-    q: 'Can you perform fat-reduction treatments like Kybella or PCDC (Liquid Lipo)?',
+    id: 'treatment', kind: 'choices', key: 'treatment', cols: 1,
+    q: 'Can your clinic currently perform fat-reduction treatments like Kybella or PCDC (Liquid Lipo)?',
     options: [
-      { v: 'yes', label: 'Yes — Kybella / PCDC', emoji: '💉', img: 'assets/funnel/treatment-yes.png' },
-      { v: 'similar', label: 'Similar treatments', emoji: '✨', img: 'assets/funnel/treatment-similar.png' },
-      { v: 'no', label: 'No, I don’t', emoji: '🚫', img: 'assets/funnel/treatment-no.png', dq: true },
+      { v: 'yes', label: 'Yes, we already offer it' },
+      { v: 'open', label: 'No, BUT we have injectors and are open to offer it, if it makes sense' },
+      { v: 'no', label: "No, and we can't or do not plan on offering it", dq: true },
     ],
   },
   {
@@ -181,12 +186,12 @@ const STEPS = [
     ],
   },
   {
-    id: 'frisat', kind: 'cards', key: 'frisat', cols: 2,
-    q: '55% of sales happen Friday & Saturday. Can you take consults on those days?',
-    sub: 'Our top spas treat the weekend as their biggest revenue window.',
+    id: 'frisat', kind: 'choices', key: 'frisat', cols: 1,
+    q: '55% of sales happen Friday & Saturday. Are you willing to take consultations on those days every week?',
+    sub: 'This program has generated over $5M for our spas, and the weekend is the biggest revenue window.',
     options: [
-      { v: 'yes', label: 'Yes, I can', icon: 'check' },
-      { v: 'no', label: 'No', icon: 'x', dq: true },
+      { v: 'yes', label: 'Yes, I am ready to do whatever it takes to grow my business' },
+      { v: 'no', label: 'No, I am not willing to make Fridays and Saturdays available for consultations', dq: true },
     ],
   },
   {
@@ -197,6 +202,24 @@ const STEPS = [
       { v: '1-3', label: '1 – 3 years' },
       { v: '3-5', label: '3 – 5 years' },
       { v: '5+', label: '5+ years' },
+    ],
+  },
+  {
+    id: 'sales', kind: 'choices', key: 'sales', cols: 1,
+    q: 'How confident are you in your sales abilities?',
+    sub: 'Only spas with sales experience are wildly successful with our program.',
+    options: [
+      { v: 'very', label: 'Very confident' },
+      { v: 'somewhat', label: 'Somewhat confident' },
+      { v: 'not', label: 'Not very confident' },
+    ],
+  },
+  {
+    id: 'ads', kind: 'choices', key: 'ads', cols: 2,
+    q: 'Have you run ads or worked with a marketing company before?',
+    options: [
+      { v: 'yes', label: 'Yes, I have' },
+      { v: 'no', label: 'No, never' },
     ],
   },
   {
@@ -320,6 +343,8 @@ function Funnel({ embedded } = {}) {
         revenue: labelFor('revenue', answers.revenue),
         frisat: labelFor('frisat', answers.frisat),
         tenure: labelFor('tenure', answers.tenure),
+        sales: labelFor('sales', answers.sales),
+        ads: labelFor('ads', answers.ads),
         business: (answers.business || '').trim(),
       });
       setTimeout(() => {
