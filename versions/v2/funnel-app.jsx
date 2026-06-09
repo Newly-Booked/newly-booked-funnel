@@ -199,7 +199,7 @@ const STEPS = [
     q: 'What does your spa currently bring in per month?',
     options: [
       { v: '<10', label: 'Under $10K', dq: true },
-      { v: '10-30', label: '$10K – $30K', dq: true },
+      { v: '10-30', label: '$10K – $30K' },
       { v: '30-100', label: '$30K – $100K' },
       { v: '100+', label: '$100K+' },
     ],
@@ -217,7 +217,7 @@ const STEPS = [
     id: 'tenure', kind: 'choices', key: 'tenure', cols: 2,
     q: 'How long has your medspa been in business?',
     options: [
-      { v: '<1', label: 'Under 1 year' },
+      { v: '<1', label: 'Under 1 year', dq: true },
       { v: '1-3', label: '1 – 3 years' },
       { v: '3-5', label: '3 – 5 years' },
       { v: '5+', label: '5+ years' },
