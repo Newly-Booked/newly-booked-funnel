@@ -113,6 +113,9 @@ function fillGhlForm(form, d) {
   };
   setByLabel('years in business', d.tenure);
   setByLabel('company business name', d.business);
+  // City/State: fill by name (standard City field) and by label (a custom
+  // "City / State" field whose input name is a random id).
+  setByLabel('city', d.city);
 
   // Consent checkboxes
   form.querySelectorAll('input[type="checkbox"]').forEach((cb) => { if (!cb.checked) cb.click(); });
