@@ -101,13 +101,16 @@ function fillGhlForm(form, d) {
     }
   });
 
-  // Custom fields with random input names → match by the GHL field label.
+  // Custom fields with random input names → match by the GHL field label, and
+  // as a fallback by the input's name/id/placeholder (which often carry the
+  // field slug, e.g. "what_markets_is_your_clinic_located_in").
   const setByLabel = (labelText, v) => {
     if (v == null) return;
     const lt = labelText.toLowerCase();
     const skip = ['first_name', 'last_name', 'full_name', 'name'];
+    const hay = (i) => (fieldLabel(form, i) + ' ' + (i.name || '') + ' ' + (i.id || '') + ' ' + (i.placeholder || '')).toLowerCase();
     const match = Array.from(form.querySelectorAll('input[type="text"], textarea'))
-      .find((i) => skip.indexOf(i.name) === -1 && fieldLabel(form, i).toLowerCase().indexOf(lt) !== -1);
+      .find((i) => skip.indexOf(i.name) === -1 && hay(i).indexOf(lt) !== -1);
     if (match) setNativeInputValue(match, v);
   };
   // Native <select> dropdown custom fields → set the matching option by label.
