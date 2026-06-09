@@ -343,7 +343,9 @@ function Funnel({ embedded } = {}) {
       business: (answers.business || '').trim(), city: (answers.city || '').trim(),
     });
     if (dq) params.set('status', 'dq');
-    const dest = dq ? nbUrl('__NB_DQ_URL', 'dq.html') : nbUrl('__NB_SCHEDULE_URL', 'schedule.html');
+    const dest = dq
+      ? nbUrl('__NB_DQ_URL', 'https://newlybooked.com/dq')
+      : nbUrl('__NB_SCHEDULE_URL', 'https://newlybooked.com/schedule-822049');
     setTimeout(() => {
       window.location.href = `${dest}${dest.includes('?') ? '&' : '?'}${params.toString()}`;
     }, 500);
