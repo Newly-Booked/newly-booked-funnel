@@ -82,7 +82,6 @@ function fillGhlForm(form, d) {
   setByName('name', d.name);
   setByName('email', d.email);
   setByName('phone', d.phone);
-  setByName('city', d.city);
 
   // Radio custom fields: select the option whose value matches the answer.
   // GHL hides the real <input> and styles a label, and its form engine tracks
@@ -113,9 +112,15 @@ function fillGhlForm(form, d) {
   };
   setByLabel('years in business', d.tenure);
   setByLabel('company business name', d.business);
-  // City/State: fill by name (standard City field) and by label (a custom
-  // "City / State" field whose input name is a random id).
-  setByLabel('city', d.city);
+  // City / State: the funnel stores "City, ST" (e.g. "Austin, TX"). Split it
+  // across the form's City and State fields, matched by name and by label so it
+  // works for standalone City/State fields or the GHL Address widget's sub-fields.
+  const cs = (d.city || '').trim();
+  const ci = cs.lastIndexOf(',');
+  const cityPart = ci > -1 ? cs.slice(0, ci).trim() : cs;
+  const statePart = ci > -1 ? cs.slice(ci + 1).trim() : '';
+  setByName('city', cityPart); setByLabel('city', cityPart);
+  if (statePart) { setByName('state', statePart); setByLabel('state', statePart); }
 
   // Consent checkboxes
   form.querySelectorAll('input[type="checkbox"]').forEach((cb) => { if (!cb.checked) cb.click(); });
