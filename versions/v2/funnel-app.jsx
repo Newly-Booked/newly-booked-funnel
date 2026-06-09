@@ -126,7 +126,7 @@ function fillGhlForm(form, d) {
   fillAny('before we move forward', d.location);
   fillAny('kybella', d.treatment);
   fillAny('fridays', d.frisat);
-  fillAny('monthly revenue', d.revenue);
+  fillAny('per month', d.revenue);
   fillAny('sales abilities', d.sales);
   fillAny('run ads', d.ads);
   setByLabel('years in business', d.tenure);
@@ -184,7 +184,7 @@ const STEPS = [
   },
   {
     id: 'treatment', kind: 'choices', key: 'treatment', cols: 1,
-    q: 'Can your clinic currently perform fat-reduction treatments like Kybella or PCDC (Liquid Lipo)?',
+    q: 'Do you own a medical spa or aesthetic clinic that currently offers fat-reduction treatments like Kybella or PCDC (Liquid Lipo)?',
     options: [
       { v: 'yes', label: 'Yes, we already offer it' },
       { v: 'open', label: 'No, BUT we have injectors and are open to offer it, if it makes sense' },
@@ -193,7 +193,7 @@ const STEPS = [
   },
   {
     id: 'revenue', kind: 'choices', key: 'revenue', cols: 2,
-    q: 'What’s your approximate monthly revenue?',
+    q: 'What does your spa currently bring in per month?',
     options: [
       { v: '<10', label: 'Under $10K', dq: true },
       { v: '10-30', label: '$10K – $30K', dq: true },
@@ -204,7 +204,7 @@ const STEPS = [
   {
     id: 'frisat', kind: 'choices', key: 'frisat', cols: 1,
     q: '55% of sales happen Friday & Saturday. Are you willing to take consultations on those days every week?',
-    sub: 'This program has generated over $5M for our spas, and the weekend is the biggest revenue window.',
+    sub: 'This program has generated over $5.3M for our spas, and the weekend is the biggest revenue window.',
     options: [
       { v: 'yes', label: 'Yes, I am ready to do whatever it takes to grow my business' },
       { v: 'no', label: 'No, I am not willing to make Fridays and Saturdays available for consultations', dq: true },
@@ -223,19 +223,21 @@ const STEPS = [
   {
     id: 'sales', kind: 'choices', key: 'sales', cols: 1,
     q: 'How confident are you in your sales abilities?',
-    sub: 'Only spas with sales experience are wildly successful with our program.',
+    sub: 'Sales experience is the common thread among our most successful spas.',
     options: [
-      { v: 'very', label: 'Very confident' },
-      { v: 'somewhat', label: 'Somewhat confident' },
-      { v: 'not', label: 'Not very confident' },
+      { v: 'experienced', label: 'I have prior sales experience or already sell 4-figure packages at my spa. I just need more appointments/opportunities.' },
+      { v: 'natural', label: "I am charismatic and a natural hustler. Just tell me what to say and I'll sell it till the cows come home" },
+      { v: 'not-sales', label: "I wouldn't consider myself a sales person" },
+      { v: 'dislike', label: "I don't like the idea of having to actively sell patients into 4-figure treatment plans" },
     ],
   },
   {
-    id: 'ads', kind: 'choices', key: 'ads', cols: 2,
-    q: 'Have you run ads or worked with a marketing company before?',
+    id: 'ads', kind: 'choices', key: 'ads', cols: 1,
+    q: 'Have you worked with an agency or run ads before?',
     options: [
-      { v: 'yes', label: 'Yes, I have' },
-      { v: 'no', label: 'No, never' },
+      { v: 'yes', label: 'Yes' },
+      { v: 'no', label: 'No' },
+      { v: 'never', label: "No, I've never tried any forms of paid marketing" },
     ],
   },
   {
