@@ -84,13 +84,22 @@ function fillGhlForm(form, d) {
   setByName('phone', d.phone);
   setByName('city', d.city);
 
-  // Radio custom fields: click the option whose value matches the answer.
+  // Radio custom fields: select the option whose value matches the answer.
+  // GHL hides the real <input> and styles a label, and its form engine tracks
+  // its own state — so click the label (what a human clicks) AND fire
+  // input/change so the framework registers the choice, not just the DOM.
   const radios = Array.from(form.querySelectorAll('input[type="radio"]'));
   [d.own, d.location, d.treatment, d.revenue, d.frisat].forEach((val) => {
     if (!val) return;
     const nv = nbNorm(val);
     const r = radios.find((x) => nbNorm(x.value) === nv || nbNorm(fieldLabel(form, x)) === nv);
-    if (r && !r.checked) r.click();
+    if (r && !r.checked) {
+      const lbl = r.closest('label') || (r.id && form.querySelector('label[for="' + r.id + '"]'));
+      (lbl || r).click();
+      if (!r.checked) r.click();
+      r.dispatchEvent(new Event('input', { bubbles: true }));
+      r.dispatchEvent(new Event('change', { bubbles: true }));
+    }
   });
 
   // Text custom fields, matched by label (their input names are random ids).
