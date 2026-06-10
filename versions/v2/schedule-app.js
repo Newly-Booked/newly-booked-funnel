@@ -1,6 +1,6 @@
 /* Newly Booked — schedule page, streamed from the repo.
-   Injects the "pick your time" markup + styles, then prefills the iClosed
-   popup from the lead's details (URL params first, then the localStorage the
+   Injects the markup + styles, then renders the iClosed INLINE calendar
+   prefilled from the lead's details (URL params first, then the localStorage the
    funnel wrote). A tiny shell on the GHL page loads this file, so every edit
    here goes live on push — no re-paste of the schedule page ever again. */
 (function () {
@@ -40,7 +40,8 @@
     '#nb-schedule .meta{display:flex;flex-wrap:wrap;justify-content:center;gap:8px 18px;margin-top:18px}',
     '#nb-schedule .meta span{display:inline-flex;align-items:center;gap:7px;font-size:13px;font-weight:600;color:var(--navy-500)}',
     '#nb-schedule .meta svg{width:15px;height:15px;color:var(--blue-500)}',
-    '#nb-schedule .cal{width:100%;max-width:560px;margin:26px auto 0;background:#fff;border:1px solid var(--line);border-radius:20px;box-shadow:0 26px 60px -30px rgba(10,22,40,.34);display:flex;flex-direction:column;align-items:center;text-align:center;gap:6px;padding:48px 26px}',
+    '#nb-schedule .cal{width:100%;max-width:640px;margin:22px auto 0;background:#fff;border:1px solid var(--line);border-radius:20px;box-shadow:0 26px 60px -30px rgba(10,22,40,.34);padding:8px;overflow:hidden}',
+    '#nb-schedule .cal .iclosed-widget{display:block;width:100%;border-radius:13px;overflow:hidden}',
     '#nb-schedule .cal .ic{width:64px;height:64px;border-radius:20px;display:flex;align-items:center;justify-content:center;background:linear-gradient(160deg,#2B54E8,#1E3FC9);color:#fff;box-shadow:0 16px 30px -12px rgba(43,84,232,.5);margin-bottom:8px}',
     '#nb-schedule .cal .ic svg{width:30px;height:30px}',
     '#nb-schedule .cal h2{font-weight:800;font-size:20px;letter-spacing:-.01em}',
@@ -78,15 +79,7 @@
         </div>
 
         <div class="cal">
-          <span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4.5" width="18" height="17" rx="2.5"/><path d="M3 9.5h18M8 2.5v4M16 2.5v4"/></svg></span>
-          <h2>Book your intro call</h2>
-          <p>Tap below to open your calendar and grab a 15-minute slot, right here. Takes about 30 seconds.</p>
-          <button class="book-btn" id="sch-book" type="button"
-                  data-iclosed-link="https://app.iclosed.io/e/newlybooked/setter-call"
-                  data-embed-type="popup">
-            Pick your time
-            <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
-          </button>
+          <div class="iclosed-widget" id="sch-cal" data-url="https://app.iclosed.io/e/newlybooked/setter-call" title="INTRO CALL" style="width:100%;height:680px"></div>
         </div>
       </div>
 
@@ -125,10 +118,12 @@
   // iClosed's docs want spaces as %20, not the + that URLSearchParams emits.
   // (A literal + inside a value stays %2B, so emails like a+b@x.com survive.)
   var qs = pre.toString().replace(/\+/g, '%20');
-  var btn = document.getElementById('sch-book');
-  if (btn) btn.setAttribute('data-iclosed-link', ICLOSED + (qs ? ('?' + qs) : ''));
+  // Set the prefilled URL on the inline widget BEFORE widget.js runs below, so
+  // the embedded calendar opens with name/email/phone already filled in.
+  var cal = document.getElementById('sch-cal');
+  if (cal) cal.setAttribute('data-url', ICLOSED + (qs ? ('?' + qs) : ''));
 
-  // --- iClosed popup widget (opens the calendar overlay on this page) ---
+  // --- iClosed widget script — renders the inline calendar from the div above ---
   var w = document.createElement('script');
   w.type = 'text/javascript';
   w.src = 'https://app.iclosed.io/assets/widget.js';
