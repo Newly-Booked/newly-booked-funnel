@@ -571,7 +571,7 @@ function Funnel({ embedded } = {}) {
                   <div className="pf-ac">
                     <input
                       className="pf-input" type="text" autoFocus autoComplete="off"
-                      placeholder="Example: Plano, Texas"
+                      placeholder="e.g. Plano, TX"
                       value={answers[step.key] || ''}
                       onChange={(e) => { setAnswers((a) => ({ ...a, [step.key]: e.target.value })); setShowCity(true); }}
                       onKeyDown={(e) => { if (e.key === 'Enter') { e.preventDefault(); if ((answers[step.key] || '').trim()) goNext(); } }}
