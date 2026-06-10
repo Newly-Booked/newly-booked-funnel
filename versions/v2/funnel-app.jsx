@@ -62,6 +62,31 @@ function fieldLabel(form, input) {
   const c = input.closest('label');
   return c ? (c.textContent || '').trim() : '';
 }
+// GHL renders SINGLE_OPTIONS custom fields as a vue-multiselect dropdown widget
+// (class "multiselect"), not a native radio/<select>, and with NO hidden input —
+// so setByName, the radio loop, and setSelect can't fill them. Drive it like a
+// user: click the option whose text matches the answer. vue-multiselect selects
+// on the option's click handler, and a dispatched click works even while the
+// dropdown is closed (verified against the live widget). Identify the widget by
+// its field label (needles = lowercase substrings unique to that question).
+function fillMultiselect(form, needles, value) {
+  if (!value) return false;
+  const want = nbNorm(value);
+  const boxes = Array.from(form.querySelectorAll('.multiselect'));
+  for (const box of boxes) {
+    const inp = box.querySelector('input');
+    let label = '';
+    if (inp && inp.id) { const l = form.querySelector('label[for="' + inp.id + '"]'); if (l) label = l.textContent || ''; }
+    if (!label) { const w = box.closest('.form-field-wrapper, .form-field-container'); const l = w && w.querySelector('label'); if (l) label = l.textContent || ''; }
+    label = label.toLowerCase();
+    if (!needles.some((n) => label.indexOf(n) !== -1)) continue;
+    const opts = Array.from(box.querySelectorAll('.multiselect__option'));
+    let opt = opts.find((o) => nbNorm(o.textContent) === want);
+    if (!opt) opt = opts.find((o) => { const t = nbNorm(o.textContent); return t && (t.indexOf(want) !== -1 || want.indexOf(t) !== -1); });
+    if (opt) { opt.dispatchEvent(new MouseEvent('click', { bubbles: true, cancelable: true })); return true; }
+  }
+  return false;
+}
 // Fill a hidden GHL form (rendered in the same page DOM, custom class
 // "nb-hidden-form") with the lead's data, then its submit creates the contact.
 //   - Standard contact fields by input name.
@@ -114,7 +139,7 @@ function fillGhlForm(form, d) {
     const skip = ['first_name', 'last_name', 'full_name', 'name'];
     const hay = (i) => (fieldLabel(form, i) + ' ' + (i.name || '') + ' ' + (i.id || '') + ' ' + (i.placeholder || '')).toLowerCase();
     const match = Array.from(form.querySelectorAll('input[type="text"], textarea'))
-      .find((i) => skip.indexOf(i.name) === -1 && alts.some((a) => hay(i).indexOf(a) !== -1));
+      .find((i) => skip.indexOf(i.name) === -1 && !i.closest('.multiselect') && alts.some((a) => hay(i).indexOf(a) !== -1));
     if (match) setNativeInputValue(match, v);
   };
   // Native <select> dropdown custom fields → set the matching option by label.
@@ -139,6 +164,12 @@ function fillGhlForm(form, d) {
   fillAny(['revenue', 'per month'], d.revenue);
   fillAny('sales abilities', d.sales);
   fillAny('run ads', d.ads);
+  // GHL single-option dropdowns render as vue-multiselect widgets — Treatment,
+  // Weekend Consults, and Sales come through this way. Click the matching option
+  // (the fillAny calls above only cover the radio/text/native-select variants).
+  fillMultiselect(form, ['kybella'], d.treatment);
+  fillMultiselect(form, ['fridays'], d.frisat);
+  fillMultiselect(form, ['sales abilities'], d.sales);
   // Tenure text field. Verified display name is "Business Experience" (key
   // how_long_has_your_medspa_been_in_business); older copies were labeled
   // "Years in Business" / the quiz wording — match any of them. Funnel writes the
