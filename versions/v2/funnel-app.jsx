@@ -46,11 +46,13 @@ function setNativeInputValue(input, value) {
 }
 
 // Normalize a string for matching: unify dash and curly-apostrophe variants,
-// collapse whitespace, lowercase. Lets answer labels with em/en dashes (e.g.
-// "Yes — Kybella / PCDC", "$10K – $30K") match the GHL radio option values.
+// collapse whitespace AND any spaces around a dash, lowercase. Lets answer labels
+// match GHL option values regardless of dash style or spacing — e.g. the funnel's
+// "1 – 3 years" / "$10K – $30K" match GHL's "1-3 years" / "$10K-$30K".
 function nbNorm(s) {
   return String(s || '')
     .replace(/[‒-―−]/g, '-')
+    .replace(/\s*-\s*/g, '-')
     .replace(/[‘’]/g, "'")
     .replace(/\s+/g, ' ').trim().toLowerCase();
 }
@@ -146,7 +148,7 @@ function fillGhlForm(form, d, onComplete) {
   // radio (which tops out at "More than 3 years"), so collapse 3–5 / 5+ onto it
   // so the radio registers. "Under 1 year" disqualifies and never reaches here.
   // (If the field is switched to Text, setByLabel below writes the exact bucket.)
-  const tenureRadio = { '3 - 5 years': 'More than 3 years', '5+ years': 'More than 3 years' }[nbNorm(d.tenure)] || d.tenure;
+  const tenureRadio = { '3-5 years': 'More than 3 years', '5+ years': 'More than 3 years' }[nbNorm(d.tenure)] || d.tenure;
   const radios = Array.from(form.querySelectorAll('input[type="radio"]'));
   [d.own, d.location, d.treatment, d.revenue, d.frisat, tenureRadio, d.sales, d.ads].forEach((val) => {
     if (!val) return;
