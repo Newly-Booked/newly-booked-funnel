@@ -64,28 +64,58 @@ function fieldLabel(form, input) {
 }
 // GHL renders SINGLE_OPTIONS custom fields as a vue-multiselect dropdown widget
 // (class "multiselect"), not a native radio/<select>, and with NO hidden input —
-// so setByName, the radio loop, and setSelect can't fill them. Drive it like a
-// user: click the option whose text matches the answer. vue-multiselect selects
-// on the option's click handler, and a dispatched click works even while the
-// dropdown is closed (verified against the live widget). Identify the widget by
-// its field label (needles = lowercase substrings unique to that question).
-function fillMultiselect(form, needles, value) {
-  if (!value) return false;
-  const want = nbNorm(value);
-  const boxes = Array.from(form.querySelectorAll('.multiselect'));
-  for (const box of boxes) {
-    const inp = box.querySelector('input');
+// so setByName, the radio loop, and setSelect can't fill them. GHL also mounts
+// each widget's option list LAZILY (the options only exist in the DOM once the
+// dropdown is opened), so we must: open the widget → wait for its options to
+// render → click the match. We do this one widget at a time, because opening the
+// next one collapses the previous list. Each widget is matched by its field
+// label (needles = lowercase substrings unique to that question). Async, so it
+// calls onDone() when every job is finished (or skipped).
+function findMultiselect(form, needles) {
+  return Array.from(form.querySelectorAll('.multiselect')).find((b) => {
+    if (b.__nbFilled) return false;
+    const inp = b.querySelector('input');
     let label = '';
     if (inp && inp.id) { const l = form.querySelector('label[for="' + inp.id + '"]'); if (l) label = l.textContent || ''; }
-    if (!label) { const w = box.closest('.form-field-wrapper, .form-field-container'); const l = w && w.querySelector('label'); if (l) label = l.textContent || ''; }
+    if (!label) { const w = b.closest('.form-field-wrapper, .form-field-container'); const l = w && w.querySelector('label'); if (l) label = l.textContent || ''; }
     label = label.toLowerCase();
-    if (!needles.some((n) => label.indexOf(n) !== -1)) continue;
-    const opts = Array.from(box.querySelectorAll('.multiselect__option'));
-    let opt = opts.find((o) => nbNorm(o.textContent) === want);
-    if (!opt) opt = opts.find((o) => { const t = nbNorm(o.textContent); return t && (t.indexOf(want) !== -1 || want.indexOf(t) !== -1); });
-    if (opt) { opt.dispatchEvent(new MouseEvent('click', { bubbles: true, cancelable: true })); return true; }
-  }
-  return false;
+    return needles.some((n) => label.indexOf(n) !== -1);
+  });
+}
+function fillMultiselects(form, jobs, onDone) {
+  let i = 0;
+  const step = () => {
+    if (i >= jobs.length) return onDone && onDone();
+    const job = jobs[i++];
+    const box = job.value ? findMultiselect(form, job.needles) : null;
+    if (!box) return step();
+    box.__nbFilled = true;
+    const want = nbNorm(job.value);
+    const inp = box.querySelector('input');
+    const opener = box.querySelector('.multiselect__select') || box.querySelector('.multiselect__tags') || box;
+    const open = () => {
+      opener.dispatchEvent(new MouseEvent('mousedown', { bubbles: true, cancelable: true }));
+      if (inp) { try { inp.focus(); } catch (e) {} }
+      opener.dispatchEvent(new MouseEvent('mouseup', { bubbles: true, cancelable: true }));
+    };
+    open();
+    let tries = 0;
+    const pick = () => {
+      const opts = Array.from(box.querySelectorAll('.multiselect__option'));
+      let opt = opts.find((o) => nbNorm(o.textContent) === want);
+      if (!opt) opt = opts.find((o) => { const t = nbNorm(o.textContent); return t && (t.indexOf(want) !== -1 || want.indexOf(t) !== -1); });
+      if (opt) {
+        // Different vue-multiselect builds bind select to mousedown OR click — fire both.
+        opt.dispatchEvent(new MouseEvent('mousedown', { bubbles: true, cancelable: true }));
+        opt.dispatchEvent(new MouseEvent('click', { bubbles: true, cancelable: true }));
+        return setTimeout(step, 70);
+      }
+      if (tries++ < 10) { if (tries % 3 === 0) open(); return setTimeout(pick, 70); }
+      step();
+    };
+    setTimeout(pick, 50);
+  };
+  step();
 }
 // Fill a hidden GHL form (rendered in the same page DOM, custom class
 // "nb-hidden-form") with the lead's data, then its submit creates the contact.
@@ -96,7 +126,7 @@ function fillMultiselect(form, needles, value) {
 //     strings are unique across questions, so there is no ambiguity.
 //   - Text custom fields (Years in Business, Company Business Name): GHL gives
 //     these random input names, so match them by their visible label.
-function fillGhlForm(form, d) {
+function fillGhlForm(form, d, onComplete) {
   const setByName = (n, v) => { const i = form.querySelector('input[name="' + n + '"]'); if (i && v != null) setNativeInputValue(i, v); };
   const parts = (d.name || '').trim().split(/\s+/);
   const first = parts.shift() || '';
@@ -169,12 +199,6 @@ function fillGhlForm(form, d) {
   fillAny(['revenue', 'per month'], d.revenue);
   fillAny('sales abilities', d.sales);
   fillAny('run ads', d.ads);
-  // GHL single-option dropdowns render as vue-multiselect widgets — Treatment,
-  // Weekend Consults, and Sales come through this way. Click the matching option
-  // (the fillAny calls above only cover the radio/text/native-select variants).
-  fillMultiselect(form, ['kybella'], d.treatment);
-  fillMultiselect(form, ['fridays'], d.frisat);
-  fillMultiselect(form, ['sales abilities'], d.sales);
   // Tenure text field. Verified display name is "Business Experience" (key
   // how_long_has_your_medspa_been_in_business); older copies were labeled
   // "Years in Business" / the quiz wording — match any of them. Funnel writes the
@@ -195,6 +219,15 @@ function fillGhlForm(form, d) {
 
   // Consent checkboxes
   form.querySelectorAll('input[type="checkbox"]').forEach((cb) => { if (!cb.checked) cb.click(); });
+
+  // GHL single-option dropdowns (vue-multiselect) — Treatment, Weekend, Sales.
+  // Done last and asynchronously (they open/render lazily); fire onComplete when
+  // every one is selected so the caller submits only after they're filled.
+  fillMultiselects(form, [
+    { needles: ['kybella'], value: d.treatment },
+    { needles: ['fridays'], value: d.frisat },
+    { needles: ['sales abilities'], value: d.sales },
+  ], onComplete);
 }
 
 function phoneDigits(raw) { return String(raw || '').replace(/\D/g, ''); }
@@ -403,6 +436,16 @@ function Funnel({ embedded } = {}) {
     // owns the disqualify decision).
     const ghlForm = document.querySelector('.nb-hidden-form');
     if (ghlForm && !dq) {
+      // The vue-multiselect dropdowns fill asynchronously (open → render → click),
+      // so submit only AFTER fillGhlForm signals it's done — with a 2.5s fallback
+      // in case that chain stalls. The guard keeps it to a single submit.
+      let submitted = false;
+      const doSubmit = () => {
+        if (submitted) return;
+        submitted = true;
+        const btn = ghlForm.querySelector('button[type="submit"]') || ghlForm.querySelector('button');
+        if (btn) btn.click();
+      };
       fillGhlForm(ghlForm, {
         name: name.trim(), email: email.trim(), phone: phone.trim(),
         city: (answers.city || '').trim(),
@@ -415,11 +458,8 @@ function Funnel({ embedded } = {}) {
         sales: labelFor('sales', answers.sales),
         ads: labelFor('ads', answers.ads),
         business: (answers.business || '').trim(),
-      });
-      setTimeout(() => {
-        const btn = ghlForm.querySelector('button[type="submit"]') || ghlForm.querySelector('button');
-        if (btn) btn.click();
-      }, 250);
+      }, () => setTimeout(doSubmit, 120));
+      setTimeout(doSubmit, 2500);
       return;
     }
 
