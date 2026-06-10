@@ -259,16 +259,6 @@ const STEPS = [
     ],
   },
   {
-    id: 'location', kind: 'choices', key: 'location', cols: 1,
-    q: 'Can you confirm your business is a medical spa or aesthetic clinic with a physical location?',
-    options: [
-      { v: 'yes', label: 'Yes, I own a medical spa with a physical location (suite or storefront)' },
-      { v: 'no-loc', label: "I don't operate out of a physical location", dq: true },
-      { v: 'not-open', label: "I haven't opened yet", dq: true },
-      { v: 'not-medspa', label: "I'm not a medical spa or an aesthetic clinic", dq: true },
-    ],
-  },
-  {
     id: 'treatment', kind: 'choices', key: 'treatment', cols: 1,
     q: 'Do you currently offer Kybella, PCDC, Liquid Lipo, or Lemon Bottle?',
     options: [
