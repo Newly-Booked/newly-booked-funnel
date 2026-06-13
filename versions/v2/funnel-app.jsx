@@ -144,13 +144,10 @@ function fillGhlForm(form, d, onComplete) {
   // GHL hides the real <input> and styles a label, and its form engine tracks
   // its own state — so click the label (what a human clicks) AND fire
   // input/change so the framework registers the choice, not just the DOM.
-  // Tenure: the funnel's buckets are finer than the GHL "Business Experience"
-  // radio (which tops out at "More than 3 years"), so collapse 3–5 / 5+ onto it
-  // so the radio registers. "Under 1 year" disqualifies and never reaches here.
-  // (If the field is switched to Text, setByLabel below writes the exact bucket.)
-  const tenureRadio = { '3-5 years': 'More than 3 years', '5+ years': 'More than 3 years' }[nbNorm(d.tenure)] || d.tenure;
+  // Tenure sends the raw bucket ("1 – 3 years" / "3 – 5 years" / "5+ years"),
+  // which now match the GHL "Business Experience" radio options directly.
   const radios = Array.from(form.querySelectorAll('input[type="radio"]'));
-  [d.own, d.location, d.treatment, d.revenue, d.frisat, tenureRadio, d.sales, d.ads].forEach((val) => {
+  [d.own, d.location, d.treatment, d.revenue, d.frisat, d.tenure, d.sales, d.ads].forEach((val) => {
     if (!val) return;
     const nv = nbNorm(val);
     const r = radios.find((x) => nbNorm(x.value) === nv || nbNorm(fieldLabel(form, x)) === nv);
