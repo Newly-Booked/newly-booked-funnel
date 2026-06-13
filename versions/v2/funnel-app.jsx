@@ -459,6 +459,42 @@ function Funnel({ embedded } = {}) {
       return;
     }
 
+    // DQ leads: if a dedicated DQ-capture form ("nb-hidden-form-dq") is on the
+    // page, fill + submit it so the lead still becomes a GHL contact (tag it
+    // "Disqualified" in GHL and point that form's On-Submit redirect at /dq).
+    // Same mechanics as the qualified form above; with no DQ form present it
+    // falls through to the webhook/redirect below, unchanged.
+    const dqForm = dq ? document.querySelector('.nb-hidden-form-dq') : null;
+    if (dqForm) {
+      let dqDone = false;
+      const submitDq = () => {
+        if (dqDone) return;
+        dqDone = true;
+        const b = dqForm.querySelector('button[type="submit"]') || dqForm.querySelector('button');
+        if (b) b.click();
+      };
+      fillGhlForm(dqForm, {
+        name: name.trim(), email: email.trim(), phone: phone.trim(),
+        city: (answers.city || '').trim(),
+        own: labelFor('own', answers.own),
+        treatment: labelFor('treatment', answers.treatment),
+        revenue: labelFor('revenue', answers.revenue),
+        frisat: labelFor('frisat', answers.frisat),
+        tenure: labelFor('tenure', answers.tenure),
+        sales: labelFor('sales', answers.sales),
+        ads: labelFor('ads', answers.ads),
+        business: (answers.business || '').trim(),
+      }, () => setTimeout(submitDq, 120));
+      setTimeout(submitDq, 2500);
+      // Safety net if the DQ form has no On-Submit redirect of its own: send the
+      // lead to /dq once the contact has had time to save.
+      setTimeout(() => {
+        const d = nbUrl('__NB_DQ_URL', 'https://newlybooked.com/dq');
+        window.location.href = d + (d.indexOf('?') > -1 ? '&' : '?') + 'status=dq';
+      }, 4500);
+      return;
+    }
+
     // Otherwise: push the full lead to GHL via webhook (if __NB_GHL_WEBHOOK is
     // set) and redirect ourselves. Covers DQ leads and any page (e.g. the
     // standalone repo build) that has no hidden GHL form.
