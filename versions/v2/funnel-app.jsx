@@ -602,16 +602,6 @@ function Funnel({ embedded } = {}) {
                 </div>
               )}
 
-              {(step.kind === 'cards' || (step.kind === 'choices' && !otherMode)) && (
-                <div className="pf-guarantee">
-                  <span className="pf-guarantee-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round"><path d="M12 3l7 3v5.2c0 4.3-2.9 8-7 8.8-4.1-.8-7-4.5-7-8.8V6l7-3z"/><path d="M9 12l2 2 4-4"/></svg></span>
-                  <div className="pf-guarantee-txt">
-                    <div className="pf-guarantee-h">Try 100% risk-free with a money-back guarantee</div>
-                    <p>We only work with clinics we know we can deliver for. And to make it a no-brainer, we offer a 100% risk-free guarantee: you get results, or we work for free.</p>
-                  </div>
-                </div>
-              )}
-
               {step.kind === 'choices' && otherMode && (
                 <form className="pf-form" onSubmit={(e) => { e.preventDefault(); if ((answers[step.key] || '').trim()) goNext(); }}>
                   <input className="pf-input" type="text" autoFocus placeholder="Your city & state (e.g. Austin, TX)"

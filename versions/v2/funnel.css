@@ -186,16 +186,6 @@
 .pf-choices.cols-2 .pf-choice:last-child:nth-child(odd) {
   grid-column: 1 / -1; justify-self: center; width: calc(50% - 6px);
 }
-/* Risk-reversal guarantee shown under the answer options on each question. */
-.pf-guarantee {
-  display: flex; gap: 11px; align-items: flex-start; text-align: left;
-  max-width: 480px; margin: 18px auto 0; padding: 13px 15px;
-  border: 1px solid var(--line); border-radius: 14px; background: var(--gold-50);
-}
-.pf-guarantee-ic { flex: 0 0 auto; color: var(--gold-500); display: inline-flex; }
-.pf-guarantee-ic svg { width: 22px; height: 22px; display: block; }
-.pf-guarantee-h { font-weight: 800; font-size: 12px; letter-spacing: .03em; text-transform: uppercase; color: var(--gold-500); line-height: 1.35; }
-.pf-guarantee p { margin-top: 4px; font-size: 12.5px; line-height: 1.5; color: var(--navy-500); }
 /* Single-column choices carry long answer text — left-align and relax the weight
    so multi-line options read cleanly (keeps the navy card look). */
 .pf-choices.cols-1 { max-width: 560px; }

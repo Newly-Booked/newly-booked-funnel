@@ -161,6 +161,24 @@ p { margin: 0; }
 .cta-band { padding: 48px 0 52px; text-align: center; }
 .cta-band .container { text-align: center; }
 .cta-band-note { font-family: "Inter", sans-serif; font-size: 12px; color: var(--ink-3); margin-top: 14px; letter-spacing: 0.05em; }
+/* Full-bleed risk-reversal guarantee banner (above the final CTA). */
+.guarantee-band {
+  background: linear-gradient(120deg, #2B6FF2 0%, var(--gold-500) 100%);
+  padding: clamp(52px, 8vw, 92px) 0;
+  text-align: center;
+}
+.guarantee-band .container { text-align: center; }
+.guarantee-band h2 {
+  font-family: "Inter", -apple-system, sans-serif;
+  font-weight: 900; text-transform: uppercase; letter-spacing: 0.005em;
+  font-size: clamp(26px, 5.2vw, 50px); line-height: 1.1;
+  color: var(--paper); max-width: 18ch; margin: 0 auto;
+}
+.guarantee-band p {
+  font-family: "Inter", -apple-system, sans-serif;
+  font-size: clamp(16px, 2vw, 21px); line-height: 1.55;
+  color: rgba(255, 255, 255, 0.92); max-width: 54ch; margin: 20px auto 0;
+}
 .btn-ghost {
   background: transparent;
   color: var(--ink);
