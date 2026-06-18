@@ -363,6 +363,19 @@ function Funnel({ embedded } = {}) {
   const [showCity, setShowCity] = useState(false);
   useEffect(() => { setOtherMode(false); setShowCity(false); }, [idx]);
 
+  // Fire a Meta Pixel event each time a step is shown, so per-question drop-off
+  // appears in Events Manager (break down "QuizStep" by the `step` param) and you
+  // can retarget people who started the quiz (fired QuizStep) but never converted.
+  // Guarded by window.fbq — no-op anywhere the pixel isn't loaded.
+  useEffect(() => {
+    try {
+      const s = STEPS[idx];
+      if (s && typeof window !== 'undefined' && window.fbq) {
+        window.fbq('trackCustom', 'QuizStep', { step: idx + 1, step_name: s.id, total_steps: STEPS.length });
+      }
+    } catch (e) {}
+  }, [idx]);
+
   // City autocomplete
   const cityList = (typeof window !== 'undefined' && window.NB_CITIES) || [];
   const cq = (answers.city || '').trim().toLowerCase();
@@ -586,6 +599,16 @@ function Funnel({ embedded } = {}) {
                       onClick={() => (o.other ? setOtherMode(true) : pick(o))}
                     >{o.label}{o.other ? ' →' : ''}</button>
                   ))}
+                </div>
+              )}
+
+              {(step.kind === 'cards' || (step.kind === 'choices' && !otherMode)) && (
+                <div className="pf-guarantee">
+                  <span className="pf-guarantee-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round"><path d="M12 3l7 3v5.2c0 4.3-2.9 8-7 8.8-4.1-.8-7-4.5-7-8.8V6l7-3z"/><path d="M9 12l2 2 4-4"/></svg></span>
+                  <div className="pf-guarantee-txt">
+                    <div className="pf-guarantee-h">Try 100% risk-free with a money-back guarantee</div>
+                    <p>We only work with clinics we know we can deliver for. And to make it a no-brainer, we offer a 100% risk-free guarantee: you get results, or we work for free.</p>
+                  </div>
                 </div>
               )}
 
