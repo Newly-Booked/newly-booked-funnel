@@ -433,7 +433,7 @@ function App() {
       {/* GUARANTEE */}
       <section className="guarantee-band" data-screen-label="Guarantee">
         <div className="container">
-          <h2>Try 100% risk-free with a money-back guarantee</h2>
+          <h2>Try 100% risk-free — we win when you win</h2>
           <p>We only work with clinics we know we can deliver for. And to make it a no-brainer, we offer a 100% risk-free guarantee: you get results, or we work for free.</p>
         </div>
       </section>
