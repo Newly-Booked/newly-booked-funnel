@@ -269,7 +269,7 @@ const STEPS = [
     q: 'What does your spa currently bring in per month?',
     options: [
       { v: '<15', label: 'Under $15K', dq: true },
-      { v: '15-50', label: '$15K – $50K' },
+      { v: '15-50', label: '$15K – $50K', dq: true },
       { v: '50-150', label: '$50K – $150K' },
       { v: '150-250', label: '$150K – $250K' },
       { v: '250+', label: '$250K & above' },
