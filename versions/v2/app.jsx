@@ -94,6 +94,12 @@ function App() {
             </div>
           </div>
           <ScreenshotWall />
+          <div style={{ textAlign: 'center', marginTop: 56 }}>
+            <a href="#qualify" className="btn btn-gold btn-lg btn-arrow">{CTA} </a>
+            <div style={{ fontFamily: 'Inter, sans-serif', fontSize: 12, color: 'var(--navy-200)', marginTop: 14, letterSpacing: '0.06em' }}>
+              60-second qualifier · No retainer · No 12-month lock
+            </div>
+          </div>
         </div>
       </section>
 

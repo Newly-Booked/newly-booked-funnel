@@ -158,28 +158,27 @@ p { margin: 0; }
 }
 .btn-primary:hover { background: var(--navy-700); }
 .btn-gold {
-  background: linear-gradient(165deg, #2B54E8 0%, #1E3FC9 100%);
+  background: linear-gradient(165deg, #FF453A 0%, #E11900 100%);
   color: #fff;
   font-weight: 700;
   border-radius: 10px;
-  box-shadow: 0 14px 32px -12px rgba(43, 84, 232, 0.55);
+  box-shadow: 0 14px 32px -12px rgba(225, 25, 0, 0.55);
 }
-.btn-gold:hover { transform: translateY(-2px); box-shadow: 0 22px 46px -12px rgba(43, 84, 232, 0.7); filter: brightness(1.06); }
-.btn-gold:active { transform: translateY(0); box-shadow: 0 10px 24px -12px rgba(43, 84, 232, 0.5); }
-/* On a dark section a blue button blends into the navy — flip it to a white
-   button with navy text so it stands out hard. */
+.btn-gold:hover { transform: translateY(-2px); box-shadow: 0 22px 46px -12px rgba(225, 25, 0, 0.7); filter: brightness(1.06); }
+.btn-gold:active { transform: translateY(0); box-shadow: 0 10px 24px -12px rgba(225, 25, 0, 0.5); }
+/* On dark sections, keep the CTA the same brand red as every other CTA
+   (Ivan: all CTAs one consistent color). Red pops hard on the navy. */
 .final-cta .btn-gold,
 .cta-band.dark .btn-gold {
-  background: #fff;
-  color: var(--navy-900);
-  box-shadow: 0 18px 44px -12px rgba(0, 0, 0, 0.55);
+  background: linear-gradient(165deg, #FF453A 0%, #E11900 100%);
+  color: #fff;
+  box-shadow: 0 18px 44px -12px rgba(225, 25, 0, 0.55);
 }
 .final-cta .btn-gold:hover,
 .cta-band.dark .btn-gold:hover {
-  background: #fff;
-  filter: none;
+  filter: brightness(1.06);
   transform: translateY(-2px);
-  box-shadow: 0 26px 56px -12px rgba(0, 0, 0, 0.66);
+  box-shadow: 0 26px 56px -12px rgba(225, 25, 0, 0.66);
 }
 .cta-band { padding: 48px 0 52px; text-align: center; }
 .cta-band .container { text-align: center; }
