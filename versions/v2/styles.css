@@ -663,6 +663,7 @@ wistia-player:not(:defined) {
   overflow: hidden;
 }
 .screenshot-wall .container { position: relative; z-index: 1; }
+.screenshot-wall em { color: #FF453A; }
 .screenshot-wall::before {
   content: "";
   position: absolute; inset: 0;

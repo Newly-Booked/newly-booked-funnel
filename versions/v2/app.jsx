@@ -85,7 +85,7 @@ function App() {
       <section className="screenshot-wall" id="screenshots" data-screen-label="03 Proof">
         <div className="container">
           <div className="section-head">
-            <div className="label" style={{ color: 'var(--gold-400)', borderTopColor: 'var(--gold-600)' }}>Receipts, not stories</div>
+            <div className="label" style={{ color: '#FF453A', borderTopColor: '#E11900' }}>Receipts, not stories</div>
             <div>
               <h2 style={{ color: 'var(--paper)' }}>Cherry sales. Calendars filling. <em>Real owner DMs.</em></h2>
               <p className="lede" style={{ color: 'var(--navy-200)' }}>
