@@ -1280,11 +1280,11 @@ wistia-player:not(:defined) {
   margin-top: 24px; max-width: 620px;
 }
 .final-cta-row {
-  margin-top: 40px;
+  margin-top: 28px;
   display: flex; gap: 18px; align-items: center; flex-wrap: wrap;
 }
 .final-cta-list {
-  margin-top: 60px;
+  margin-top: 32px;
   display: grid; grid-template-columns: repeat(3, 1fr); gap: 0;
   border-top: 1px solid var(--navy-700);
 }
@@ -1480,7 +1480,7 @@ body.airy .hero { padding: 110px 0 80px; }
   .marquee-inner span::after { right: -4px; font-size: 9px; }
   .final-cta { padding: 80px 0 !important; }
   .final-cta .lede { font-size: 16px; }
-  .final-cta-list li { padding: 22px 0; font-size: 15px; }
+  .final-cta-list li { padding: 13px 0; font-size: 15px; }
   .final-cta-row { gap: 14px; flex-direction: column; align-items: flex-start; }
   .final-cta-row .btn { width: 100%; }
   .footer-inner { gap: 14px; flex-direction: column; text-align: center; align-items: center; font-size: 11px; }
@@ -1516,14 +1516,14 @@ body.airy .hero { padding: 110px 0 80px; }
    ============================================================ */
 #hero, #proof, #screenshots, #numbers, #why,
 #mechanism, #how, #cases, #what, #faq, #final-cta {
-  padding-top: 32px !important;
-  padding-bottom: 64px !important;
+  padding-top: 28px !important;
+  padding-bottom: 44px !important;
 }
 @media (max-width: 768px) {
   #hero, #proof, #screenshots, #numbers, #why,
   #mechanism, #how, #cases, #what, #faq, #final-cta {
-    padding-top: 24px !important;
-    padding-bottom: 48px !important;
+    padding-top: 20px !important;
+    padding-bottom: 34px !important;
   }
 }
 /* Zero out trailing-child margin so visible gap = section padding sum */
