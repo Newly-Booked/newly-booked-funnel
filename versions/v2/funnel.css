@@ -150,10 +150,10 @@
 .pf-cards.cols-3 > * { flex-basis: calc(33.333% - 12px); }
 .pf-cards.cols-4 > * { flex-basis: calc(25% - 13.5px); }
 .pf-card {
-  /* Visible navy edge + 2px bottom "lip" so the answer reads as a pressable button */
-  border: 2px solid var(--navy-200); background: #fff; border-radius: 20px;
+  /* Red edge + 2px bottom "lip" so the answer clearly reads as a pressable button (per Jesus) */
+  border: 2px solid #FF453A; background: #fff; border-radius: 20px;
   overflow: hidden; padding: 0; display: flex; flex-direction: column;
-  box-shadow: 0 2px 0 0 var(--navy-200), 0 22px 44px -22px rgba(10, 22, 40, 0.30);
+  box-shadow: 0 2px 0 0 #E11900, 0 22px 44px -22px rgba(10, 22, 40, 0.30);
   transition: transform 140ms ease, box-shadow 140ms ease, border-color 140ms ease;
   text-align: center;
 }
@@ -193,10 +193,10 @@
 .pf-choices.cols-1 { grid-template-columns: 1fr; max-width: 480px; margin-left: auto; margin-right: auto; }
 .pf-choices.cols-3 { grid-template-columns: repeat(3, minmax(0, 1fr)); }
 .pf-choice {
-  border: 2px solid var(--navy-200); background: #fff; border-radius: 14px;
+  border: 2px solid #FF453A; background: #fff; border-radius: 14px;
   padding: 22px 16px; font-weight: 700; font-size: clamp(16px, 1.5vw, 19px);
   color: var(--navy-900); text-align: center;
-  box-shadow: 0 2px 0 0 var(--navy-200), 0 10px 26px -18px rgba(10, 22, 40, 0.32);
+  box-shadow: 0 2px 0 0 #E11900, 0 10px 26px -18px rgba(10, 22, 40, 0.32);
   transition: transform 120ms ease, border-color 120ms ease, background 120ms ease, box-shadow 120ms ease;
 }
 .pf-choice:hover { transform: translateY(-3px); border-color: #FF453A; background: #FFF4F3; box-shadow: 0 2px 0 0 #E11900, 0 18px 36px -16px rgba(225, 25, 0, 0.32); }
