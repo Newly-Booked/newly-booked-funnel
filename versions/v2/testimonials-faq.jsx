@@ -57,11 +57,25 @@ const TESTIMONIALS = [
   },
 ];
 
-// Wistia upgrades <wistia-player> only after the per-media embed module
-// loads. We inject it on first mount and skip on subsequent re-renders.
-function useWistiaEmbed(id) {
+// Wistia still-image posters, shown until the visitor taps a card. Keeping the
+// live <wistia-player> embeds OUT of the initial render is what fixes the iOS
+// scroll problem: all 6 players were mounting on page load, blocking the main
+// thread and trapping the scroll touch as you dragged over a video. Now each
+// card is just a static <img> until you tap play, then its player loads.
+const WISTIA_POSTER = {
+  '8t1vtmy0my': 'https://embed-ssl.wistia.com/deliveries/bd4c21916ff10c7e6f8039e7038ac140182d7764.jpg?image_crop_resized=960x540',
+  's6a0lg2l2b': 'https://embed-ssl.wistia.com/deliveries/b74a629c830d9fae124a4e192fd12510b55d6841.jpg?image_crop_resized=960x540',
+  'krkefwptbl': 'https://embed-ssl.wistia.com/deliveries/7dac7b2b22438ca14b70a9e431b439dadc3c3528.jpg?image_crop_resized=960x540',
+  'f0vlaj8cng': 'https://embed-ssl.wistia.com/deliveries/3555837be61c0483f2853ebce441ff26ab6fb0fe.jpg?image_crop_resized=960x540',
+  '4ft5xbenoa': 'https://embed-ssl.wistia.com/deliveries/c6ed6f3dd66b4f0a67f1262d225542630f5cad87.jpg?image_crop_resized=960x540',
+  '69l69xocrq': 'https://embed-ssl.wistia.com/deliveries/6772043a403f34b36848499d5486a9ba0404c45e.jpg?image_crop_resized=960x540',
+};
+
+// Inject the per-media Wistia module only once a card is activated (tapped) —
+// not on mount. That's what keeps the players from loading until they're wanted.
+function useWistiaEmbed(id, enabled) {
   React.useEffect(() => {
-    if (!id) return;
+    if (!id || !enabled) return;
     const tag = `wistia-embed-${id}`;
     if (document.getElementById(tag)) return;
     const s = document.createElement('script');
@@ -70,21 +84,25 @@ function useWistiaEmbed(id) {
     s.type = 'module';
     s.async = true;
     document.body.appendChild(s);
-  }, [id]);
+  }, [id, enabled]);
 }
 
 function VideoCard({ t }) {
-  useWistiaEmbed(t.wistiaId);
-  const [played, setPlayed] = React.useState(false);
+  const [playing, setPlaying] = React.useState(false);
+  useWistiaEmbed(t.wistiaId, playing);
   const cls = `video-card${t.featured ? ' featured' : ''}${t.wistiaId ? ' has-wistia' : ''}`;
   return (
     <div className={cls}>
-      <div className="video-thumb" onClick={t.wistiaId ? () => setPlayed(true) : undefined}>
+      <div className="video-thumb" onClick={t.wistiaId ? () => setPlaying(true) : undefined}>
         {t.wistiaId ? (
-          <>
-            <wistia-player media-id={t.wistiaId} aspect="1.7777777777777777"></wistia-player>
-            {!played && <button className="play-btn" aria-label="Play video">▶</button>}
-          </>
+          playing ? (
+            <wistia-player media-id={t.wistiaId} aspect="1.7777777777777777" autoplay="true"></wistia-player>
+          ) : (
+            <>
+              <img className="video-poster" src={WISTIA_POSTER[t.wistiaId]} alt={`${t.name} — ${t.spa} testimonial`} decoding="async" fetchpriority="low" />
+              <button className="play-btn" aria-label="Play video">▶</button>
+            </>
+          )
         ) : (
           <>
             <span className="timecode">▸ {t.time}</span>

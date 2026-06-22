@@ -569,6 +569,13 @@ p { margin: 0; }
 }
 .video-card.has-wistia.featured .video-thumb { aspect-ratio: 16 / 9; }
 .video-card.has-wistia wistia-player { display: block; width: 100%; height: 100%; }
+/* Static poster shown until the visitor taps (replaces the live player on load). */
+.video-thumb .video-poster {
+  position: absolute; inset: 0;
+  width: 100%; height: 100%;
+  object-fit: cover; display: block;
+  background: var(--navy-900);
+}
 wistia-player:not(:defined) {
   background: center / contain no-repeat var(--navy-800);
   display: block;
