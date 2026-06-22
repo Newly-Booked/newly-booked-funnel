@@ -247,6 +247,7 @@ const STEPS = [
   {
     id: 'own', kind: 'cards', key: 'own', cols: 2, big: true, trust: true,
     eyebrow: 'For medspa owners',
+    rating: '49.9',
     q: 'Add $100K–$150K/month in new patient revenue without tire kickers or retainers.',
     hl: '$100K–$150K',
     prompt: 'Is your medspa able to perform injectable treatments?',
@@ -446,26 +447,46 @@ function Funnel({ embedded } = {}) {
       // so submit only AFTER fillGhlForm signals it's done — with a 2.5s fallback
       // in case that chain stalls. The guard keeps it to a single submit.
       let submitted = false;
+      // Safety net for the hop to the schedule page. GHL's own On-Submit redirect
+      // normally carries the lead there within ~1-2s of the submit click and
+      // navigates away before the timer below ever fires. But that redirect lives
+      // in the GHL form settings — if it's ever removed or misconfigured, a
+      // qualified lead would otherwise sit on the "Reviewing…" spinner forever.
+      // This guarantees they still reach /schedule and can book (localStorage
+      // already holds name/email/phone for the iClosed prefill).
+      const goSchedule = () => {
+        const params = new URLSearchParams({
+          name: name.trim(), email: email.trim(), phone: phone.trim(),
+          business: (answers.business || '').trim(), city: (answers.city || '').trim(),
+        });
+        const dest = nbUrl('__NB_SCHEDULE_URL', 'https://newlybooked.com/schedule-822049');
+        window.location.href = `${dest}${dest.includes('?') ? '&' : '?'}${params.toString()}`;
+      };
       const doSubmit = () => {
         if (submitted) return;
         submitted = true;
         const btn = ghlForm.querySelector('button[type="submit"]') || ghlForm.querySelector('button');
         if (btn) btn.click();
+        setTimeout(goSchedule, 6000);
       };
-      fillGhlForm(ghlForm, {
-        name: name.trim(), email: email.trim(), phone: phone.trim(),
-        city: (answers.city || '').trim(),
-        own: labelFor('own', answers.own),
-        location: labelFor('location', answers.location),
-        treatment: labelFor('treatment', answers.treatment),
-        revenue: labelFor('revenue', answers.revenue),
-        frisat: labelFor('frisat', answers.frisat),
-        tenure: labelFor('tenure', answers.tenure),
-        sales: labelFor('sales', answers.sales),
-        ads: labelFor('ads', answers.ads),
-        business: (answers.business || '').trim(),
-      }, () => setTimeout(doSubmit, 120));
+      // Arm the submit fallback BEFORE filling, so even if fillGhlForm throws on a
+      // DOM edge case the form is still submitted and the redirect still runs.
       setTimeout(doSubmit, 2500);
+      try {
+        fillGhlForm(ghlForm, {
+          name: name.trim(), email: email.trim(), phone: phone.trim(),
+          city: (answers.city || '').trim(),
+          own: labelFor('own', answers.own),
+          location: labelFor('location', answers.location),
+          treatment: labelFor('treatment', answers.treatment),
+          revenue: labelFor('revenue', answers.revenue),
+          frisat: labelFor('frisat', answers.frisat),
+          tenure: labelFor('tenure', answers.tenure),
+          sales: labelFor('sales', answers.sales),
+          ads: labelFor('ads', answers.ads),
+          business: (answers.business || '').trim(),
+        }, () => setTimeout(doSubmit, 120));
+      } catch (e) {}
       return;
     }
 
@@ -568,6 +589,13 @@ function Funnel({ embedded } = {}) {
             <>
               <div className="pf-eyebrow">{eyebrow}</div>
               <h1 className={`pf-q${step.big ? ' lg' : ''}`}>{renderQ(step.q, step.hl)}</h1>
+              {step.rating && (
+                <div className="pf-rating" aria-label={`Rated ${step.rating} out of 50 by medspa owners`}>
+                  <span className="pf-rating-stars" aria-hidden="true">★★★★★</span>
+                  <span className="pf-rating-score"><b>{step.rating}</b>/50</span>
+                  <span className="pf-rating-label">rated by medspa owners</span>
+                </div>
+              )}
               {step.sub && <p className="pf-sub">{step.sub}</p>}
               {step.prompt && <p className="pf-prompt">{step.prompt}</p>}
 

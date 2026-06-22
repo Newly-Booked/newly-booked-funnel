@@ -129,4 +129,25 @@
   w.src = 'https://app.iclosed.io/assets/widget.js';
   w.async = true;
   document.body.appendChild(w);
+
+  // Fallback: if iClosed's script never injected anything into the widget div a
+  // few seconds out (blocked, offline, or iClosed down), the lead would be left
+  // staring at an empty box. Collapse it and show a direct booking link — same
+  // prefilled URL — so they can still book their call instead of dropping off.
+  setTimeout(function () {
+    var c = document.getElementById('sch-cal');
+    if (!c || c.querySelector('iframe') || c.children.length > 0) return; // rendered fine
+    c.style.height = 'auto';
+    c.innerHTML =
+      '<div style="padding:30px 20px;text-align:center">' +
+      '<p style="font-size:15px;line-height:1.5;color:var(--navy-500);margin-bottom:16px">' +
+      'Tap below to pick your time and lock in your call.</p></div>';
+    var a = document.createElement('a');
+    a.href = ICLOSED + (qs ? ('?' + qs) : '');
+    a.target = '_blank';
+    a.rel = 'noopener';
+    a.className = 'book-btn';
+    a.textContent = 'Book your call →';
+    c.firstChild.appendChild(a);
+  }, 6000);
 })();

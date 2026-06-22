@@ -106,6 +106,23 @@
 }
 .pf-q.lg { max-width: 18ch; font-weight: 800; font-size: clamp(26px, 6.6vw, 50px); line-height: 1.16; letter-spacing: -0.025em; }
 .pf-q .pf-hl { color: var(--gold-500); white-space: nowrap; }
+/* Rating badge under the hook headline — "49.9 / 50, rated by medspa owners" */
+.pf-rating {
+  display: flex; align-items: center; gap: 10px;
+  width: fit-content; max-width: 100%;
+  margin: 18px auto 0; padding: 8px 16px;
+  background: var(--paper); border: 1px solid var(--line);
+  border-radius: 999px; box-shadow: 0 12px 28px -18px rgba(10, 22, 40, 0.34);
+}
+.pf-rating-stars { color: #F5A623; font-size: 15px; line-height: 1; letter-spacing: 2px; }
+.pf-rating-score { font-weight: 800; font-size: 15px; color: var(--navy-900); letter-spacing: -0.01em; white-space: nowrap; }
+.pf-rating-score b { font-weight: 900; }
+.pf-rating-label { font-size: 12.5px; font-weight: 600; color: var(--navy-300); white-space: nowrap; }
+@media (max-width: 480px) {
+  .pf-rating { gap: 8px; padding: 7px 13px; margin-top: 15px; }
+  .pf-rating-stars { font-size: 13.5px; letter-spacing: 1.5px; }
+  .pf-rating-score, .pf-rating-label { font-size: 12px; }
+}
 .pf-sub {
   font-size: clamp(15px, 1.6vw, 19px); line-height: 1.5;
   color: var(--navy-500); margin: 18px auto 0; max-width: 46ch;
