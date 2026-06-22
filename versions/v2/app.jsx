@@ -81,8 +81,24 @@ function App() {
         </div>
       </section>
 
+      {/* SCREENSHOT WALL — real proof: Cherry approvals, calendars, owner DMs */}
+      <section className="screenshot-wall" id="screenshots" data-screen-label="03 Proof">
+        <div className="container">
+          <div className="section-head">
+            <div className="label" style={{ color: 'var(--gold-400)', borderTopColor: 'var(--gold-600)' }}>Receipts, not stories</div>
+            <div>
+              <h2 style={{ color: 'var(--paper)' }}>Cherry sales. Calendars filling. <em>Real owner DMs.</em></h2>
+              <p className="lede" style={{ color: 'var(--navy-200)' }}>
+                A wall of receipts from owners running our system right now: pre-qual approvals, day-of-deposit screenshots, calendars with back-to-back pre-paid appointments, and the group chats where owners report numbers in real time.
+              </p>
+            </div>
+          </div>
+          <ScreenshotWall />
+        </div>
+      </section>
+
       {/* BIG CTA — straight after the testimonials */}
-      <section className="final-cta" id="final-cta" data-screen-label="03 Final CTA">
+      <section className="final-cta" id="final-cta" data-screen-label="04 Final CTA">
         <div className="container">
           <div className="eyebrow light" style={{ marginBottom: 24 }}>The diagnostic</div>
           <h2>Forty-five minutes. <em>Zero pressure.</em><br/>Real numbers.</h2>
