@@ -29,6 +29,32 @@ function App() {
     return () => document.removeEventListener('click', onClick);
   }, []);
 
+  // GHL renders the hidden lead-capture form (.nb-hidden-form — the one the
+  // funnel fills) as position:absolute at left:-9999px, but its top sits at the
+  // BOTTOM of the page, so its ~2,200px height extends the <body> past GHL's
+  // fixed body height. That overflow creates a SECOND, nested scrollbar that
+  // traps the page scroll partway down (you "can only go this far"). Switching it
+  // to position:fixed removes it from the page's scroll height entirely while it
+  // stays rendered off-screen and fully fillable. Re-run on load + a couple
+  // delays since GHL may mount/re-position the form after our first paint.
+  useEffect(() => {
+    const pinHiddenForm = () => {
+      document.querySelectorAll('.nb-hidden-form').forEach((f) => {
+        f.style.setProperty('position', 'fixed', 'important');
+        f.style.setProperty('top', '0', 'important');
+        f.style.setProperty('left', '-9999px', 'important');
+      });
+    };
+    pinHiddenForm();
+    window.addEventListener('load', pinHiddenForm);
+    const t1 = setTimeout(pinHiddenForm, 800);
+    const t2 = setTimeout(pinHiddenForm, 2500);
+    return () => {
+      window.removeEventListener('load', pinHiddenForm);
+      clearTimeout(t1); clearTimeout(t2);
+    };
+  }, []);
+
   return (
     <>
       {/* HERO = the multi-step funnel */}
