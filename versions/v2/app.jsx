@@ -40,18 +40,31 @@ function App() {
   useEffect(() => {
     const pinHiddenForm = () => {
       document.querySelectorAll('.nb-hidden-form').forEach((f) => {
-        f.style.setProperty('position', 'fixed', 'important');
-        f.style.setProperty('top', '0', 'important');
-        f.style.setProperty('left', '-9999px', 'important');
+        if (getComputedStyle(f).position !== 'fixed') {
+          f.style.setProperty('position', 'fixed', 'important');
+          f.style.setProperty('top', '0', 'important');
+          f.style.setProperty('left', '-9999px', 'important');
+        }
       });
     };
     pinHiddenForm();
     window.addEventListener('load', pinHiddenForm);
     const t1 = setTimeout(pinHiddenForm, 800);
     const t2 = setTimeout(pinHiddenForm, 2500);
+    // GHL may mount/re-position the hidden form AFTER our first paints, so also
+    // re-pin on any DOM change (debounced to once per frame) for the first ~8s.
+    let scheduled = false;
+    const schedule = () => {
+      if (scheduled) return;
+      scheduled = true;
+      requestAnimationFrame(() => { scheduled = false; pinHiddenForm(); });
+    };
+    const mo = new MutationObserver(schedule);
+    mo.observe(document.body, { childList: true, subtree: true });
+    const t3 = setTimeout(() => mo.disconnect(), 8000);
     return () => {
       window.removeEventListener('load', pinHiddenForm);
-      clearTimeout(t1); clearTimeout(t2);
+      clearTimeout(t1); clearTimeout(t2); clearTimeout(t3); mo.disconnect();
     };
   }, []);
 
