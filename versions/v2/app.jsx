@@ -83,6 +83,48 @@ function App() {
     };
   }, []);
 
+  // Wheel-scroll rescue for the GHL embed. GHL pins <html>/<body> to a fixed
+  // height with overflow:auto, and the mouse WHEEL over the page content gets
+  // eaten — it never reaches the real scroller, so only DRAGGING the scrollbar
+  // worked. Inside the GHL embed, drive the page scroll ourselves on wheel so it
+  // works anywhere. Inner scrollables (e.g. the city dropdown) still scroll
+  // natively. No-op on the standalone page, where the native wheel is fine.
+  useEffect(() => {
+    const onWheel = (e) => {
+      if (e.ctrlKey) return; // leave pinch-zoom alone
+      // let a genuinely-scrollable inner element handle it natively
+      let el = e.target;
+      while (el && el.nodeType === 1 && el !== document.documentElement) {
+        const cs = getComputedStyle(el);
+        if ((cs.overflowY === 'auto' || cs.overflowY === 'scroll') && el.scrollHeight > el.clientHeight + 2) {
+          const atTop = el.scrollTop <= 0;
+          const atBottom = Math.ceil(el.scrollTop + el.clientHeight) >= el.scrollHeight;
+          if (!((e.deltaY < 0 && atTop) || (e.deltaY > 0 && atBottom))) return;
+        }
+        el = el.parentElement;
+      }
+      const se = document.scrollingElement || document.documentElement;
+      const mult = e.deltaMode === 1 ? 16 : (e.deltaMode === 2 ? se.clientHeight : 1);
+      se.scrollTop += e.deltaY * mult;
+      e.preventDefault();
+    };
+    let bound = false;
+    const bind = () => {
+      if (bound) return;
+      if (document.querySelector('.nb-hidden-form, .hl_page-preview--content') || document.getElementById('__nuxt')) {
+        window.addEventListener('wheel', onWheel, { passive: false, capture: true });
+        bound = true;
+      }
+    };
+    bind();
+    const wt1 = setTimeout(bind, 1000);
+    const wt2 = setTimeout(bind, 3000);
+    return () => {
+      clearTimeout(wt1); clearTimeout(wt2);
+      if (bound) window.removeEventListener('wheel', onWheel, { capture: true });
+    };
+  }, []);
+
   return (
     <>
       {/* HERO = the multi-step funnel */}
