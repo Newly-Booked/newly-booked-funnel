@@ -520,6 +520,10 @@ function Funnel({ embedded } = {}) {
     // schedule page. DQ leads skip this and go to the DQ page below (the funnel
     // owns the disqualify decision).
     const ghlForm = document.querySelector('.nb-hidden-form');
+    // Telemetry: a qualified lead with no hidden form to fill never reaches GHL
+    // (no webhook configured) — they still book via iClosed, creating a contact
+    // with no business name and no Submission row. Surface it so it's diagnosable.
+    if (!ghlForm && !dq) { try { if (window.nbTrack) window.nbTrack('ghl_form_missing', { version: 'v2' }); } catch (e) {} }
     if (ghlForm && !dq) {
       // The vue-multiselect dropdowns fill asynchronously (open → render → click),
       // so submit only AFTER fillGhlForm signals it's done — with a 2.5s fallback
@@ -543,13 +547,33 @@ function Funnel({ embedded } = {}) {
       const doSubmit = () => {
         if (submitted) return;
         submitted = true;
+        // A leftover Required field the funnel doesn't fill (an old "physical
+        // location" / "Business Experience" question, or a still-blank dropdown)
+        // makes GHL silently REJECT the whole submit — the lead's business name +
+        // answers are lost, yet they're still redirected to /schedule and book via
+        // iClosed (a contact with no business name, no Submission row). We own this
+        // hidden form and already collect name/email/phone, so drop stray required
+        // flags (keep email/phone) so a forgotten question can't void the submit.
+        try {
+          ghlForm.querySelectorAll('[required],[aria-required="true"]').forEach((el) => {
+            const t = (el.getAttribute('type') || '').toLowerCase();
+            const n = (el.getAttribute('name') || '').toLowerCase();
+            if (t === 'email' || t === 'tel' || n === 'email' || n === 'phone') return;
+            el.removeAttribute('required'); el.removeAttribute('aria-required');
+          });
+        } catch (e) {}
+        try { if (window.nbTrack) window.nbTrack('ghl_submit_attempt', { version: 'v2' }); } catch (e) {}
         const btn = ghlForm.querySelector('button[type="submit"]') || ghlForm.querySelector('button');
         if (btn) btn.click();
         setTimeout(goSchedule, 6000);
       };
-      // Arm the submit fallback BEFORE filling, so even if fillGhlForm throws on a
-      // DOM edge case the form is still submitted and the redirect still runs.
-      setTimeout(doSubmit, 2500);
+      // Fallback submit if the async dropdown fill stalls. Set LONG (6s) and
+      // cleared the moment fill completes, so the real onComplete-driven submit
+      // (which waits for the vue-multiselect dropdowns) wins on a normal load.
+      // Was 2.5s — that raced the ~2.5s dropdown fill and submitted half-filled
+      // forms, leaving Sales/Treatment/Fri-Sat blank. (Best fix is GHL-side: make
+      // those fields Radio, not Dropdown — then they fill synchronously, no race.)
+      const fillTimer = setTimeout(doSubmit, 6000);
       try {
         fillGhlForm(ghlForm, {
           name: name.trim(), email: email.trim(), phone: phone.trim(),
@@ -563,8 +587,10 @@ function Funnel({ embedded } = {}) {
           sales: labelFor('sales', answers.sales),
           ads: labelFor('ads', answers.ads),
           business: (answers.business || '').trim(),
-        }, () => setTimeout(doSubmit, 120));
-      } catch (e) {}
+        }, () => { clearTimeout(fillTimer); setTimeout(doSubmit, 120); });
+      } catch (e) {
+        try { if (window.nbTrack) window.nbTrack('ghl_fill_error', { message: String((e && e.message) || e), version: 'v2' }); } catch (_) {}
+      }
       return;
     }
 
