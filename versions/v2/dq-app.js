@@ -85,7 +85,6 @@
           '<div class="tag"><span class="d"></span>' + r.tag + '</div>' +
           '<p>' + r.why + '</p>' +
         '</div>' +
-        '<p class="note">If your situation changes — or you think this was a mistake — just reply to the email we sent and we’ll take another look.</p>' +
       '</main>' +
     '</div>';
   document.body.appendChild(overlay);
