@@ -501,10 +501,27 @@ function Funnel({ embedded } = {}) {
       if (window.nbIdentify) window.nbIdentify(email.trim(), {
         name: name.trim(), email: email.trim(), phone: phone.trim(),
         city: (answers.city || '').trim(), business: (answers.business || '').trim(),
+        // Tag the PERSON with their outcome so any event can be segmented
+        // qualified vs disqualified in PostHog.
+        funnel_outcome: dq ? 'disqualified' : 'qualified',
       });
+      // Everyone who reaches here COMPLETED the qualifier — a disqualified lead
+      // answered every question and submitted, they just didn't qualify. They
+      // fire qualifier_disqualified (not qualifier_submitted), so a funnel built
+      // on "started -> submitted" miscounts them as a DROP-OFF when they're really
+      // a filtered-out completion. Fire ONE qualifier_completed for every finisher,
+      // tagged with `outcome`, so PostHog can tell abandoned vs disqualified vs
+      // qualified apart. Keep the existing events so current funnels don't break.
+      const dqStep = dq ? STEPS.find((s) => s.key && s.options && s.options.find((o) => o.v === answers[s.key] && o.dq)) : null;
       if (window.nbTrack) {
+        window.nbTrack('qualifier_completed', {
+          outcome: dq ? 'disqualified' : 'qualified',
+          dq_step: dqStep ? dqStep.id : null,
+          dq_value: dqStep ? answers[dqStep.key] : null,
+          revenue: answers.revenue || '', city: (answers.city || '').trim(),
+          version: 'v2',
+        });
         if (dq) {
-          const dqStep = STEPS.find((s) => s.key && s.options && s.options.find((o) => o.v === answers[s.key] && o.dq));
           window.nbTrack('qualifier_disqualified', { step_key: dqStep ? dqStep.id : null, value: dqStep ? answers[dqStep.key] : null, version: 'v2' });
         } else {
           window.nbTrack('qualifier_submitted', {
