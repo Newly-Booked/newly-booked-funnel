@@ -68,7 +68,7 @@ const { useState: useSchAppState, useEffect: useSchAppEffect } = React;
 const SCH_FAQ = [
   {
     q: "What happens on the call?",
-    a: "Forty-five minutes, video. We walk you through how we'd add $200K–$300K in new patient revenue to your spa: the pre-qualification system, the commission structure, and the first 90 days of revenue we'd expect. If we're a fit, you'll know on the call. If we're not, we'll tell you on the call."
+    a: "Forty-five minutes, video. We walk you through how we'd add $150K–$300K in new patient revenue to your spa: the pre-qualification system, the commission structure, and the first 90 days of revenue we'd expect. If we're a fit, you'll know on the call. If we're not, we'll tell you on the call."
   },
   {
     q: "Is this a sales call?",
@@ -147,7 +147,7 @@ function SchedApp() {
     {
       eyebrow: <>Pre-qualified · Pick a slot</>,
       h: <>You're in. <em>{tweaks.spaName}</em> made the cut.</>,
-      sub: <>Now book the call where we map out how Newly Booked would add <em>$200K–$300K</em> in new patient revenue to your spa. You're live within 2 weeks of signing. 30 days later, most owners are already mid-fastest-growth-spurt of their lives.</>,
+      sub: <>Now book the call where we map out how Newly Booked would add <em>$150K–$300K</em> in new patient revenue to your spa. You're live within 2 weeks of signing. 30 days later, most owners are already mid-fastest-growth-spurt of their lives.</>,
     },
     {
       eyebrow: <>Final step · Book the partnership call</>,
