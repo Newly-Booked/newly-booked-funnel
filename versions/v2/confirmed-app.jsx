@@ -117,7 +117,7 @@ function CfApp() {
     },
     {
       h: <>Booked. <em>Now we get to work.</em></>,
-      sub: <>The next move is yours. Show up on time, bring three numbers (we list them below), and walk away with a model for how Newly Booked would add <em>$50K–$100K/month</em> to your spa.</>,
+      sub: <>The next move is yours. Show up on time, bring three numbers (we list them below), and walk away with a model for how Newly Booked would add <em>$200K–$300K</em> in new patient revenue to your spa.</>,
     },
   ];
   const head = HEADLINES[tweaks.headlineVariation] || HEADLINES[0];
