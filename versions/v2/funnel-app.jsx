@@ -461,10 +461,13 @@ function Funnel({ embedded, inExitPopup, initialAnswers, initialIdx } = {}) {
     while (n < STEPS.length && STEPS[n].skipIf && STEPS[n].skipIf(ans)) n++;
     return Math.min(n, last);
   };
+  // In the exit popup the quiz starts at the first question — Back must never
+  // walk below it (it used to reach the hero screen INSIDE the modal).
+  const minIdx = inExitPopup ? (initialIdx ?? 0) : 0;
   const prevIndexFrom = (from, ans) => {
     let n = from - 1;
-    while (n > 0 && STEPS[n].skipIf && STEPS[n].skipIf(ans)) n--;
-    return Math.max(n, 0);
+    while (n > minIdx && STEPS[n].skipIf && STEPS[n].skipIf(ans)) n--;
+    return Math.max(n, minIdx);
   };
   const goNext = () => setIdx((i) => nextIndexFrom(i, answers));
   const goBack = () => setIdx((i) => prevIndexFrom(i, answers));
@@ -774,7 +777,7 @@ function Funnel({ embedded, inExitPopup, initialAnswers, initialIdx } = {}) {
         {idx === 0 && !submitting ? (
           <div className="pf-slots"><span className="pf-pulse"></span>4 spots left this month</div>
         ) : (
-          <button className="pf-back" hidden={submitting} onClick={goBack}>← Back</button>
+          <button className="pf-back" hidden={submitting || (inExitPopup && idx <= minIdx)} onClick={goBack}>← Back</button>
         )}
       </div>
 
