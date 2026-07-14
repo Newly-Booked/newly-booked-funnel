@@ -433,25 +433,30 @@
 .pf-exit-scroll {
   overflow-y: auto;
   -webkit-overflow-scrolling: touch;
-  padding: 6px 6px 14px;
+  display: flex;
+  flex-direction: column;
+  padding: 0;
   flex: 1 1 auto;
   min-height: 0;
 }
-.pf-exit-quiz .pf-root { min-height: 0; background: transparent; }
+.pf-exit-quiz .pf-root { min-height: 100%; width: 100%; background: transparent; }
 .pf-exit-quiz .pf-top { padding: 12px 18px 0; }
 .pf-exit-quiz .pf-logo { display: none; }
 .pf-exit-quiz .pf-stage { padding: 8px 22px 10px; }
 .pf-exit-quiz .pf-progress { position: sticky; bottom: 0; }
 
 @media (max-width: 640px) {
-  .pf-exit-veil.quiz { padding: 0; }
+  .pf-exit-veil.quiz { padding: 0; align-items: stretch; }
   .pf-exit.pf-exit-quiz {
     width: 100vw;
-    height: 100svh;
+    height: auto;
+    flex: 1 1 auto;
     max-height: none;
     border-radius: 0;
   }
-  .pf-exit-quiz .pf-top { padding: 14px 16px 0; min-height: 44px; }
+  .pf-exit-quiz .pf-exit-x { top: max(10px, env(safe-area-inset-top)); }
+  .pf-exit-quiz .pf-progress { margin-bottom: env(safe-area-inset-bottom); }
+  .pf-exit-quiz .pf-top { padding: max(14px, env(safe-area-inset-top)) 16px 0; min-height: 44px; }
   .pf-exit-quiz .pf-stage { padding: 10px 20px 16px; }
   .pf-exit-quiz .pf-q { font-size: clamp(20px, 5.8vw, 25px); }
   .pf-exit-quiz .pf-sub { font-size: 14px; }
