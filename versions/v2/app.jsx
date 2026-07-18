@@ -107,6 +107,9 @@ function App() {
           s.setProperty('margin', '0', 'important');
           s.setProperty('max-width', 'none', 'important');
           s.setProperty('width', '100%', 'important');
+          // a white-bg wrapper taller than our content painted a white band
+          // below the navy footer — let the navy html/body bg show instead
+          s.setProperty('background', 'transparent', 'important');
           el = el.parentElement;
         }
       }

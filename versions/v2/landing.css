@@ -12,6 +12,13 @@
    embed (app.jsx adds .nb-ghl) — standalone is already full-width, and the vw
    math would shift it half a scrollbar off-center there. */
 #nb-landing.nb-ghl{width:100vw;max-width:100vw;position:relative;left:50%;margin-left:-50vw}
+/* The page behind the landing is footer-navy, not paper-white: GHL's wrapper
+   can render taller than our content (more so on phones), and the body bg
+   showed as a white band below the navy footer. Painting html/body navy makes
+   any excess height read as footer; top/bottom overscroll match the navy hero
+   and footer too. landing.css only loads on this page, so other pages keep
+   styles.css's paper background. */
+html, body { background: #081124; }
 #nb-landing{
   --brand:#2277FF; --brand-deep:#0F5BE0; --brand-soft:#EAF2FF; --brand-line:rgba(34,119,255,.22);
   --ink:#0A1428; --ink-2:#31405A; --muted:#5D6C85; --line:#E4EAF3;
