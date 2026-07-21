@@ -185,11 +185,11 @@ function App() {
   }, []);
 
   // Mobile top bar (Bluefer behavior): slides in once the hero scrolls away,
-  // and stays hidden whenever a section carrying its own CTA is on screen
-  // (hero, quiz, closer) so the button never doubles up.
+  // and stays hidden whenever an element carrying its own CTA is on screen
+  // (hero, the testimonials CTA, closer) so the button never doubles up.
   useEffect(() => {
     const nav = document.querySelector('#nb-landing .bfn-nav');
-    const secs = ['.bfn-hero', '#availability', '.bfn-closer']
+    const secs = ['.bfn-hero', '.bfn-cases-cta', '.bfn-closer']
       .map((s) => document.querySelector('#nb-landing ' + s)).filter(Boolean);
     if (!nav || !secs.length) return;
     let pending = false;
@@ -260,6 +260,7 @@ function App() {
           <p className="bfn-pay"><em>We only get paid when patients pay you.</em></p>
           <p className="bfn-risk">Try it for 30 days, risk-free.</p>
           <a className="bfn-cta" href="#top" onClick={openForm}>{CTA}<small>See if your area is still open</small></a>
+          <div className="bfn-hero-note"><i></i>We take on 4 new spas a month, one medspa per area</div>
         </div>
         <div className="bfn-hero-form" hidden={!formOn}>
           <div className="bfn-avail-card nb-quiz-host">
@@ -274,6 +275,9 @@ function App() {
           <span className="bfn-sec-eyebrow">Client results</span>
           <h2>What medspa owners say about us</h2>
           <CaseGrid />
+          <div className="bfn-cases-cta">
+            <a className="bfn-cta" href="#top" onClick={openForm}>{CTA}<small>See if your area is still open</small></a>
+          </div>
         </div>
       </section>
 
@@ -322,18 +326,6 @@ function App() {
               <div className="sig">Ivan Merlo<span>Founder, Newly Booked</span></div>
             </div>
           </div>
-        </div>
-      </section>
-
-      {/* ============ AVAILABILITY (CTA band — the quiz now lives in the hero
-          takeover; a second live quiz here would double it up) ============ */}
-      <section className="bfn-avail" id="availability">
-        <div className="wrap-n">
-          <span className="bfn-sec-eyebrow">Check availability</span>
-          <h2>Is your area still open?</h2>
-          <p className="bfn-sec-sub">Answer a few quick questions to see if your medspa qualifies. If your area is already claimed, you can join the waiting list.</p>
-          <a className="bfn-cta" href="#top" onClick={openForm}>{CTA}<small>See if your area is still open</small></a>
-          <div className="bfn-avail-note"><i></i>We take on 4 new spas a month — one medspa per area</div>
         </div>
       </section>
 

@@ -233,3 +233,18 @@ html, body { background: #081124; }
 @media (max-width: 640px){
   #nb-landing .bfn-hero-form{padding:10px 10px 30px}
 }
+
+/* Hero scarcity note (moved up from the removed availability band) + the
+   testimonials CTA. .bfn-cta is inline-block, so it centers only inside a
+   text-align:center parent — the removed band never had one, which is why
+   its button sat hard-left; the wrapper div here provides it. */
+#nb-landing .bfn-hero-note{display:flex;align-items:center;justify-content:center;gap:9px;margin-top:18px;font-size:13.5px;color:rgba(255,255,255,.72)}
+#nb-landing .bfn-hero-note i{width:8px;height:8px;border-radius:50%;background:#2BB673;display:inline-block;box-shadow:0 0 0 4px rgba(43,182,115,.18);flex:none}
+#nb-landing .bfn-cases-cta{text-align:center;margin-top:36px}
+@media (max-width: 640px){
+  /* When the note wraps to two lines, flex leaves the dot floating alone at
+     the far left — flow it inline with the first words instead. */
+  #nb-landing .bfn-hero-note{display:block;text-align:center;font-size:12.5px;margin-top:14px}
+  #nb-landing .bfn-hero-note i{display:inline-block;vertical-align:middle;margin-right:7px}
+  #nb-landing .bfn-cases-cta{margin-top:26px}
+}
