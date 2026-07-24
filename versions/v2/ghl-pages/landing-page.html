@@ -64,6 +64,9 @@
     window.__NB_PRIVACY_URL = "https://newlybooked.com/privacy-policy-872331";
     window.__NB_TERMS_URL   = "https://newlybooked.com/termsconditions";
   </script>
+  <!-- Consent record: every qualifier submit posts the consent evidence to
+       n8n (workflow "B2B Apply Consent Intake" → mongo consent_logs_b2b). -->
+  <script>window.__NB_CONSENT_WEBHOOK = "https://n8n-nb.fly.dev/webhook/b2b-apply-intake";</script>
 </head>
 <body>
   <div id="root">

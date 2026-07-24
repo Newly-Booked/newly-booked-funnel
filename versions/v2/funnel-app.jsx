@@ -632,6 +632,34 @@ function Funnel({ embedded, inExitPopup, initialAnswers, initialIdx, onExit } = 
       }
     } catch (e) {}
 
+    // Consent record → n8n (fire-and-forget), BEFORE the lead-delivery branches:
+    // the hidden-GHL-form paths below return early and must not skip this.
+    // Submission-based consent — the CTA sits directly under the full disclosure
+    // line, so the submit click itself is the consent act. The n8n side adds
+    // IP + user-agent from the request headers and writes consent_logs_b2b.
+    const consentHook = nbUrl('__NB_CONSENT_WEBHOOK', '');
+    if (consentHook) {
+      try {
+        fetch(consentHook, {
+          method: 'POST', mode: 'no-cors', keepalive: true,
+          headers: { 'Content-Type': 'text/plain;charset=UTF-8' },
+          body: JSON.stringify({
+            name: name.trim(), email: email.trim(), phone: phone.trim(),
+            business: (answers.business || '').trim(), city: (answers.city || '').trim(),
+            owns_medspa: labelFor('own', answers.own),
+            physical_location: labelFor('location', answers.location),
+            fat_reduction: labelFor('treatment', answers.treatment),
+            monthly_revenue: labelFor('revenue', answers.revenue),
+            weekend_consults: labelFor('frisat', answers.frisat),
+            years_in_business: labelFor('tenure', answers.tenure),
+            status: dq ? 'disqualified' : 'qualified',
+            consent: { agreed: true, method: 'submit-click', text_version: 'nb-b2b-2026-07-24' },
+            page_url: window.location.pathname,
+          }),
+        });
+      } catch (e) {}
+    }
+
     // Qualified + a hidden GHL form on the page ("nb-hidden-form" element
     // dropped on the GHL funnel page) → fill it and click its submit. GHL
     // creates the contact and runs the form's On-Submit redirect to the

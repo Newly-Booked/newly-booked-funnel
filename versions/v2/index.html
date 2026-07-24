@@ -26,13 +26,17 @@
        no third-party CDN in the critical path). ?v= is stamped by build.sh. -->
   <link rel="preload" href="vendor/react.production.min.js" as="script" />
   <link rel="preload" href="vendor/react-dom.production.min.js" as="script" />
-  <link rel="preload" href="app.v2.min.js?v=NBBUILD202607241027" as="script" />
+  <link rel="preload" href="app.v2.min.js?v=NBBUILD202607240823" as="script" />
 
-  <link rel="stylesheet" href="styles.css?v=NBBUILD202607241027" />
-  <link rel="stylesheet" href="funnel.css?v=NBBUILD202607241027" />
-  <link rel="stylesheet" href="landing.css?v=NBBUILD202607241027" />
+  <link rel="stylesheet" href="styles.css?v=NBBUILD202607240823" />
+  <link rel="stylesheet" href="funnel.css?v=NBBUILD202607240823" />
+  <link rel="stylesheet" href="landing.css?v=NBBUILD202607240823" />
 
   <script src="https://fast.wistia.com/player.js" async></script>
+
+  <!-- Consent record: every qualifier submit posts the consent evidence to
+       n8n (workflow "B2B Apply Consent Intake" → mongo consent_logs_b2b). -->
+  <script>window.__NB_CONSENT_WEBHOOK = "https://n8n-nb.fly.dev/webhook/b2b-apply-intake";</script>
 </head>
 <body>
   <div id="root">
@@ -44,9 +48,9 @@
 
   <!-- defer keeps download off the critical path but preserves execution order:
        cities → React → ReactDOM → app bundle (which mounts into #root). -->
-  <script src="cities.js?v=NBBUILD202607241027" defer></script>
+  <script src="cities.js?v=NBBUILD202607240823" defer></script>
   <script src="vendor/react.production.min.js" defer></script>
   <script src="vendor/react-dom.production.min.js" defer></script>
-  <script src="app.v2.min.js?v=NBBUILD202607241027" defer></script>
+  <script src="app.v2.min.js?v=NBBUILD202607240823" defer></script>
 </body>
 </html>
