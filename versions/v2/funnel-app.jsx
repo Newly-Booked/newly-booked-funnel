@@ -640,10 +640,19 @@ function Funnel({ embedded, inExitPopup, initialAnswers, initialIdx, onExit } = 
     const consentHook = nbUrl('__NB_CONSENT_WEBHOOK', '');
     if (consentHook) {
       try {
+        // Counsel's evidence requirements for submission-based consent:
+        // a unique id per submission, and proof the disclosure was actually
+        // rendered (in the DOM and laid out) on the page at the moment of
+        // submit — not merely implied by the code version.
+        const consentEl = document.querySelector('.pf-root .pf-consent');
+        const submissionId = (window.crypto && window.crypto.randomUUID)
+          ? window.crypto.randomUUID()
+          : 'sub-' + Date.now().toString(36) + '-' + Math.random().toString(36).slice(2, 10);
         fetch(consentHook, {
           method: 'POST', mode: 'no-cors', keepalive: true,
           headers: { 'Content-Type': 'text/plain;charset=UTF-8' },
           body: JSON.stringify({
+            submission_id: submissionId,
             name: name.trim(), email: email.trim(), phone: phone.trim(),
             business: (answers.business || '').trim(), city: (answers.city || '').trim(),
             owns_medspa: labelFor('own', answers.own),
@@ -653,7 +662,10 @@ function Funnel({ embedded, inExitPopup, initialAnswers, initialIdx, onExit } = 
             weekend_consults: labelFor('frisat', answers.frisat),
             years_in_business: labelFor('tenure', answers.tenure),
             status: dq ? 'disqualified' : 'qualified',
-            consent: { agreed: true, method: 'submit-click', text_version: 'nb-b2b-2026-07-24' },
+            consent: {
+              agreed: true, method: 'submit-click', text_version: 'nb-b2b-2026-07-24',
+              disclosure_rendered: !!(consentEl && consentEl.offsetParent !== null),
+            },
             page_url: window.location.pathname,
           }),
         });
