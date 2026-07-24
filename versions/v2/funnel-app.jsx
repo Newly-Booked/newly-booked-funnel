@@ -930,7 +930,7 @@ function Funnel({ embedded, inExitPopup, initialAnswers, initialIdx, onExit } = 
                   <input className={`pf-input${tries && phoneBad ? ' invalid' : ''}`} type="tel" inputMode="numeric" placeholder="Phone number" value={phone} onChange={(e) => setPhone(formatPhone(e.target.value))} />
                   {tries > 0 && contactBad && <div className="pf-input-error">Enter your name, a valid email, and a 10-digit phone number.</div>}
                   <button type="submit" className="pf-btn pf-btn-block pf-btn-lg">See my times →</button>
-                  <div className="pf-consent">By submitting, you agree to receive text messages from Newly Booked. Msg &amp; data rates may apply. Reply STOP to opt out, HELP for help.</div>
+                  <div className="pf-consent">By submitting this form, I agree to the <a href={nbUrl('__NB_TERMS_URL', 'terms.html')} target="_blank" rel="noopener noreferrer">Terms</a> &amp; <a href={nbUrl('__NB_PRIVACY_URL', 'privacy.html')} target="_blank" rel="noopener noreferrer">Privacy Policy</a>, consent to receive calls and texts (including automated) from Newly Booked, and authorize a pre-qualification check to see which program best fits my budget. Consent isn’t a condition of purchase; msg/data rates may apply; reply STOP to opt out.</div>
                   <div className="pf-fineprint">No retainer pitch · No 12-month contract</div>
                 </form>
               )}
